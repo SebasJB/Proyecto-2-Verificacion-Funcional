@@ -1,4 +1,4 @@
-// base_test.sv
+// base_test.sv — ejecuta TODOS los escenarios, 16 secuencias en paralelo por escenario
 class base_test extends uvm_test;
   `uvm_component_utils(base_test)
 
@@ -10,26 +10,48 @@ class base_test extends uvm_test;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    e = env::type_id::create("env", this);
+    e = env::type_id::create("env", this); // 16 agents + scoreboard
   endfunction
 
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
 
-    // Lanzar una secuencia por cada terminal (ejemplo: GENERAL)
-    for (int i = 0; i < 16; i++) begin
-      automatic int idx = i;
-      gen_item_seq seq = gen_item_seq::type_id::create($sformatf("seq%0d", idx));
-      seq.scenario = gen_item_seq::GENERAL;
-      // Arrancamos en paralelo, cada una sobre su sequencer
-      fork
-        seq.start(e.get_sequencer(idx));
-      join_none
-    end
+    // Cola de escenarios a ejecutar en serie
+    gen_item_seq::scenario_t scenarios[$] = '{
+      gen_item_seq::GENERAL,
+      gen_item_seq::SATURATION,
+      gen_item_seq::COLLISION,
+      gen_item_seq::INVALID,
+      gen_item_seq::RESET
+    };
 
-    // Espera simple (ajustar a tu duración de prueba)
-    // Puedes reemplazar por un mecanismo de fin basado en contadores/eventos
-    #(100_000);
+    int s; 
+    foreach (scenarios[s]) begin
+      `uvm_info(get_type_name(),
+        $sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_MEDIUM)
+
+      // Para este escenario, lanza 16 secuencias EN PARALELO (una por agente)
+      for (int i = 0; i < 16; i++) begin
+        automatic int idx = i;
+        automatic gen_item_seq::scenario_t sc = scenarios[s];
+
+        // Cada iteración lanza su propio hilo
+        fork
+          begin
+            gen_item_seq seq = gen_item_seq::type_id::create(
+              $sformatf("seq_%0d_%s", idx, sc.name()), this);
+            seq.scenario = sc;
+            seq.start(e.agt[idx].s0); // bloquea este hilo hasta que la secuencia termine
+          end
+        join_none
+      end
+
+      // Espera a que terminen los 16 hilos del escenario actual
+      wait fork;
+
+      // Pequeña pausa entre escenarios
+      #(500);
+    end
 
     phase.drop_objection(this);
   endtask
