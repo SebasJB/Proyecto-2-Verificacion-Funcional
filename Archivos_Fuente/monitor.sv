@@ -2,14 +2,14 @@ class mon_item extends uvm_sequence_item;
   typedef enum {EV_IN, EV_OUT} ev_t;
   localparam int PKT_W = 40;
 
-  rand ev_t            ev_kind;           // EV_IN / EV_OUT
-  rand bit [PKT_W-1:0] data;              // data_out_i_in o data_out
-  rand time            ts;                // timestamp
+  ev_t ev_kind;           // EV_IN / EV_OUT
+  bit [PKT_W-1:0] data;              // data_out_i_in o data_out
+  time time_stamp;                // timestamp
 
   `uvm_object_utils_begin(mon_item)
     `uvm_field_enum(ev_t, ev_kind, UVM_ALL_ON)
     `uvm_field_int (data,   UVM_ALL_ON)
-    `uvm_field_int (ts,     UVM_ALL_ON)
+    `uvm_field_int (time_stamp,     UVM_ALL_ON)
   `uvm_object_utils_end
 
   function new(string name="mon_item"); super.new(name); endfunction
@@ -41,10 +41,10 @@ class monitor extends uvm_monitor;
       if (vif.popin && vif.pndng_i_in) begin
         mon_item item = mon_item::type_id::create("in_item");
         item.ev_kind = mon_item::EV_IN;
-        item.data    = vif.data_out_i_in;
-        item.ts      = $time;
+        item.data = vif.cb.data_in;
+        item.time_stamp = $time;
         `uvm_info(get_type_name(),
-                  $sformatf("[IN ] data=0x%0h @%0t", item.data, item.ts),
+                  $sformatf("[IN ] data=0x%0h @%0t", item.data, item.time_stamp),
                   UVM_LOW)
         mon_analysis_port.write(item);
       end
@@ -57,17 +57,17 @@ class monitor extends uvm_monitor;
     vif.cb.pop <= 1'b0; // asegurar estado inicial
     forever begin
       @(posedge vif.clk);
-      if (vif.pndng) begin
+      if (vif.cb.pndng) begin
         // Pop en este ciclo 
         vif.cb.pop <= 1'b1;
 
         // Publicar el dato
         mon_item item = mon_item::type_id::create("out_item");
         item.ev_kind = mon_item::EV_OUT;
-        item.data    = vif.data_out;
-        item.ts      = $time;
+        item.data = vif.cb.data_out;
+        item.time_stamp = $time;
         `uvm_info(get_type_name(),
-                  $sformatf("[OUT] data=0x%0h @%0t", item.data, item.ts),
+                  $sformatf("[OUT] data=0x%0h @%0t", item.data, item.time_stamp),
                   UVM_LOW)
         mon_analysis_port.write(item);
 

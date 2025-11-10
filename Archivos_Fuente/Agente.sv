@@ -1,9 +1,22 @@
+class router_agent_cfg extends uvm_object;
+  `uvm_object_utils(router_agent_cfg)
+
+  virtual router_term_if.TB vif;
+  int unsigned term_id;          // índice 0..NUM_TERMS-1
+  function new(string name = "router_agent_cfg");
+    super.new(name);
+  endfunction
+endclass
+
+
+
 class agent extends uvm_agent;
   `uvm_component_utils(agent)
 
-  driver                d0;      
-  monitor               m0;      
-  uvm_sequencer#(item)  s0;      
+  driver                drv;      
+  monitor               mon;      
+  uvm_sequencer #(drv_item)  seq;
+  router_agent_cfg    cfg;      
 
   function new(string name="agent", uvm_component parent=null);
     super.new(name, parent);
@@ -11,13 +24,19 @@ class agent extends uvm_agent;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    s0 = uvm_sequencer#(item)::type_id::create("s0", this);
-    d0 = driver               ::type_id::create("d0", this);
-    m0 = monitor              ::type_id::create("m0", this);
+    if (!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg)) begin
+      `uvm_fatal("AGENT", "Could not get agent configuration object")
+    end
+    seq = uvm_sequencer#(drv_item)::type_id::create("seq", this);
+    drv = driver::type_id::create("drv", this);
+    mon = monitor::type_id::create("mon", this);
+    `uvm_config_db#(router_agent_cfg)::set(this, "seq", "cfg", cfg);
+    `uvm_config_db#(router_agent_cfg)::set(this, "drv", "cfg", cfg);
+    `uvm_config_db#(router_agent_cfg)::set(this, "mon", "cfg", cfg);
   endfunction
 
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    d0.seq_item_port.connect(s0.seq_item_export); 
+    drv.seq_item_port.connect(seq.seq_item_export); 
   endfunction
 endclass
