@@ -10,15 +10,15 @@ endclass
 
 
 
-class agent extends uvm_agent;
-  `uvm_component_utils(agent)
-
+class router_agent extends uvm_agent;
+  `uvm_component_utils(router_agent)
+  
   driver                drv;      
   monitor               mon;      
   uvm_sequencer #(drv_item)  seq;
   router_agent_cfg    cfg;      
 
-  function new(string name="agent", uvm_component parent=null);
+  function new(string name="router_agent", uvm_component parent=null);
     super.new(name, parent);
   endfunction
 
