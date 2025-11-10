@@ -1,4 +1,4 @@
-`include "Secuencer_pkg.sv "
+`include "Secuencer_pkg.sv"
 import secuencer_pkg::*;
 
 class gen_item_seq extends uvm_sequence #(item);
