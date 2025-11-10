@@ -1,11 +1,11 @@
 // ============================ tb_top.sv ============================
-`timescale 1ns/1ps
+//`timescale 1ns/1ps
 import uvm_pkg::*; 
 `include "uvm_macros.svh"
 
 // RTL 
-`include "fifo.sv"
-`include "Library.sv"
+//`include "fifo.sv"
+//`include "Library.sv"
 `include "Router_library.sv"
 
 //interfaz
