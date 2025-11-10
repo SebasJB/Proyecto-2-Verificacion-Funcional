@@ -33,12 +33,13 @@ class monitor extends uvm_monitor;
     mon_analysis_port = new("mon_analysis_port", this);
   endfunction
 
+
   // ENTRADAS: cuando DUT acepta (popin && pndng_i_in) publicamos data_out_i_in
   task watch_inputs();
     wait(!vif.reset);
     forever begin
       @(posedge vif.clk);
-      if (vif.popin && vif.pndng_i_in) begin
+      if (vif.cb.popin && vif.cb.pndng_i_in) begin
         mon_item item = mon_item::type_id::create("in_item");
         item.ev_kind = mon_item::EV_IN;
         item.data = vif.cb.data_in;
