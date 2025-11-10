@@ -87,14 +87,14 @@ package secuencer_pkg;
             };
         }
         else if (test_mode == SATURATION) {
-            if (error_flag == 1) begin
+            if (error_flag == 1) {
                 // Si se inyecta error, más probabilidad de inválidas
                 // Congestión sucia
                 dest_addr dist {
                     [0:15]    := 60,  // Válidas - 60%
                     [16:32]  := 40   // Inválidas - 40%
                 };
-            end
+            }
             else // Congestión limpia
             dest_addr dist {
                 [0:15]    := 90,  // Válidas - 90%
