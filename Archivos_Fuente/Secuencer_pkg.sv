@@ -19,6 +19,7 @@ package secuencer_pkg;
     rand int unsigned delay_cycles; // ciclos de retardo antes de enviar
     rand int unsigned error_rate;    // tasa de error (0-100)
     rand route_mode_e mode;         // modo de ruta (fila primero / col primero)
+    rand bit          error_flag;      // indica si inyectar error en este paquete
     
     
 
@@ -30,12 +31,12 @@ package secuencer_pkg;
     scenario_t test_mode;      // modo de prueba
     
     // --- Campos para construir el paquete físico ---
-    bit [1:0]        dst_row;   // fila destino dentro de la malla
-    bit [1:0]        dst_col;   // columna destino
-    bit [3:0]        src_id;    // se mapea al campo "src" del paquete
-    bit [3:0]        dst_id;    // se mapea al campo "dst" del paquete
+    bit [2:0]        dst_row;   // fila destino dentro de la malla
+    bit [2:0]        dst_col;   // columna destino
+    bit [4:0]        src_id;    // se mapea al campo "src" del paquete
+    bit [4:0]        dst_id;    // se mapea al campo "dst" del paquete
     bit [7:0]        pkt_id;    // ID de paquete
-    bit              error_flag;      // indica si inyectar error en este paquete
+    
 
     // Constraint for delay between messages
     constraint c_delay_cycles {
@@ -82,7 +83,7 @@ package secuencer_pkg;
         if (test_mode == NORMAL) {
             dest_addr dist {
                 [0:15]    := 90,  // Válidas - 90%
-                [16:255]  := 10   // Inválidas - 10%
+                [16:32]  := 10   // Inválidas - 10%
             };
         }
         else if (test_mode == SATURATION) {
@@ -91,13 +92,13 @@ package secuencer_pkg;
                 // Congestión sucia
                 dest_addr dist {
                     [0:15]    := 60,  // Válidas - 60%
-                    [16:255]  := 40   // Inválidas - 40%
+                    [16:32]  := 40   // Inválidas - 40%
                 };
             end
             else // Congestión limpia
             dest_addr dist {
                 [0:15]    := 90,  // Válidas - 90%
-                [16:255]  := 10   // Inválidas - 10%
+                [16:32]  := 10   // Inválidas - 10%
             };
         }
         else if (test_mode == COLLISION) {
@@ -109,14 +110,14 @@ package secuencer_pkg;
             // Solo direcciones inválidas
             dest_addr dist {
                 [0:15]    := 40,  // Válidas - 40%
-                [16:255]  := 60   // Inválidas - 60%
+                [16:32]   := 60   // Inválidas - 60%
             };
         }
         else { // ROBUSTNESS
             // Mayor probabilidad de direcciones inválidas
             dest_addr dist {
                 [0:15]    := 80,  // Válidas - 80%
-                [16:255]  := 20   // Inválidas - 20%
+                [16:32]   := 20   // Inválidas - 20%
             };
         }
     }
@@ -135,7 +136,6 @@ package secuencer_pkg;
 
     // Algunas restricciones básicas
     constraint c_limits {
-      0 < dest_addr < NUM_TERMS;
       0 < dst_row     < ROWS;
       0 < dst_col     < COLUMNS;
     }
@@ -149,12 +149,12 @@ package secuencer_pkg;
     // ------------ Mapeo a bits físicos del paquete ------------
 
     // Índices de campos dentro del vector (coherentes con el DUT)
-    localparam int ID_LSB      = PCK_SZ-35;
-    localparam int ID_MSB      = PCK_SZ-29;
-    localparam int DST_LSB     = PCK_SZ-28;
+    localparam int ID_LSB      = PCK_SZ-38;
+    localparam int ID_MSB      = PCK_SZ-30;
+    localparam int DST_LSB     = PCK_SZ-29;
     localparam int DST_MSB     = PCK_SZ-24;
     localparam int SRC_LSB     = PCK_SZ-23;
-    localparam int SRC_MSB     = PCK_SZ-19;
+    localparam int SRC_MSB     = PCK_SZ-18;
     localparam int MODE_BIT    = PCK_SZ-17;
     localparam int TRGT_C_LSB  = PCK_SZ-16;
     localparam int TRGT_C_MSB  = PCK_SZ-13;
@@ -174,17 +174,23 @@ package secuencer_pkg;
     // term_id = 0..15
     // Convierte terminal ID a fila/columna extendida
     function void term_to_rc(
-        input  logic [3:0] term_id,
-        output logic [3:0] trgt_r,   // filas extendidas 0..5
-        output logic [3:0] trgt_c
+        input  logic [4:0] term_id,
+        output logic [2:0] trgt_r,   // filas extendidas 0..5
+        output logic [2:0] trgt_c
     );
     side_e side;
     logic [1:0] pos;
 
-    side = side_e'(term_id[3:2]); // lado
+    side = side_e'(term_id[5:2]); // lado
     pos  = term_id[1:0];          // índice 0..3
-
-    unique case (side)
+    if(error_flag) begin
+        // Si se inyecta error, asignar una dirección inválida
+        trgt_r = $urandom_range(6,7);
+        trgt_c = $urandom_range(6,7);
+        return;
+    end
+    else begin 
+        unique case (side)
             SIDE_TOP: begin
                 trgt_r = 4'd0;
                 trgt_c = pos + 4'd1;        // 1..4
@@ -201,7 +207,8 @@ package secuencer_pkg;
                 trgt_r = pos + 4'd1;        // 1..4
                 trgt_c = COLUMNS + 4'd1;    // 5
             end
-    endcase
+        endcase
+    end
     endfunction
     // Construye el vector a mandar por data_in
     function bit [PCK_SZ-1:0] build_flit();

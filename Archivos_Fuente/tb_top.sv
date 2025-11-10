@@ -37,6 +37,7 @@ module tb_top;
     #10 reset = 0; 
   end
 
+  /*
   // ---------------- Buses DUT <-> TB ----------------
   logic [PCK_SZ-1:0] data_out [N_TERMS];
   logic pndng [N_TERMS];
@@ -44,26 +45,35 @@ module tb_top;
 
   logic [PCK_SZ-1:0] data_out_i_in [N_TERMS];
   logic pndng_i_in [N_TERMS];
-  logic pop [N_TERMS];
+  logic pop [N_TERMS];*/
 
   // ---------------- 16 interfaces ------------
-  router_if #(PCK_SZ) term_if [N_TERMS]();
+  router_if #(PCK_SZ) term_if [N_TERMS](clk, reset);
 
   // ---------------- DUT ----------------
+  // mesh_gnrtr instantiates the mesh network under test.
+  // Parameters:
+    .fifo_depth(4), 
+    // bdcst is set to 8'b11111111 (all ones) for broadcast purposes
+    .bdcst({8{1'b1}})
+  //   PCK_SZ: packet size
+  //   fifo_depth: FIFO depth per router
+  //   bdcst: broadcast mask
   mesh_gnrtr #(
     .ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(PCK_SZ),
     .fifo_depth(4), .bdcst({8{1'b1}})
   ) dut (
-    .pndng         (pndng),
-    .data_out      (data_out),
-    .popin         (popin),
-    .pop           (pop),
-    .data_out_i_in (data_out_i_in),
-    .pndng_i_in    (pndng_i_in),
+    .pndng         (term_if.pndng),
+    .data_out      (term_if.data_out),
+    .popin         (term_if.popin),
+    .pop           (term_if.pop),
+    .data_out_i_in (term_if.data_out_i_in),
+    .pndng_i_in    (term_if.pndng_i_in),
     .clk           (clk),
     .reset         (reset)
   );
 
+  /*
   // ---------------- Cableado 1:1 DUT <-> Interfaces ----------------
   genvar i;
   generate
@@ -78,7 +88,7 @@ module tb_top;
       assign pndng_i_in[i]    = term_if[i].pndng_i_in;
       assign pop[i]           = term_if[i].pop;
     end
-  endgenerate
+  endgenerate*/
 
   // ---------------- Pasar VIFs a tus agentes reales (agt0..agt15, d0/m0) ----
   // Agent se llama "agt%0d" y dentro tiene "d0" (driver) y "m0" (monitor).

@@ -4,6 +4,7 @@ class mon_item extends uvm_sequence_item;
 
   ev_t ev_kind;           // EV_IN / EV_OUT
   bit [PKT_W-1:0] data;              // data_out_i_in o data_out
+  bit [3:0] mon_id;
   time time_stamp;                // timestamp
 
   `uvm_object_utils_begin(mon_item)
@@ -21,6 +22,7 @@ class monitor extends uvm_monitor;
 
   uvm_analysis_port #(mon_item) mon_analysis_port;
   virtual router_if vif;
+  router_agent_cfg cfg;
 
   function new(string name="monitor", uvm_component parent=null);
     super.new(name, parent);
@@ -42,6 +44,7 @@ class monitor extends uvm_monitor;
       if (vif.cb.popin && vif.cb.pndng_i_in) begin
         mon_item item = mon_item::type_id::create("in_item");
         item.ev_kind = mon_item::EV_IN;
+        item.mon_id = cfg.term_id;
         item.data = vif.cb.data_in;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
@@ -65,6 +68,7 @@ class monitor extends uvm_monitor;
         // Publicar el dato
         mon_item item = mon_item::type_id::create("out_item");
         item.ev_kind = mon_item::EV_OUT;
+        item.mon_id = cfg.term_id;
         item.data = vif.cb.data_out;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
@@ -84,6 +88,7 @@ class monitor extends uvm_monitor;
 
   virtual task run_phase(uvm_phase phase);
     super.run_phase(phase);
+    `uvm_config_db#(router_agent_cfg)::get(this, "mon", "cfg", cfg);
     fork
       watch_inputs();
       consume_outputs();

@@ -23,8 +23,8 @@ class driver extends uvm_driver;
 
     // Virtual interface handle
     virtual router_if vif;
-    bit [pck_sz-1:0] fifo_in [$];
-    bit [pck_sz-1:0] data_out_i_in;
+    bit [pckg_sz-1:0] fifo_in [$];
+    bit [pckg_sz-1:0] data_out_i_in;
     bit pndng_i_in;
     bit popin;
 
