@@ -132,6 +132,7 @@ package secuencer_pkg;
         else { // SATURATION y COLLISION
         error_rate inside {[0:20]}; // tasa de error entre 0% y 20%
     }
+    }
     
 
     // Algunas restricciones básicas
