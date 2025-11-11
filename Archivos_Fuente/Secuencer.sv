@@ -9,6 +9,7 @@ class router_agent_cfg extends uvm_object;
 endclass
 
 class gen_item_seq extends uvm_sequence #(drv_item);
+    typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
     `uvm_object_utils(gen_item_seq)
 
     // Test scenario selector
