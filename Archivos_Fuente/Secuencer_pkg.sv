@@ -163,14 +163,7 @@ package secuencer_pkg;
     localparam int TRGT_R_MSB  = PCK_SZ-9;
     localparam int NXT_JUMP_LSB = PCK_SZ-8; // campo no usado
     localparam int NXT_JUMP_MSB = PCK_SZ-1; // campo no usado
-    
 
-    typedef enum logic [1:0] {
-        SIDE_TOP    = 2'b00,
-        SIDE_LEFT   = 2'b01,
-        SIDE_BOTTOM = 2'b10,
-        SIDE_RIGHT  = 2'b11
-    } side_e;
 
     // term_id = 0..15
     // Convierte terminal ID a fila/columna extendida

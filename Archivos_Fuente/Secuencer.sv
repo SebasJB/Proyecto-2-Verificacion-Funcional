@@ -1,9 +1,15 @@
+typedef enum bit { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
+typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
+typedef enum logic [1:0] {
+        SIDE_TOP    = 2'b00,
+        SIDE_LEFT   = 2'b01,
+        SIDE_BOTTOM = 2'b10,
+        SIDE_RIGHT  = 2'b11
+    } side_e;
+
 `include "Secuencer_pkg.sv"
 import secuencer_pkg::*;
 `include "uvm_macros.svh"
-
- typedef enum bit { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
- typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
 
 class router_agent_cfg extends uvm_object;
   `uvm_object_utils(router_agent_cfg)
