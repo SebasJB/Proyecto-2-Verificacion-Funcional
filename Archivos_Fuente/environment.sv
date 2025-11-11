@@ -11,7 +11,7 @@ class env extends uvm_env;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    scb0 = scoreboard::type_id::create("scb", this); // Instancia scoreboard
+    scb = scoreboard::type_id::create("scb", this); // Instancia scoreboard
     foreach (agt[i]) begin
       // Crea agt[i] con nombre indexado (útil para logs/rutas de config_db)
       agt[i] = router_agent::type_id::create($sformatf("agt%0d", i), this);
