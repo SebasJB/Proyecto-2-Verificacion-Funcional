@@ -25,7 +25,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
         super.new(name);
     endfunction : new
 
-    uvm_declare_p_sequencer(uvm_sequencer #(drv_item));
+    `uvm_declare_p_sequencer(uvm_sequencer #(drv_item));
 
 
     // Body: generates items according to scenario
