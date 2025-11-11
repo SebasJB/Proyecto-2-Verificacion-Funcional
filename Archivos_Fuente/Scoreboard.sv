@@ -63,7 +63,7 @@ class scoreboard extends uvm_scoreboard;
       if (exp_q.exists(k) && exp_q[k].size() > 0) begin
         mon_item oldest = exp_q[k].pop_front(); // match FIFO por clave
         n_match++;
-        time lat = it.ts - oldest.ts;           // latencia simple (ciclos/tiempo sim)
+        time lat = it.time_stamp - oldest.time_stamp;           // latencia simple (ciclos/tiempo sim)
         `uvm_info(get_type_name(),
           $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
             k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
