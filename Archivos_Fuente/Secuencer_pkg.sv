@@ -36,6 +36,7 @@ package secuencer_pkg;
     bit [4:0]        src_id;    // se mapea al campo "src" del paquete
     bit [4:0]        dst_id;    // se mapea al campo "dst" del paquete
     bit [7:0]        pkt_id;    // ID de paquete
+    bit [PCK_SZ-1:0] flit = '0;
     
 
     // Constraint for delay between messages
@@ -214,7 +215,7 @@ package secuencer_pkg;
     // Construye el vector a mandar por data_in
     function bit [PCK_SZ-1:0] build_flit();
       term_to_rc(dest_addr, dst_row, dst_col);
-      bit [PCK_SZ-1:0] flit = '0;
+      flit = '0;
 
       // Fila/columna destino
       flit[TRGT_R_MSB:TRGT_R_LSB] = dst_row;
