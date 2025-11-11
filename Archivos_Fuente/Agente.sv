@@ -1,15 +1,3 @@
-class router_agent_cfg extends uvm_object;
-  `uvm_object_utils(router_agent_cfg)
-
-  virtual router_if vif;
-  int unsigned term_id;          // índice 0..NUM_TERMS-1
-  function new(string name = "router_agent_cfg");
-    super.new(name);
-  endfunction
-endclass
-
-
-
 class router_agent extends uvm_agent;
   `uvm_component_utils(router_agent)
   
