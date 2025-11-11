@@ -82,7 +82,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
-                    itm.test_mode = drv_item::INVALID_DIRECTIONS;
+                    itm.test_mode = drv_item::INVALID;
                     itm.src_id = cfg.term_id;
                     itm.pkt_id = i;
                     itm.randomize();
