@@ -26,12 +26,6 @@ typedef enum logic [1:0] {
     logic [PCK_SZ-1:0] data_out;  // mapea a data_out[t]
     logic pop;                     // mapea a pop[t] (ack de consumo de salida)
     logic pndng;                   // mapea a pndng[t]
-
-    // Clocking block for synchronous operations
-        clocking cb @(posedge clk);
-            input data_out, popin, pndng;
-            output data_in, pop, pndng_in;
-        endclocking
     endinterface : router_if
 
 
@@ -91,15 +85,12 @@ typedef enum logic [1:0] {
     // Constraint for error injection
     constraint c_inject_error {
         if (test_mode == GENERAL) {
-            solve error_rate before error_flag;
             error_flag dist {0 := (100 - error_rate), 1 := error_rate};
         }
         else if (test_mode == INVALID) {
-            solve error_rate before error_flag;
             error_flag dist {0 := (100 - error_rate), 1 := error_rate};
         }
         else { // SATURATION
-            solve error_rate before error_flag;
             error_flag dist {0 := (100 - error_rate), 1 := error_rate};
         }
     }
