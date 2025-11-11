@@ -23,7 +23,7 @@ class monitor extends uvm_monitor;
     wait(!vif.reset);
     forever begin
       @(posedge vif.clk);
-      if (vif.cb.popin && vif.cb.pndng_i_in) begin
+      if (vif.cb.popin && vif.cb.pndng_in) begin
         item = mon_item::type_id::create("in_item");
         item.ev_kind = mon_item::EV_IN;
         item.mon_id = cfg.term_id;

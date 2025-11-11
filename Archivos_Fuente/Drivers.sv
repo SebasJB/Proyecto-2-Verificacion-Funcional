@@ -1,23 +1,3 @@
-interface router_if #(PCK_SZ = 40)(input logic clk, reset);
-    // Define signals for the router interface
-    
-    // DUT → TB (salida de paquetes)
-    logic [PCK_SZ-1:0] data_in;    // mapea a data_out_i_in[t]
-    logic pndng_in;                 // mapea a pndng_i_in[t]
-    logic popin;                    // mapea a popin[t] (ack de consumo de entrada)
-
-    // TB → DUT  (salida de paquetes)
-    logic [PCK_SZ-1:0] data_out;  // mapea a data_out[t]
-    logic pop;                     // mapea a pop[t] (ack de consumo de salida)
-    logic pndng;                   // mapea a pndng[t]
-
-    // Clocking block for synchronous operations
-    clocking cb @(posedge clk);
-        input data_out, popin, pndng;
-        output data_in, pop, pndng_in;
-    endclocking
-endinterface : router_if
-
 class driver extends uvm_driver;
     `uvm_component_utils(driver)
 
