@@ -1,4 +1,4 @@
-class driver extends uvm_driver;
+class driver extends uvm_driver #(drv_item);
     `uvm_component_utils(driver)
 
     // Virtual interface handle
@@ -6,8 +6,7 @@ class driver extends uvm_driver;
     bit [PCK_SZ-1:0] fifo_in [$];
     router_agent_cfg cfg;
 
-    // Declare req as a handle to the sequence item type
-    drv_item req;
+    
 
     // Constructor
     function new(string name = "driver", uvm_component parent = null);
@@ -25,6 +24,8 @@ class driver extends uvm_driver;
     // Main run phase task
     task run_phase(uvm_phase phase);
         super.run_phase(phase);
+        // Declare req as a handle to the sequence item type
+        drv_item req;
         if(!uvm_config_db#(router_agent_cfg)::get(this, "drv", "cfg", cfg)) begin
             `uvm_fatal("DRV", "Could not get driver configuration object")
         end
