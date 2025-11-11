@@ -1,7 +1,11 @@
-// secuencer_pkg.sv
-package secuencer_pkg;
-  import uvm_pkg::*;
-  `include "uvm_macros.svh"
+typedef enum bit { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
+typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
+typedef enum logic [1:0] {
+        SIDE_TOP    = 2'b00,
+        SIDE_LEFT   = 2'b01,
+        SIDE_BOTTOM = 2'b10,
+        SIDE_RIGHT  = 2'b11
+    } side_e;
 
   parameter int ROWS      = 4;
   parameter int COLUMNS   = 4;
@@ -244,8 +248,23 @@ package secuencer_pkg;
 
   endclass
 
-endpackage
-
+  class mon_item extends uvm_sequence_item;
+    typedef enum {EV_IN, EV_OUT} ev_t;
+    localparam int PKT_W = 40;
+  
+    ev_t ev_kind;           // EV_IN / EV_OUT
+    bit [PKT_W-1:0] data;              // data_out_i_in o data_out
+    bit [3:0] mon_id;
+    time time_stamp;                // timestamp
+  
+    `uvm_object_utils_begin(mon_item)
+      `uvm_field_enum(ev_t, ev_kind, UVM_ALL_ON)
+      `uvm_field_int (data,   UVM_ALL_ON)
+      `uvm_field_int (time_stamp,     UVM_ALL_ON)
+    `uvm_object_utils_end
+  
+    function new(string name="mon_item"); super.new(name); endfunction
+  endclass
 
 
 
