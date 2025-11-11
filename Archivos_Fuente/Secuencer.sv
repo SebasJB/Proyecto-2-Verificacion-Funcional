@@ -1,5 +1,6 @@
 `include "Secuencer_pkg.sv"
 import secuencer_pkg::*;
+`include "uvm_macros.svh"
 
 class router_agent_cfg extends uvm_object;
   `uvm_object_utils(router_agent_cfg)
@@ -7,7 +8,7 @@ class router_agent_cfg extends uvm_object;
   virtual router_if vif;
   int unsigned term_id;          // índice 0..NUM_TERMS-1
   function new(string name = "router_agent_cfg");
-    super.new(name);
+    super.new(name); 
   endfunction
 endclass
 
