@@ -31,7 +31,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
     virtual task body();
         drv_item itm;
         int num_items;
-        `uvm_config_db #(router_agent_cfg)::get(this, "seq", "cfg", cfg);
+        `uvm_config_db #(router_agent_cfg)::get(this, "seq", "cfg", cfg)
         case (scenario)
             GENERAL: begin
                 num_items = $urandom_range(10, 50);
