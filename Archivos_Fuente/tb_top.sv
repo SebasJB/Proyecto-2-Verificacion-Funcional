@@ -46,8 +46,8 @@ module tb_top;
   logic pndng [N_TERMS];
   logic popin [N_TERMS];
 
-  logic [PCK_SZ-1:0] data_out_i_in [N_TERMS];
-  logic pndng_i_in [N_TERMS];
+  logic [PCK_SZ-1:0] data_in [N_TERMS];
+  logic pndng_in [N_TERMS];
   logic pop [N_TERMS];
 
   // ---------------- 16 interfaces ------------
@@ -87,9 +87,9 @@ module tb_top;
       assign term_if[i].data_out = data_out[i];
       assign term_if[i].pndng    = pndng[i];
       assign term_if[i].popin    = popin[i];
-      assign data_out_i_in[i] = term_if[i].data_out_i_in;
-      assign pndng_i_in[i]    = term_if[i].pndng_i_in;
-      assign pop[i]           = term_if[i].pop;
+      assign data_in[i]          = term_if[i].data_in;
+      assign pndng_in[i]         = term_if[i].pndng_in;
+      assign pop[i]              = term_if[i].pop;
     end
   endgenerate
 
@@ -97,12 +97,8 @@ module tb_top;
   // Agent se llama "agt%0d" y dentro tiene "d0" (driver) y "m0" (monitor).
   initial begin
     for (int k = 0; k < N_TERMS; k++) begin
-      uvm_config_db#(virtual router_if)::set(
-        null, $sformatf("uvm_test_top.env.agt%0d.drv", k), "vif", term_if[k]
-      );
-      uvm_config_db#(virtual router_if)::set(
-        null, $sformatf("uvm_test_top.env.agt%0d.mon", k), "vif", term_if[k]
-      );
+      uvm_config_db#(virtual router_if)::set(null, $sformatf("uvm_test_top.env.agt%0d.drv", k), "vif", term_if[k]);
+      uvm_config_db#(virtual router_if)::set(null, $sformatf("uvm_test_top.env.agt%0d.mon", k), "vif", term_if[k]);
     end
     // Llama explícitamente a tu test por nombre para evitar depender de +UVM_TESTNAME
     run_test("base_test");
