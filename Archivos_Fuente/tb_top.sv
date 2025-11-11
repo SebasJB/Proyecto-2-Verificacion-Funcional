@@ -9,6 +9,7 @@ import uvm_pkg::*;
 `include "Router_library.sv"
 
 //interfaz
+`include "TypesandTransactions.sv"
 `include "Secuencer.sv"
 `include "Drivers.sv"
 `include "monitor.sv"
