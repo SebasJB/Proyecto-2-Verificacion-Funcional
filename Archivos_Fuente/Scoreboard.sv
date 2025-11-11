@@ -46,6 +46,7 @@ class scoreboard extends uvm_scoreboard;
 
   // recibe cada mon_item publicado por los monitores
   virtual function void write(mon_item it);
+    time lat;
     key_t k = make_key_from_data(it.data);
 
     if (it.ev_kind == mon_item::EV_IN) begin
@@ -63,7 +64,7 @@ class scoreboard extends uvm_scoreboard;
       if (exp_q.exists(k) && exp_q[k].size() > 0) begin
         mon_item oldest = exp_q[k].pop_front(); // match FIFO por clave
         n_match++;
-        time lat = it.time_stamp - oldest.time_stamp;           // latencia simple (ciclos/tiempo sim)
+        lat = it.time_stamp - oldest.time_stamp;           // latencia simple (ciclos/tiempo sim)
         `uvm_info(get_type_name(),
           $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
             k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
