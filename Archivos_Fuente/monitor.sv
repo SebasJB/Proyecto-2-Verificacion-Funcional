@@ -1,22 +1,3 @@
-class mon_item extends uvm_sequence_item;
-  typedef enum {EV_IN, EV_OUT} ev_t;
-  localparam int PKT_W = 40;
-
-  ev_t ev_kind;           // EV_IN / EV_OUT
-  bit [PKT_W-1:0] data;              // data_out_i_in o data_out
-  bit [3:0] mon_id;
-  time time_stamp;                // timestamp
-
-  `uvm_object_utils_begin(mon_item)
-    `uvm_field_enum(ev_t, ev_kind, UVM_ALL_ON)
-    `uvm_field_int (data,   UVM_ALL_ON)
-    `uvm_field_int (time_stamp,     UVM_ALL_ON)
-  `uvm_object_utils_end
-
-  function new(string name="mon_item"); super.new(name); endfunction
-endclass
-
-
 class monitor extends uvm_monitor;
   `uvm_component_utils(monitor)
 
