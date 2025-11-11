@@ -88,7 +88,7 @@ class scoreboard extends uvm_scoreboard;
   virtual function void report_phase(uvm_phase phase);
     super.report_phase(phase);
     pending = 0;
-    key_t kk; // <-- declarar índice del foreach (clave del asociativo)
+    //key_t kk; // <-- declarar índice del foreach (clave del asociativo)
   
     foreach (exp_q[kk]) pending += exp_q[kk].size();
   
