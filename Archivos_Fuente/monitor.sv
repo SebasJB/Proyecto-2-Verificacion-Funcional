@@ -4,6 +4,7 @@ class monitor extends uvm_monitor;
   uvm_analysis_port #(mon_item) mon_analysis_port;
   virtual router_if vif;
   router_agent_cfg cfg;
+  mon_item item;
 
   function new(string name="monitor", uvm_component parent=null);
     super.new(name, parent);
@@ -23,7 +24,7 @@ class monitor extends uvm_monitor;
     forever begin
       @(posedge vif.clk);
       if (vif.cb.popin && vif.cb.pndng_i_in) begin
-        mon_item item = mon_item::type_id::create("in_item");
+        item = mon_item::type_id::create("in_item");
         item.ev_kind = mon_item::EV_IN;
         item.mon_id = cfg.term_id;
         item.data = vif.cb.data_in;
@@ -47,7 +48,7 @@ class monitor extends uvm_monitor;
         vif.cb.pop <= 1'b1;
 
         // Publicar el dato
-        mon_item item = mon_item::type_id::create("out_item");
+        item = mon_item::type_id::create("out_item");
         item.ev_kind = mon_item::EV_OUT;
         item.mon_id = cfg.term_id;
         item.data = vif.cb.data_out;

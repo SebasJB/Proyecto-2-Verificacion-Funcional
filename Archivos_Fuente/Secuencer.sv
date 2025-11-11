@@ -40,7 +40,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
-                    itm.test_mode = GENERAL;
+                    itm.test_mode = drv_item::GENERAL;
                     itm.src_id = cfg.term_id;
                     itm.pkt_id = i;
                     itm.randomize();
@@ -54,7 +54,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
-                    itm.test_mode = SATURATION;
+                    itm.test_mode = drv_item::SATURATION;
                     itm.src_id = cfg.term_id;
                     itm.pkt_id = i;
                     itm.randomize();
@@ -68,7 +68,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
-                    itm.test_mode = COLLISION;
+                    itm.test_mode = drv_item::COLLISION;
                     itm.src_id = cfg.term_id;
                     itm.pkt_id = i;
                     itm.randomize();
@@ -82,7 +82,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
-                    itm.test_mode = INVALID_DIRECTIONS;
+                    itm.test_mode = drv_item::INVALID_DIRECTIONS;
                     itm.src_id = cfg.term_id;
                     itm.pkt_id = i;
                     itm.randomize();
@@ -96,7 +96,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
-                    itm.test_mode = RESET;
+                    itm.test_mode = drv_item::RESET;
                     itm.src_id = cfg.term_id;
                     itm.pkt_id = i;
                     itm.randomize();

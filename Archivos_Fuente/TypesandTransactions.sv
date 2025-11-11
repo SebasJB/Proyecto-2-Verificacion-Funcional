@@ -1,5 +1,3 @@
-typedef enum bit { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
-typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
 typedef enum logic [1:0] {
         SIDE_TOP    = 2'b00,
         SIDE_LEFT   = 2'b01,
@@ -16,6 +14,8 @@ typedef enum logic [1:0] {
   
 
   class drv_item extends uvm_sequence_item;
+    typedef enum bit { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
+    typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
 
     // --- Campos alatorizables del ítem ---
     rand int unsigned dest_addr;  // terminal donde se ESPERA recibir
