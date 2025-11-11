@@ -1,13 +1,13 @@
-interface router_if #(pckg_sz = 40)(input logic clk, reset);
+interface router_if #(PCK_SZ = 40)(input logic clk, reset);
     // Define signals for the router interface
     
     // DUT → TB (salida de paquetes)
-    logic [pckg_sz-1:0] data_in;    // mapea a data_out_i_in[t]
+    logic [PCK_SZ-1:0] data_in;    // mapea a data_out_i_in[t]
     logic pndng_in;                 // mapea a pndng_i_in[t]
     logic popin;                    // mapea a popin[t] (ack de consumo de entrada)
 
     // TB → DUT  (salida de paquetes)
-    logic [pckg_sz-1:0] data_out;  // mapea a data_out[t]
+    logic [PCK_SZ-1:0] data_out;  // mapea a data_out[t]
     logic pop;                     // mapea a pop[t] (ack de consumo de salida)
     logic pndng;                   // mapea a pndng[t]
 
@@ -23,8 +23,8 @@ class driver extends uvm_driver;
 
     // Virtual interface handle
     virtual router_if vif;
-    bit [pckg_sz-1:0] fifo_in [$];
-    bit [pckg_sz-1:0] data_out_i_in;
+    bit [PCK_SZ-1:0] fifo_in [$];
+    bit [PCK_SZ-1:0] data_out_i_in;
     bit pndng_i_in;
     bit popin;
 

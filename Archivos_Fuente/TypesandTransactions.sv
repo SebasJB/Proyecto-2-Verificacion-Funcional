@@ -46,7 +46,7 @@ typedef enum logic [1:0] {
 
     // Constraint for delay between messages
     constraint c_delay_cycles {
-        if (test_mode == NORMAL) {
+        if (test_mode == GENERAL) {
             // Distribución: mayoría medio, algunos largo, pocos corto
             delay_cycles dist {
                 [0:5]   := 15,  // Corto - 15%
@@ -74,7 +74,7 @@ typedef enum logic [1:0] {
             solve error_rate before error_flag;
             error_flag dist {0 := (100 - error_rate), 1 := error_rate};
         }
-        else if (test_mode == INVALID_DIRECTIONS) {
+        else if (test_mode == INVALID) {
             solve error_rate before error_flag;
             error_flag dist {0 := (100 - error_rate), 1 := error_rate};
         }
@@ -86,7 +86,7 @@ typedef enum logic [1:0] {
 
     // Constraint for destination address
     constraint c_dest_addr {
-        if (test_mode == NORMAL) {
+        if (test_mode == GENERAL) {
             dest_addr dist {
                 [0:15]    := 90,  // Válidas - 90%
                 [16:32]  := 10   // Inválidas - 10%
@@ -112,7 +112,7 @@ typedef enum logic [1:0] {
             // El valor específico debe ser configurado por la secuencia
             dest_addr == 5; // Terminal 5 por defecto, modificable vía constraint_mode
         }
-        else if (test_mode == INVALID_DIRECTIONS) {
+        else if (test_mode == INVALID) {
             // Solo direcciones inválidas
             dest_addr dist {
                 [0:15]    := 40,  // Válidas - 40%
@@ -129,10 +129,10 @@ typedef enum logic [1:0] {
     }
 
     constraint c_error_rate {
-        if (test_mode == NORMAL) {
+        if (test_mode == GENERAL) {
             error_rate inside {[0:10]}; // tasa de error entre 0% y 5%
         }
-        else if (test_mode == INVALID_DIRECTIONS) {
+        else if (test_mode == INVALID) {
             error_rate inside {[30:40]}; // tasa de error entre 5% y 15%
         }
         else { // SATURATION y COLLISION
@@ -243,8 +243,8 @@ typedef enum logic [1:0] {
 
     function string convert2string();
       return $sformatf(
-        "src_term=%0d dst_term=%0d addr=0x%0h dst_r=%0d dst_c=%0d mode=%0b src_id=%0h pkt_id=%0h",
-        src_term_id, dest_addr, addr, dst_row, dst_col, mode, src_id, pkt_id
+        "dst_id=%0d dst_term=%0d dst_r=%0d dst_c=%0d mode=%0b src_id=%0h pkt_id=%0h",
+        dst_id, dest_addr, dst_row, dst_col, mode, src_id, pkt_id
       );
     endfunction
 
