@@ -42,7 +42,7 @@ class base_test extends uvm_test;
             gen_item_seq seq = gen_item_seq::type_id::create(
               $sformatf("seq_%0d_%s", idx, sc.name()), this);
             seq.scenario = sc;
-            seq.start(e.agt[idx].s0); // bloquea este hilo hasta que la secuencia termine
+            seq.start(e.agt[idx].seq); // bloquea este hilo hasta que la secuencia termine
           end
         join_none
       end

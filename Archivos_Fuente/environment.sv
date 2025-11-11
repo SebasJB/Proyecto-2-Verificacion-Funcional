@@ -25,7 +25,7 @@ class env extends uvm_env;
     super.connect_phase(phase);
     foreach (agt[i]) begin
       // Conecta el analysis_port del monitor al analysis_imp del scoreboard
-      agt[i].mon.mon_analysis_port.connect(scb0.m_analysis_imp);
+      agt[i].mon.mon_analysis_port.connect(scb.m_analysis_imp);
     end
   endfunction
 endclass
