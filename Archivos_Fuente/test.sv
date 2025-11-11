@@ -26,7 +26,7 @@ class base_test extends uvm_test;
       gen_item_seq::RESET
     };
 
-    int s; 
+    //int s; 
     foreach (scenarios[s]) begin
       `uvm_info(get_type_name(),
         $sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_MEDIUM)
