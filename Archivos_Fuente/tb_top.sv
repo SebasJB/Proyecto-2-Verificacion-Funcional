@@ -56,9 +56,9 @@ module tb_top;
   // ---------------- DUT ----------------
   // mesh_gnrtr instantiates the mesh network under test.
   // Parameters:
-    .fifo_depth(4), 
-    // bdcst is set to 8'b11111111 (all ones) for broadcast purposes
-    .bdcst({8{1'b1}})
+  // .fifo_depth(4), 
+  // bdcst is set to 8'b11111111 (all ones) for broadcast purposes
+  // .bdcst({8{1'b1}})
   //   PCK_SZ: packet size
   //   fifo_depth: FIFO depth per router
   //   bdcst: broadcast mask
