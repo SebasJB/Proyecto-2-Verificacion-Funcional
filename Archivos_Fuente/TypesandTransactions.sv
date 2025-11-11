@@ -192,7 +192,7 @@ typedef enum logic [1:0] {
     side_e side;
     logic [1:0] pos;
 
-    side = side_e'(term_id[5:2]); // lado
+    side = side_e'(term_id[4:2]); // lado
     pos  = term_id[1:0];          // índice 0..3
     if(error_flag) begin
         // Si se inyecta error, asignar una dirección inválida

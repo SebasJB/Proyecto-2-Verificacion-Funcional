@@ -19,11 +19,11 @@ class base_test extends uvm_test;
 
     // Cola de escenarios a ejecutar en serie
     scenarios[$] = '{
-      gen_item_seq::GENERAL,
-      gen_item_seq::SATURATION,
-      gen_item_seq::COLLISION,
-      gen_item_seq::INVALID,
-      gen_item_seq::RESET
+      GENERAL,
+      SATURATION,
+      COLLISION,
+      INVALID,
+      RESET
     };
 
     //int s; 
