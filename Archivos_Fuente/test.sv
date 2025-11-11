@@ -3,6 +3,7 @@ class base_test extends uvm_test;
   `uvm_component_utils(base_test)
 
   env e;
+  gen_item_seq::scenario_t scenarios[$]; // cola de escenarios a ejecutar
 
   function new(string name="base_test", uvm_component parent=null);
     super.new(name, parent);
@@ -17,7 +18,7 @@ class base_test extends uvm_test;
     phase.raise_objection(this);
 
     // Cola de escenarios a ejecutar en serie
-    gen_item_seq::scenario_t scenarios[$] = '{
+    scenarios[$] = '{
       gen_item_seq::GENERAL,
       gen_item_seq::SATURATION,
       gen_item_seq::COLLISION,
