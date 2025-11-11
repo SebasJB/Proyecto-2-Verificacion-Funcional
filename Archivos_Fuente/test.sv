@@ -18,7 +18,7 @@ class base_test extends uvm_test;
     phase.raise_objection(this);
 
     // Cola de escenarios a ejecutar en serie
-    scenarios[$] = '{
+    scenarios[$] = {
       GENERAL,
       SATURATION,
       COLLISION,
