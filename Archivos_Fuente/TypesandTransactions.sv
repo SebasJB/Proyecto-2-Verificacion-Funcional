@@ -90,7 +90,7 @@ typedef enum logic [1:0] {
 
     // Constraint for error injection
     constraint c_inject_error {
-        if (test_mode == NORMAL) {
+        if (test_mode == GENERAL) {
             solve error_rate before error_flag;
             error_flag dist {0 := (100 - error_rate), 1 := error_rate};
         }
