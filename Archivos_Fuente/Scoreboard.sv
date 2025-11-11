@@ -23,6 +23,8 @@ class scoreboard extends uvm_scoreboard;
 
   // Métricas de ejecución
   int unsigned n_in, n_out, n_match, n_miss;
+  int unsigned pending;
+
 
   function new(string name="scoreboard", uvm_component parent=null);
     super.new(name, parent);
@@ -85,7 +87,7 @@ class scoreboard extends uvm_scoreboard;
   // Resumen al finalizar la simulación y listado de entradas pendientes
   virtual function void report_phase(uvm_phase phase);
     super.report_phase(phase);
-    int unsigned pending = 0;
+    pending = 0;
     key_t kk; // <-- declarar índice del foreach (clave del asociativo)
   
     foreach (exp_q[kk]) pending += exp_q[kk].size();
