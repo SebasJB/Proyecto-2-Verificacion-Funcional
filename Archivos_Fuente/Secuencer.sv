@@ -25,15 +25,19 @@ class gen_item_seq extends uvm_sequence #(drv_item);
         super.new(name);
     endfunction : new
 
-    `uvm_declare_p_sequencer(uvm_sequencer #(drv_item))
-    `uvm_config_db #(router_agent_cfg)::get(this, "seq", "cfg", cfg)
+    `uvm_declare_p_sequencer(uvm_sequencer #(drv_item));
 
 
     // Body: generates items according to scenario
     virtual task body();
         drv_item itm;
         int num_items;
-        
+
+        // Retrieve configuration object
+        if (!`uvm_config_db #(router_agent_cfg)::get(this, "seq", "cfg", cfg)) begin
+            `uvm_fatal("CFG", "Failed to get router_agent_cfg from config DB")
+        end
+
         case (scenario)
             GENERAL: begin
                 num_items = $urandom_range(10, 50);
@@ -64,7 +68,6 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 end
             end
             COLLISION: begin
-                `uvm_config_db #(router_agent_cfg)::get(this, "seq", "cfg", cfg);
                 num_items = $urandom_range(20, 50);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
@@ -79,7 +82,6 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 end
             end
             INVALID: begin
-                `uvm_config_db #(router_agent_cfg)::get(this, "seq", "cfg", cfg);
                 num_items = $urandom_range(30, 60);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
@@ -94,7 +96,6 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 end
             end
             RESET: begin
-                `uvm_config_db #(router_agent_cfg)::get(this, "seq", "cfg", cfg);
                 num_items = $urandom_range(20, 40);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
