@@ -23,11 +23,11 @@ class monitor extends uvm_monitor;
     wait(!vif.reset);
     forever begin
       @(posedge vif.clk);
-      if (vif.cb.popin && vif.cb.pndng_in) begin
+      if (vif.popin && vif.pndng_in) begin
         item = mon_item::type_id::create("in_item");
         item.ev_kind = mon_item::EV_IN;
         item.mon_id = cfg.term_id;
-        item.data = vif.cb.data_in;
+        item.data = vif.data_in;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
                   $sformatf("[IN ] data=0x%0h @%0t", item.data, item.time_stamp),
@@ -43,7 +43,7 @@ class monitor extends uvm_monitor;
     vif.cb.pop <= 1'b0; // asegurar estado inicial
     forever begin
       @(posedge vif.clk);
-      if (vif.cb.pndng) begin
+      if (vif.pndng) begin
         // Pop en este ciclo 
         vif.cb.pop <= 1'b1;
 
@@ -51,7 +51,7 @@ class monitor extends uvm_monitor;
         item = mon_item::type_id::create("out_item");
         item.ev_kind = mon_item::EV_OUT;
         item.mon_id = cfg.term_id;
-        item.data = vif.cb.data_out;
+        item.data = vif.data_out;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
                   $sformatf("[OUT] data=0x%0h @%0t", item.data, item.time_stamp),
@@ -60,10 +60,10 @@ class monitor extends uvm_monitor;
 
         // Bajar pop en el próximo ciclo
         @(posedge vif.clk);
-        vif.cb.pop <= 1'b0;
+        vif.pop <= 1'b0;
       end
       else begin
-        vif.cb.pop <= 1'b0;
+        vif.pop <= 1'b0;
       end
     end
   endtask

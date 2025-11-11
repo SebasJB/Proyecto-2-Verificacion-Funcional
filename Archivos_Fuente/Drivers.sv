@@ -42,13 +42,13 @@ class driver extends uvm_driver;
             fifo_in.push_back(req.data_in);
             
             if (fifo_in.size() > 0) begin
-                vif.cb.pndng_in <= 1'b1; // Indicate pending data
+                vif.pndng_in <= 1'b1; // Indicate pending data
             end
             
-            if (vif.cb.popin == 1'b1) begin
-                vif.cb.data_out <= fifo_in.pop_front();
+            if (vif.popin == 1'b1) begin
+                vif.data_out <= fifo_in.pop_front();
                 if (fifo_in.size() == 0) begin
-                    vif.cb.pndng_in <= 1'b0; // Clear pending if popped
+                    vif.pndng_in <= 1'b0; // Clear pending if popped
                 end
             end
             
