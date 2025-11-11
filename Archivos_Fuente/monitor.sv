@@ -40,12 +40,12 @@ class monitor extends uvm_monitor;
   // SALIDAS: mientras pndng==1, asertamos pop cada ciclo y publicamos data_out
   task consume_outputs();
     wait(!vif.reset);
-    vif.cb.pop <= 1'b0; // asegurar estado inicial
+    vif.pop <= 1'b0; // asegurar estado inicial
     forever begin
       @(posedge vif.clk);
       if (vif.pndng) begin
         // Pop en este ciclo 
-        vif.cb.pop <= 1'b1;
+        vif.pop <= 1'b1;
 
         // Publicar el dato
         item = mon_item::type_id::create("out_item");
