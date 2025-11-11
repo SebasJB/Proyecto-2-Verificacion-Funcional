@@ -2,6 +2,9 @@
 import secuencer_pkg::*;
 `include "uvm_macros.svh"
 
+ typedef enum bit { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
+ typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
+
 class router_agent_cfg extends uvm_object;
   `uvm_object_utils(router_agent_cfg)
 

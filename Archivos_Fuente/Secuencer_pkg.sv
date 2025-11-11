@@ -9,8 +9,7 @@ package secuencer_pkg;
   parameter int NUM_TERMS = ROWS*2 + COLUMNS*2;
   parameter int ADDR_W    = 8;   // campo MSB que compara con ntrfs_id/broadcast
 
-  typedef enum bit { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
-  typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
+  
 
   class drv_item extends uvm_sequence_item;
 

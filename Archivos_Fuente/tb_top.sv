@@ -11,7 +11,7 @@ import uvm_pkg::*;
 //interfaz
 `include "Secuencer.sv"
 `include "Drivers.sv"
-`include "Monitor.sv"
+`include "monitor.sv"
 `include "Agente.sv"
 `include "Scoreboard.sv"
 `include "environment.sv"
@@ -24,6 +24,8 @@ module tb_top;
   localparam int COLUMS  = 4;
   localparam int PCK_SZ = 40;
   localparam int N_TERMS = (2*ROWS + 2*COLUMS); // 16
+
+ 
 
   // ---------------- Reloj / Reset ----------------
   logic clk;  
