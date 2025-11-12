@@ -3,6 +3,7 @@ class base_test extends uvm_test;
   `uvm_component_utils(base_test)
 
   env e;
+  gen_item_seq seq;
   gen_item_seq::scenario_t scenarios[$]; // cola de escenarios a ejecutar
 
   function new(string name="base_test", uvm_component parent=null);
@@ -12,6 +13,10 @@ class base_test extends uvm_test;
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     e = env::type_id::create("env", this); // 16 agents + scoreboard
+    for (int i = 0; i < NUM_TERMS; i++ ) begin
+      seq = gen_item_seq::type_id::create($sformatf("seq_%0d", i), this);
+      seq.randomize();
+    end
   endfunction
 
   virtual task run_phase(uvm_phase phase);
@@ -39,8 +44,6 @@ class base_test extends uvm_test;
         // Cada iteración lanza su propio hilo
         fork
           begin
-            gen_item_seq seq = gen_item_seq::type_id::create(
-              $sformatf("seq_%0d_%s", idx, sc.name()), this);
             seq.scenario = sc;
             seq.start(e.agt[idx].seq); // bloquea este hilo hasta que la secuencia termine
           end
