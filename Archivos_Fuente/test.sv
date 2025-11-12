@@ -22,7 +22,7 @@ class base_test extends uvm_test;
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
   
-    scenarios[$] = '{GENERAL, SATURATION, COLLISION, INVALID, RESET};
+    scenarios[$] = {GENERAL, SATURATION, COLLISION, INVALID, RESET};
   
     foreach (scenarios[s]) begin
       `uvm_info(get_type_name(),
