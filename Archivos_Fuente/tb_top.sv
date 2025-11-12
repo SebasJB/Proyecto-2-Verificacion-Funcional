@@ -32,13 +32,13 @@ module tb_top;
   logic clk;  
   logic reset; 
 
-  initial clk = 1'b0;          // <--- AÑADIDO: evita clk=X
-  always  #5 clk = ~clk;
-
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
   initial begin
     reset = 1;
-    // espera a que el reloj exista y avance
-    repeat (2) @(posedge clk);
+    repeat (3) @(posedge clk);
     reset = 0;
   end
 
@@ -112,9 +112,9 @@ module tb_top;
   
   initial run_test("base_test");
 
-initial begin
-  $dumpfile("waves.vcd");
-  $dumpvars(0, tb_top);
+initial begin 
+  $fsdbDumpfile("waves.fsdb"); 
+  $fsdbDumpvars(0,tb_top); 
 end
 
 

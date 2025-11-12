@@ -21,45 +21,41 @@ class base_test extends uvm_test;
 
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
-
-    // Cola de escenarios a ejecutar en serie
-    scenarios[$] = {
-      GENERAL,
-      SATURATION,
-      COLLISION,
-      INVALID,
-      RESET
-    };
-
-    //int s; 
+  
+    scenarios = '{GENERAL, SATURATION, COLLISION, INVALID, RESET};
+  
     foreach (scenarios[s]) begin
       `uvm_info(get_type_name(),
         $sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_MEDIUM)
-
-      // Para este escenario, lanza 16 secuencias EN PARALELO (una por agente)
+  
       for (int i = 0; i < NUM_TERMS; i++) begin
         automatic int idx = i;
         automatic gen_item_seq::scenario_t sc = scenarios[s];
-
-        // Cada iteración lanza su propio hilo
         fork
           begin
+            // Espera al menos 1 flanco de reloj ANTES de arrancar la secuencia
+            @(posedge e.agt[0].drv.vif.clk);
             seq[idx].scenario = sc;
-            seq[idx].randomize();
-            seq[idx].start(e.agt[idx].sequencer); // bloquea este hilo hasta que la secuencia termine
+            void'(seq[idx].randomize());
+            seq[idx].start(e.agt[idx].sequencer);
           end
         join_none
       end
-
-      // Espera a que terminen los 16 hilos del escenario actual
-      wait fork;
-
-      // Pequeña pausa entre escenarios
-      #(500);
+  
+      // Deja que TODO lo forked corra realmente sobre reloj
+      // (si tus seqs son “cero-tiempo”, esto asegura que la sim avance)
+      repeat (200) @(posedge e.agt[0].drv.vif.clk);
+  
+      wait fork;                          // ahora sí, todos terminaron
+      repeat (50) @(posedge e.agt[0].drv.vif.clk); // pausa de drenaje
     end
-
+  
+    // drenaje adicional para monitores/scoreboard
+    phase.phase_done.set_drain_time(this, 100ns);
+  
     phase.drop_objection(this);
   endtask
+
   virtual function void end_of_elaboration_phase(uvm_phase phase);
     uvm_top.print_topology();
   endfunction
