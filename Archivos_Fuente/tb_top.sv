@@ -108,7 +108,7 @@ module tb_top;
 
   initial begin
     $dumpfile("waves.vcd");      // nombre del VCD
-    $dumpvars(0, tb_top);        // vuelca toda la jerarquía bajo tb_top
+    $dumpvars(0);        // vuelca toda la jerarquía bajo tb_top
   // (opcional) volcados selectivos para ahorrar tamaño:
   // $dumpvars(0, tb_top.clk, tb_top.reset, tb_top.term_if);
   end
