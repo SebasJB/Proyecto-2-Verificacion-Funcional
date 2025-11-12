@@ -18,9 +18,6 @@ class router_agent extends uvm_agent;
     seq = uvm_sequencer#(drv_item)::type_id::create("seq", this);
     drv = driver::type_id::create("drv", this);
     mon = monitor::type_id::create("mon", this);
-    uvm_config_db#(router_agent_cfg)::set(this, "seq", "cfg", cfg);
-    uvm_config_db#(router_agent_cfg)::set(this, "drv", "cfg", cfg);
-    uvm_config_db#(router_agent_cfg)::set(this, "mon", "cfg", cfg);
   endfunction
 
   virtual function void connect_phase(uvm_phase phase);

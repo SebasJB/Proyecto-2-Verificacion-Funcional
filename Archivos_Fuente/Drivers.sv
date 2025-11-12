@@ -25,7 +25,7 @@ class driver extends uvm_driver #(drv_item);
         super.run_phase(phase);
         // Declare req as a handle to the sequence item type
         
-        if(!uvm_config_db#(router_agent_cfg)::get(this, "drv", "cfg", cfg)) begin
+        if(!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg)) begin
             `uvm_fatal("DRV", "Could not get driver configuration object")
         end
         forever begin
