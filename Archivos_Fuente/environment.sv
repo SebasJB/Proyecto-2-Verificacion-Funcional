@@ -17,7 +17,9 @@ class env extends uvm_env;
       agt[i] = router_agent::type_id::create($sformatf("agt%0d", i), this);
       cfg = new();
       cfg.term_id = i;
-      uvm_config_db#(router_agent_cfg)::set(this, $sformatf("agt%0d", i), "cfg", cfg);
+      uvm_config_db#(router_agent_cfg)::set(this, $sformatf("agt%0d.drv", i), "cfg", cfg);
+      uvm_config_db#(router_agent_cfg)::set(this, $sformatf("agt%0d.mon", i), "cfg", cfg);
+      uvm_config_db#(router_agent_cfg)::set(this, $sformatf("agt%0d.seq", i), "cfg", cfg);
     end
   endfunction
 
