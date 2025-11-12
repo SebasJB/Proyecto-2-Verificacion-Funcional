@@ -6,7 +6,7 @@
    parameter int ROWS    = 4;
    parameter int COLUMNS  = 4;     // <— usa COLUMNS como en tu RTL
    parameter int PCK_SZ  = 40;
-   parameter int NUM_TERMS = 2*ROWS + 2*COLUMS;
+   parameter int NUM_TERMS = 2*ROWS + 2*COLUMNS; // 16 terminales
    parameter int ADDR_W  = 8;
  
 
