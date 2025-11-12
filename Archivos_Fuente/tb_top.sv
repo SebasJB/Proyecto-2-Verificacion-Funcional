@@ -35,10 +35,13 @@ module tb_top;
   initial clk = 1'b0;          // <--- AÑADIDO: evita clk=X
   always  #5 clk = ~clk;
 
-  initial begin 
-    reset = 1; 
-    #10 reset = 0; 
+  initial begin
+    reset = 1;
+    // espera a que el reloj exista y avance
+    repeat (2) @(posedge clk);
+    reset = 0;
   end
+
 
   
   // ---------------- Buses DUT <-> TB ----------------
