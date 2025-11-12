@@ -3,7 +3,7 @@ class router_agent extends uvm_agent;
   
   driver                drv;      
   monitor               mon;      
-  uvm_sequencer #(drv_item)  seq;
+  uvm_sequencer #(drv_item)  sequencer;
   router_agent_cfg    cfg;      
 
   function new(string name="router_agent", uvm_component parent=null);
@@ -12,13 +12,13 @@ class router_agent extends uvm_agent;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    seq = uvm_sequencer#(drv_item)::type_id::create("seq", this);
+    sequencer = uvm_sequencer#(drv_item)::type_id::create("sequencer", this);
     drv = driver::type_id::create("drv", this);
     mon = monitor::type_id::create("mon", this);
   endfunction
 
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    drv.seq_item_port.connect(seq.seq_item_export); 
+    drv.seq_item_port.connect(sequencer.seq_item_export); 
   endfunction
 endclass
