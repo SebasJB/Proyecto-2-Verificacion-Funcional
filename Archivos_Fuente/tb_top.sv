@@ -60,7 +60,7 @@ module tb_top;
   //   fifo_depth: FIFO depth per router
   //   bdcst: broadcast mask
   mesh_gnrtr #(
-    .ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(PCK_SZ),
+    .ROWS(ROWS), .COLUMS(COLUMS), .pckg_sz(PCK_SZ),
     .fifo_depth(4), .bdcst({8{1'b1}})
   ) dut (
     .pndng         (pndng),

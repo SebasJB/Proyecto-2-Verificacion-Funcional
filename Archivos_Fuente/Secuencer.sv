@@ -13,9 +13,10 @@ class gen_item_seq extends uvm_sequence #(drv_item);
     `uvm_object_utils(gen_item_seq)
 
     // Test scenario selector
-    router_agent_cfg cfg;
+    //router_agent_cfg cfg;
     scenario_t scenario;
     bit [PCK_SZ-1:0] data;
+    int unsigned seq_id;
 
     // Constructor
     function new(string name = "gen_item_seq");
@@ -31,9 +32,9 @@ class gen_item_seq extends uvm_sequence #(drv_item);
         int num_items;
 
         // Retrieve configuration object
-        if (!uvm_config_db #(router_agent_cfg)::get(null, "seq", "cfg", cfg)) begin
-            `uvm_fatal("CFG", "Failed to get router_agent_cfg from config DB")
-        end
+        //if (!uvm_config_db #(router_agent_cfg)::get(null, "seq", "cfg", cfg)) begin
+        //    `uvm_fatal("CFG", "Failed to get router_agent_cfg from config DB")
+        //end
 
         case (scenario)
             GENERAL: begin
@@ -42,7 +43,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::GENERAL;
-                    itm.src_id = cfg.term_id;
+                    itm.src_id = seq_id;
                     itm.pkt_id = i;
                     itm.randomize();
                     data = itm.build_flit();
@@ -56,7 +57,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::SATURATION;
-                    itm.src_id = cfg.term_id;
+                    itm.src_id = seq_id;
                     itm.pkt_id = i;
                     itm.randomize();
                     data = itm.build_flit();
@@ -70,7 +71,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::COLLISION;
-                    itm.src_id = cfg.term_id;
+                    itm.src_id = seq_id;
                     itm.pkt_id = i;
                     itm.randomize();
                     data = itm.build_flit();
@@ -84,7 +85,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::INVALID;
-                    itm.src_id = cfg.term_id;
+                    itm.src_id = seq_id;
                     itm.pkt_id = i;
                     itm.randomize();
                     data = itm.build_flit();
@@ -98,7 +99,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::RESET;
-                    itm.src_id = cfg.term_id;
+                    itm.src_id = seq_id;
                     itm.pkt_id = i;
                     itm.randomize();
                     data = itm.build_flit();
