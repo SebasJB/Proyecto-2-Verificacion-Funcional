@@ -70,7 +70,7 @@ class monitor extends uvm_monitor;
 
   virtual task run_phase(uvm_phase phase);
     super.run_phase(phase);
-    uvm_config_db#(router_agent_cfg)::get(this, "mon", "cfg", cfg);
+    uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg);
     fork
       watch_inputs();
       consume_outputs();
