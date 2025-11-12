@@ -47,7 +47,7 @@ class driver extends uvm_driver #(drv_item);
             end
             
             if (vif.popin == 1'b1) begin
-                vif.data_out <= fifo_in.pop_front();
+                vif.data_in <= fifo_in.pop_front();
                 if (fifo_in.size() == 0) begin
                     vif.pndng_in <= 1'b0; // Clear pending if popped
                 end
