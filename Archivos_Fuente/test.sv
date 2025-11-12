@@ -46,7 +46,7 @@ class base_test extends uvm_test;
           begin
             seq[idx].scenario = sc;
             seq[idx].randomize();
-            seq[idx].start(e.agt[idx].seq); // bloquea este hilo hasta que la secuencia termine
+            seq[idx].start(e.agt[idx].sequencer); // bloquea este hilo hasta que la secuencia termine
           end
         join_none
       end
