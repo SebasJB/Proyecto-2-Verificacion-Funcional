@@ -12,9 +12,6 @@ class router_agent extends uvm_agent;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if (!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg)) begin
-      `uvm_fatal("AGENT", "Could not get agent configuration object")
-    end
     seq = uvm_sequencer#(drv_item)::type_id::create("seq", this);
     drv = driver::type_id::create("drv", this);
     mon = monitor::type_id::create("mon", this);
