@@ -1,15 +1,15 @@
-  package router_pkg;
+
     typedef enum bit       { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
     typedef enum           { GENERAL, SATURATION, COLLISION, INVALID, RESET } scenario_t;
     typedef enum logic [1:0] { SIDE_TOP=2'b00, SIDE_LEFT=2'b01, SIDE_BOTTOM=2'b10, SIDE_RIGHT=2'b11 } side_e;
-  
+    
     parameter int ROWS    = 4;
     parameter int COLUMS  = 4;     // <— usa COLUMS como en tu RTL
     parameter int PCK_SZ  = 40;
     parameter int NUM_TERMS = 2*ROWS + 2*COLUMS;
     parameter int ADDR_W  = 8;
-  endpackage
-import router_pkg::*;
+ 
+
   interface router_if #(PCK_SZ = 40)(input logic clk, reset);
     // Define signals for the router interface
     

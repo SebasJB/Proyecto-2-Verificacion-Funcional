@@ -1,5 +1,3 @@
-import router_pkg::*;
-
 class monitor extends uvm_monitor;
   `uvm_component_utils(monitor)
 

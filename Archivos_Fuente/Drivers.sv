@@ -1,5 +1,3 @@
-import router_pkg::*;
-
 class driver extends uvm_driver #(drv_item);
     `uvm_component_utils(driver)
 
