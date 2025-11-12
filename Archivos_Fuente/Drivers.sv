@@ -15,7 +15,7 @@ class driver extends uvm_driver #(drv_item);
     // Build phase to get the virtual interface
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
-        if (!uvm_config_db#(virtual router_if)::get(this, "", "vif", vif)) begin
+        if (!uvm_config_db#(virtual router_if #(PCK_SZ))::get(this, "", "vif", vif)) begin
             `uvm_fatal(get_type_name(), "Virtual interface not found")
         end
         if(!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg)) begin

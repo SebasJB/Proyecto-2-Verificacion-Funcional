@@ -12,7 +12,7 @@ class monitor extends uvm_monitor;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    if (!uvm_config_db#(virtual router_if)::get(this, "", "vif", vif))
+    if (!uvm_config_db#(virtual router_if #(PCK_SZ))::get(this, "", "vif", vif))
       `uvm_fatal("MON", "Could not get vif (router_if)")
 
     if (!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg))
