@@ -44,9 +44,9 @@ class base_test extends uvm_test;
         // Cada iteración lanza su propio hilo
         fork
           begin
-            seq.scenario = sc;
-            seq.randomize();
-            seq.start(e.agt[idx].seq); // bloquea este hilo hasta que la secuencia termine
+            seq[idx].scenario = sc;
+            seq[idx].randomize();
+            seq[idx].start(e.agt[idx].seq); // bloquea este hilo hasta que la secuencia termine
           end
         join_none
       end
