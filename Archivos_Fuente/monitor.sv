@@ -14,6 +14,9 @@ class monitor extends uvm_monitor;
     super.build_phase(phase);
     if (!uvm_config_db#(virtual router_if)::get(this, "", "vif", vif))
       `uvm_fatal("MON", "Could not get vif (router_if)")
+
+    if (!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg))
+      `uvm_fatal("MON", "Could not get monitor configuration object")
     mon_analysis_port = new("mon_analysis_port", this);
   endfunction
 
@@ -70,7 +73,7 @@ class monitor extends uvm_monitor;
 
   virtual task run_phase(uvm_phase phase);
     super.run_phase(phase);
-    uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg);
+    
     fork
       watch_inputs();
       consume_outputs();

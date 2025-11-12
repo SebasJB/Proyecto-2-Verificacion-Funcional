@@ -18,6 +18,9 @@ class driver extends uvm_driver #(drv_item);
         if (!uvm_config_db#(virtual router_if)::get(this, "", "vif", vif)) begin
             `uvm_fatal(get_type_name(), "Virtual interface not found")
         end
+        if(!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg)) begin
+            `uvm_fatal("DRV", "Could not get driver configuration object")
+        end
     endfunction : build_phase
     
     // Main run phase task
@@ -25,9 +28,7 @@ class driver extends uvm_driver #(drv_item);
         super.run_phase(phase);
         // Declare req as a handle to the sequence item type
         
-        if(!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg)) begin
-            `uvm_fatal("DRV", "Could not get driver configuration object")
-        end
+        
         forever begin
             seq_item_port.get_next_item(req);
             if (req == null) begin
