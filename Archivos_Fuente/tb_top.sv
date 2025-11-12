@@ -1,6 +1,7 @@
 // ============================ tb_top.sv ============================
 //`timescale 1ns/1ps
 import uvm_pkg::*; 
+import router_pkg::*;
 `include "uvm_macros.svh"
 
 // RTL 
@@ -31,7 +32,10 @@ module tb_top;
   // ---------------- Reloj / Reset ----------------
   logic clk;  
   logic reset; 
-  always #5 clk = ~clk; 
+
+  initial clk = 1'b0;          // <--- AÑADIDO: evita clk=X
+  always  #5 clk = ~clk;
+
   initial begin 
     reset = 1; 
     #10 reset = 0; 
@@ -106,10 +110,10 @@ module tb_top;
   
   initial run_test("base_test");
 
-  initial begin
-  $fsdbDumpfile("inter.fsdb");
-  $fsdbDumpvars(0, tb_top);       // dumpea TODO lo que cuelga de tb_top,
-                                  // incluyendo term_if[0:15] y el 
-  end
+initial begin
+  $dumpfile("waves.vcd");
+  $dumpvars(0, tb_top);
+end
+
 
 endmodule

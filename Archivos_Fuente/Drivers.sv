@@ -1,8 +1,10 @@
+import router_pkg::*;
+
 class driver extends uvm_driver #(drv_item);
     `uvm_component_utils(driver)
 
     // Virtual interface handle
-    virtual router_if vif;
+    virtual router_if#(PCK_SZ) vif; 
     bit [PCK_SZ-1:0] fifo_in [$];
     router_agent_cfg cfg;
     drv_item req;

@@ -1,8 +1,10 @@
+import router_pkg::*;
+
 class monitor extends uvm_monitor;
   `uvm_component_utils(monitor)
 
   uvm_analysis_port #(mon_item) mon_analysis_port;
-  virtual router_if vif;
+  virtual router_if#(PCK_SZ) vif;
   router_agent_cfg cfg;
   mon_item item;
 

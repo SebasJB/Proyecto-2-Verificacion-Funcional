@@ -1,10 +1,11 @@
+import router_pkg::*;
+
 class router_agent extends uvm_agent;
   `uvm_component_utils(router_agent)
   
   driver                drv;      
   monitor               mon;      
-  uvm_sequencer #(drv_item)  sequencer;
-  router_agent_cfg    cfg;      
+  uvm_sequencer #(drv_item)  sequencer;    
 
   function new(string name="router_agent", uvm_component parent=null);
     super.new(name, parent);

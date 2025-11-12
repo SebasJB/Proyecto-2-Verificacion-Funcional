@@ -1,3 +1,4 @@
+import router_pkg::*;
 // base_test.sv — ejecuta TODOS los escenarios, 16 secuencias en paralelo por escenario
 class base_test extends uvm_test;
   `uvm_component_utils(base_test)
