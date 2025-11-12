@@ -9,8 +9,7 @@
     parameter int NUM_TERMS = 2*ROWS + 2*COLUMS;
     parameter int ADDR_W  = 8;
   endpackage
-
-
+import router_pkg::*;
   interface router_if #(PCK_SZ = 40)(input logic clk, reset);
     // Define signals for the router interface
     
