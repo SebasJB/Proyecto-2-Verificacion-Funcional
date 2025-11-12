@@ -42,16 +42,10 @@ class base_test extends uvm_test;
         join_none
       end
   
-      // Deja que TODO lo forked corra realmente sobre reloj
-      // (si tus seqs son “cero-tiempo”, esto asegura que la sim avance)
-      repeat (200) @(posedge e.agt[0].drv.vif.clk);
-  
-      wait fork;                          // ahora sí, todos terminaron
+      wait fork;                         
       repeat (50) @(posedge e.agt[0].drv.vif.clk); // pausa de drenaje
     end
-  
-    // drenaje adicional para monitores/scoreboard
-    phase.phase_done.set_drain_time(this, 100ns);
+
   
     phase.drop_objection(this);
   endtask
