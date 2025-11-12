@@ -30,11 +30,8 @@ module tb_top;
 
   // ---------------- Reloj / Reset ----------------
   logic clk;  
-  logic reset;
-  initial begin 
-    clk = 0; 
-    forever #5 clk = ~clk; 
-  end
+  logic reset; 
+  always #5 clk = ~clk; 
   initial begin 
     reset = 1; 
     #10 reset = 0; 
