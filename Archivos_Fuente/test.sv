@@ -17,7 +17,7 @@ class base_test extends uvm_test;
       seq[i] = gen_item_seq::type_id::create($sformatf("seq%0d", i), this);
       seq[i].seq_id = i;
     end
-    uvm_top.set_report_verbosity_level_hier(UVM_MEDIUM);
+    uvm_top.set_report_verbosity_level_hier(UVM_HIGH);
   endfunction
 
   virtual task run_phase(uvm_phase phase);
@@ -27,7 +27,7 @@ class base_test extends uvm_test;
   
     foreach (scenarios[s]) begin
       `uvm_info(get_type_name(),
-        $sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_MEDIUM)
+        $sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_HIGH)
   
       for (int i = 0; i < NUM_TERMS; i++) begin
         automatic int idx = i;
