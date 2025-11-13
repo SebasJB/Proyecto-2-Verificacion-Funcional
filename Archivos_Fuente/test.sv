@@ -16,6 +16,7 @@ class base_test extends uvm_test;
     for (int i = 0; i < NUM_TERMS; i++ ) begin
       seq[i] = gen_item_seq::type_id::create($sformatf("seq%0d", i), this);
       seq[i].seq_id = i;
+      seq[i].randomize();
     end
     uvm_top.set_report_verbosity_level_hier(UVM_HIGH);
   endfunction
@@ -35,7 +36,6 @@ class base_test extends uvm_test;
         fork
           begin
             seq[idx].scenario = sc;
-            void'(seq[idx].randomize());
             seq[idx].start(e.agt[idx].sequencer);
           end
         join_none
