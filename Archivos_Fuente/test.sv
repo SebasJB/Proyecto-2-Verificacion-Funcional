@@ -34,8 +34,6 @@ class base_test extends uvm_test;
         automatic gen_item_seq::scenario_t sc = scenarios[s];
         fork
           begin
-            // Espera al menos 1 flanco de reloj ANTES de arrancar la secuencia
-            @(posedge e.agt[0].drv.vif.clk);
             seq[idx].scenario = sc;
             void'(seq[idx].randomize());
             seq[idx].start(e.agt[idx].sequencer);
