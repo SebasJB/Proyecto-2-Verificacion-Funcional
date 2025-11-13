@@ -21,11 +21,19 @@ class base_test extends uvm_test;
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
   
-    scenarios[$] = {GENERAL, SATURATION, COLLISION, INVALID, RESET};
+    //scenarios[$] = {GENERAL, SATURATION, COLLISION, INVALID, RESET};
+    scenarios.push_back(gen_item_seq::GENERAL);
+    scenarios.push_back(gen_item_seq::SATURATION);
+    scenarios.push_back(gen_item_seq::COLLISION);
+    scenarios.push_back(gen_item_seq::INVALID);
+    scenarios.push_back(gen_item_seq::RESET);
+
+// debug opcional
+`uvm_info(get_type_name(), $sformatf("scenarios.size=%0d", scenarios.size()), UVM_HIGH)
+
   
     foreach (scenarios[s]) begin
-      `uvm_info(get_type_name(),
-        $sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_HIGH)
+      `uvm_info(get_type_name(),$sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_HIGH)
   
       for (int i = 0; i < NUM_TERMS; i++) begin
         automatic int idx = i;
