@@ -98,10 +98,10 @@ module tb_top;
   initial begin
     for (int k = 0; k < N_TERMS; k++) begin
       uvm_config_db#(virtual router_if)::set(
-        null, $sformatf("uvm_test_top.env.agt%0d.drv", k), "vif", term_if[k]
+        null, $sformatf("uvm_test_top.e.agt%0d.drv", k), "vif", term_if[k]
       );
       uvm_config_db#(virtual router_if)::set(
-        null, $sformatf("uvm_test_top.env.agt%0d.mon", k), "vif", term_if[k]
+        null, $sformatf("uvm_test_top.e.agt%0d.mon", k), "vif", term_if[k]
       );
     end
     // Llama explícitamente a tu test por nombre para evitar depender de +UVM_TESTNAME
