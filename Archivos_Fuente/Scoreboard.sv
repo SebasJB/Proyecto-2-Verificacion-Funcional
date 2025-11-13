@@ -34,6 +34,7 @@ class scoreboard extends uvm_scoreboard;
     super.build_phase(phase);
     // Conectar canal de análisis para recibir items de los monitores
     m_analysis_imp = new("m_analysis_imp", this);
+    `uvm_info(get_type_name(), "scoreboard build_phase completed", UVM_HIGH);
   endfunction
 
   // Extrae la clave desde el paquete de 40 bits

@@ -20,6 +20,7 @@ class env extends uvm_env;
       uvm_config_db#(router_agent_cfg)::set(this, $sformatf("agt%0d.drv", i), "cfg", cfg);
       uvm_config_db#(router_agent_cfg)::set(this, $sformatf("agt%0d.mon", i), "cfg", cfg);
     end
+    `uvm_info(get_type_name(), "env build_phase completed", UVM_HIGH);
   endfunction
 
   virtual function void connect_phase(uvm_phase phase);
