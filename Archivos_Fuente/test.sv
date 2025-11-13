@@ -17,7 +17,7 @@ class base_test extends uvm_test;
       seq[i] = gen_item_seq::type_id::create($sformatf("seq%0d", i), this);
       seq[i].seq_id = i;
     end
-    uvm_top.set_report_verbosity_level_hier(UVM_FULL);
+    uvm_top.set_report_verbosity_level_hier(UVM_MEDIUM);
   endfunction
 
   virtual task run_phase(uvm_phase phase);
