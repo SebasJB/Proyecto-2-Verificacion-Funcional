@@ -95,8 +95,8 @@ module tb_top;
   // ---------------- Pasar VIFs a tus agentes reales (agt0..agt15, d0/m0) ----
   // Agent se llama "agt%0d" y dentro tiene "d0" (driver) y "m0" (monitor).
 // set por índice constante (genvar)
-  initial begin
     generate
+      initial begin
       for (genvar g = 0; g < N_TERMS; g++) begin : CFG
           uvm_config_db#(virtual router_if#(PCK_SZ))::set(
             null, $sformatf("uvm_test_top.env.agt%0d.drv", g), "vif", term_if[g]
@@ -104,9 +104,9 @@ module tb_top;
           uvm_config_db#(virtual router_if#(PCK_SZ))::set(
             null, $sformatf("uvm_test_top.env.agt%0d.mon", g), "vif", term_if[g]
           );
-      end
+       end
+      end 
     endgenerate
-  end
   
   initial run_test("base_test");
 
