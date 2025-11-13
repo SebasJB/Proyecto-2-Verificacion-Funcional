@@ -97,10 +97,10 @@ module tb_top;
 // set por índice constante (genvar)
   initial begin
     for (int k = 0; k < N_TERMS; k++) begin
-      uvm_config_db#(virtual router_if)::set(
+      uvm_config_db#(virtual router_if #(.PCK_SZ(PCK_SZ)))::set(
         null, $sformatf("uvm_test_top.e.agt%0d.drv", k), "vif", term_if[k]
       );
-      uvm_config_db#(virtual router_if)::set(
+      uvm_config_db#(virtual router_if #(.PCK_SZ(PCK_SZ)))::set(
         null, $sformatf("uvm_test_top.e.agt%0d.mon", k), "vif", term_if[k]
       );
     end
