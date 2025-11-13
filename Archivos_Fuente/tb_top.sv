@@ -32,11 +32,9 @@ module tb_top;
   logic clk;  
   logic reset; 
 
+  always #5 clk = ~clk;
   initial begin
     clk = 0;
-    forever #5 clk = ~clk;
-  end
-  initial begin
     reset = 1;
     repeat (3) @(posedge clk);
     reset = 0;

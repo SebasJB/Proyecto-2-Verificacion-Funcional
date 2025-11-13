@@ -12,14 +12,13 @@ class base_test extends uvm_test;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    phase.raise_objection(this);
+  
     e = env::type_id::create("env", this); // 16 agents + scoreboard
     for (int i = 0; i < NUM_TERMS; i++ ) begin
       seq[i] = gen_item_seq::type_id::create($sformatf("seq%0d", i), this);
       seq[i].seq_id = i;
       seq[i].randomize();
     end
-    phase.drop_objection(this);
     uvm_top.set_report_verbosity_level_hier(UVM_FULL);
   endfunction
 
@@ -37,8 +36,10 @@ class base_test extends uvm_test;
         automatic gen_item_seq::scenario_t sc = scenarios[s];
         fork
           begin
+            phase.raise_objection(this);
             seq[idx].scenario = sc;
             seq[idx].start(e.agt[idx].sequencer);
+            phase.drop_objection(this);
           end
         join_none
       end
