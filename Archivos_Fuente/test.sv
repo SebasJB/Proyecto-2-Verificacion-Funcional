@@ -12,10 +12,10 @@ class base_test extends uvm_test;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-  
+    `uvm_info(get_type_name(), "Test build_phase started", UVM_HIGH);
     e = env::type_id::create("env", this); // 16 agents + scoreboard
     `uvm_info(get_type_name(), "Test build_phase completed", UVM_HIGH);
-    uvm_top.set_report_verbosity_level_hier(UVM_FULL);
+    uvm_top.set_report_verbosity_level_hier(UVM_HIGH);
   endfunction
 
   virtual task run_phase(uvm_phase phase);
