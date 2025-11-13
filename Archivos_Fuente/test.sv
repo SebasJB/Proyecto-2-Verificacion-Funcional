@@ -19,6 +19,7 @@ class base_test extends uvm_test;
       seq[i].seq_id = i;
       seq[i].randomize();
     end
+    `uvm_info(get_type_name(), "Test build_phase completed", UVM_HIGH);
     uvm_top.set_report_verbosity_level_hier(UVM_FULL);
   endfunction
 

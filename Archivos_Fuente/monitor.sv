@@ -18,6 +18,7 @@ class monitor extends uvm_monitor;
     if (!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg))
       `uvm_fatal("MON", "Could not get monitor configuration object")
     mon_analysis_port = new("mon_analysis_port", this);
+        `uvm_info(get_type_name(), "mon build_phase completed", UVM_HIGH);
   endfunction
 
 

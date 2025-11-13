@@ -21,6 +21,7 @@ class driver extends uvm_driver #(drv_item);
         if(!uvm_config_db#(router_agent_cfg)::get(this, "", "cfg", cfg)) begin
             `uvm_fatal("DRV", "Could not get driver configuration object")
         end
+            `uvm_info(get_type_name(), "driver build_phase completed", UVM_HIGH);
     endfunction : build_phase
     
     // Main run phase task
