@@ -30,6 +30,16 @@ class gen_item_seq extends uvm_sequence #(drv_item);
     virtual task body();
         drv_item itm;
         int num_items;
+        string scn_str;
+
+       case (scenario)
+      GENERAL   : scn_str = "GENERAL";
+      SATURATION: scn_str = "SATURATION";
+      COLLISION : scn_str = "COLLISION";
+      INVALID   : scn_str = "INVALID";
+      RESET     : scn_str = "RESET";
+      default   : scn_str = "UNKNOWN";
+       endcase
 
         // Retrieve configuration object
         //if (!uvm_config_db #(router_agent_cfg)::get(null, "seq", "cfg", cfg)) begin
