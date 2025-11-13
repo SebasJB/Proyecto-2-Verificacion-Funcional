@@ -112,10 +112,10 @@ module tb_top;
   
   initial run_test("base_test");
 
-initial begin 
-  $fsdbDumpfile("waves.fsdb"); 
-  $fsdbDumpvars(0,tb_top); 
-end
+  initial begin 
+    $fsdbDumpfile("waves.fsdb"); 
+    $fsdbDumpvars(0,tb_top); 
+  end
 
 
 endmodule
