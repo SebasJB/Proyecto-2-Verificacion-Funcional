@@ -58,7 +58,7 @@ class monitor extends uvm_monitor;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
                   $sformatf("[OUT] data=0x%0h @%0t", item.data, item.time_stamp),
-                  UVM_LOW)
+                  UVM_HIGH)
         mon_analysis_port.write(item);
 
         // Bajar pop en el próximo ciclo
