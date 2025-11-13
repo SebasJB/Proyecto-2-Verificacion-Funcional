@@ -35,7 +35,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
         //if (!uvm_config_db #(router_agent_cfg)::get(null, "seq", "cfg", cfg)) begin
         //    `uvm_fatal("CFG", "Failed to get router_agent_cfg from config DB")
         //end
-
+        `uvm_info(get_type_name(), $sformatf(">>> gen_item_seq arrancó: scenario=%s, seq_id=%0d", scn_str, seq_id),UVM_HIGH)
         case (scenario)
             GENERAL: begin
                 num_items = $urandom_range(10, 50);
@@ -116,6 +116,8 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 `uvm_error("SEQ", "Unknown scenario selected")
             end
         endcase
+
+        
     endtask : body
 
 endclass : gen_item_seq
