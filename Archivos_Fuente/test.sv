@@ -12,7 +12,7 @@ class base_test extends uvm_test;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    uvm_top.set_report_verbosity_level_hier(UVM_HIGH);
+    uvm_top.set_report_verbosity_level_hier(UVM_LOW);
     `uvm_info(get_type_name(), "Test build_phase started", UVM_HIGH);
     e = env::type_id::create("env", this); // 16 agents + scoreboard
     for (int i = 0; i < NUM_TERMS; i++) begin
@@ -22,8 +22,7 @@ class base_test extends uvm_test;
     `uvm_info(get_type_name(), "Test build_phase completed", UVM_HIGH);
   endfunction
 
-  virtual task run_phase(uvm_phase phase);
-    phase.raise_objection(this);
+  virtual task run_phase(uvm_phase phase);;
   
     //scenarios[$] = {GENERAL, SATURATION, COLLISION, INVALID, RESET};
     scenarios.push_back(gen_item_seq::GENERAL);
