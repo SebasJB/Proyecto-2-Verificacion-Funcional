@@ -17,7 +17,6 @@ class base_test extends uvm_test;
     e = env::type_id::create("env", this); // 16 agents + scoreboard
     for (int i = 0; i < NUM_TERMS; i++) begin
         seq[i] = gen_item_seq::type_id::create($sformatf("seq%0d", i), this);
-        seq[i].seq_id = i;
         seq[i].randomize();
     end
     `uvm_info(get_type_name(), "Test build_phase completed", UVM_HIGH);
@@ -47,6 +46,7 @@ class base_test extends uvm_test;
           begin
             phase.raise_objection(this);
             seq[idx].scenario = sc;
+            seq[idx].seq_id = idx;
             seq[idx].start(e.agt[idx].sequencer);
             phase.drop_objection(this);
           end
