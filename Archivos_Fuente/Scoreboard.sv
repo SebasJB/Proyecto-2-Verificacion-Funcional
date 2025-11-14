@@ -73,7 +73,7 @@ class scoreboard extends uvm_scoreboard;
             k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
           UVM_LOW)
         // Liberar memoria cuando la cola queda vacía, activa:
-        // if (exp_q[k].size()==0) exp_q.delete(k);
+        if (exp_q[k].size()==0) exp_q.delete(k);
       end
       else if (exp_q[k].size() > 0) begin
         // No se encontró entrada equivalente pendiente → salida inesperada
