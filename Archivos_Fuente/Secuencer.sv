@@ -33,7 +33,6 @@ class gen_item_seq extends uvm_sequence #(drv_item);
         drv_item itm;
         int num_items;
         string scn_str;
-        
 
         case (scenario)
            GENERAL   : scn_str = "GENERAL";
