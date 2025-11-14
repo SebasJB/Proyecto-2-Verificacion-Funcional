@@ -14,9 +14,9 @@ class gen_item_seq extends uvm_sequence #(drv_item);
 
     // Test scenario selector
     //router_agent_cfg cfg;
-    scenario_t scenario;
+    
     bit [PCK_SZ-1:0] data;
-    int unsigned seq_id;
+    
 
     // Constructor
     function new(string name = "gen_item_seq");
@@ -31,6 +31,8 @@ class gen_item_seq extends uvm_sequence #(drv_item);
         drv_item itm;
         int num_items;
         string scn_str;
+        int unsigned seq_id;
+        scenario_t scenario;
 
         case (scenario)
            GENERAL   : scn_str = "GENERAL";
