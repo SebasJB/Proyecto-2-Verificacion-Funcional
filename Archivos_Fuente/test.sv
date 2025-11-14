@@ -55,7 +55,7 @@ class base_test extends uvm_test;
       `uvm_info(get_type_name(), "Waiting for scenario completion...", UVM_HIGH);
       wait fork;
       `uvm_info(get_type_name(), $sformatf("=== END scenario: %s ===", scenarios[s].name()), UVM_HIGH)                         
-      repeat (50) @(posedge e.agt[0].drv.vif.clk); // pausa de drenaje
+      repeat (500) @(posedge e.agt[0].drv.vif.clk); // pausa de drenaje
     end
   endtask
 
