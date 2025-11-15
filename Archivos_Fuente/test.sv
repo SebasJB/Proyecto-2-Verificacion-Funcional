@@ -65,9 +65,9 @@ class base_test extends uvm_test;
 
   function void apply_reset();
     // Aplicar reset global al DUT
-    e.agt[0].drv.vif.reset <= 0;
-    repeat (5) @(posedge e.agt[0].drv.vif.clk);
     e.agt[0].drv.vif.reset <= 1;
+    repeat (5) @(posedge e.agt[0].drv.vif.clk);
+    e.agt[0].drv.vif.reset <= 0;
     repeat (10) @(posedge e.agt[0].drv.vif.clk);
     `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
   endfunction
