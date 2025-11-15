@@ -37,7 +37,7 @@ class base_test extends uvm_test;
   
     foreach (scenarios[s]) begin
       `uvm_info(get_type_name(),$sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_HIGH)
-  
+      apply_reset();  
       for (int i = 0; i < NUM_TERMS; i++) begin
         automatic int idx = i;
         automatic gen_item_seq::scenario_t sc = scenarios[s];
@@ -61,5 +61,14 @@ class base_test extends uvm_test;
 
   virtual function void end_of_elaboration_phase(uvm_phase phase);
     uvm_top.print_topology();
+  endfunction
+
+  function void apply_reset();
+    // Aplicar reset global al DUT
+    e.agt[0].drv.vif.reset <= 0;
+    repeat (5) @(posedge e.agt[0].drv.vif.clk);
+    e.agt[0].drv.vif.reset <= 1;
+    repeat (10) @(posedge e.agt[0].drv.vif.clk);
+    `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
   endfunction
 endclass
