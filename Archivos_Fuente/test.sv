@@ -15,7 +15,7 @@ class base_test extends uvm_test;
     super.build_phase(phase);
     uvm_top.set_report_verbosity_level_hier(UVM_LOW);
     `uvm_info(get_type_name(), "Test build_phase started", UVM_LOW);
-    if (!uvm_config_db#(virtual router_if #(PCK_SZ))::get(null, "", "vif", vif)) begin
+    if (!uvm_config_db#(virtual router_if #(PCK_SZ))::get(this, "", "vif", vif)) begin
       `uvm_fatal(get_type_name(), "Virtual interface must be set for test via uvm_config_db")
     end
     e = env::type_id::create("env", this); // 16 agents + scoreboard
