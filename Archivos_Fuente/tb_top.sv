@@ -29,10 +29,10 @@ module tb_top;
  
 
   // ---------------- Reloj / Reset ----------------
-  reg clk;  
+  reg clk;
+  reg reset;
 
   always #5 clk = ~clk;
-  logic reset;
 
   // ---------------- Buses DUT <-> TB ----------------
   logic [PCK_SZ-1:0] data_out [N_TERMS];
@@ -87,20 +87,24 @@ module tb_top;
   // ---------------- Pasar VIFs a tus agentes reales (agt0..agt15, d0/m0) ----
   // Agent se llama "agt%0d" y dentro tiene "d0" (driver) y "m0" (monitor).
 // set por índice constante (genvar)
-
   generate
     for (genvar g = 0; g < N_TERMS; g++) begin : CFG
       initial begin
-        uvm_config_db#(virtual router_if #(PCK_SZ))::set(null, $sformatf("uvm_test_top.test.env.agt%0d.drv", g), "vif", term_if[g]);
-        uvm_config_db#(virtual router_if #(PCK_SZ))::set(null, $sformatf("uvm_test_top.test.env.agt%0d.mon", g), "vif", term_if[g]);
+        uvm_config_db#(virtual router_if #(PCK_SZ))::set(null, $sformatf("uvm_test_top.env.agt%0d.drv", g), "vif", term_if[g]);
+        uvm_config_db#(virtual router_if #(PCK_SZ))::set(null, $sformatf("uvm_test_top.env.agt%0d.mon", g), "vif", term_if[g]
+        );
       end
     end
   endgenerate
-
+  
+  initial begin
+    reset = 1;
+    repeat (5) @(posedge clk);
+    reset = 0;
+    repeat (5) @(posedge clk);
+  end
   // ---------------- Iniciar test UVM ----------------
   initial begin
-   // VIF para el TEST
-    uvm_config_db#(virtual router_if #(PCK_SZ))::set(null, "uvm_test_top.test", "vif", term_if[0]);
     clk = 0;
     run_test("base_test");
   end

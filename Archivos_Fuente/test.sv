@@ -15,9 +15,6 @@ class base_test extends uvm_test;
     super.build_phase(phase);
     uvm_top.set_report_verbosity_level_hier(UVM_LOW);
     `uvm_info(get_type_name(), "Test build_phase started", UVM_LOW);
-    if (!uvm_config_db #(virtual router_if #(PCK_SZ))::get(null, "", "vif", vif)) begin
-      `uvm_fatal(get_type_name(), "Virtual interface must be set for: vif")
-    end
     e = env::type_id::create("env", this); // 16 agents + scoreboard
     for (int i = 0; i < NUM_TERMS; i++) begin
         seq[i] = gen_item_seq::type_id::create($sformatf("seq%0d", i), this);
@@ -67,13 +64,4 @@ class base_test extends uvm_test;
   virtual function void end_of_elaboration_phase(uvm_phase phase);
     uvm_top.print_topology();
   endfunction
-
-  virtual task apply_reset();
-    // Aplicar reset global al DUT
-    vif.reset <= 1;
-    repeat (5) @(posedge vif.clk);
-    vif.reset <= 0;
-    repeat (10) @(posedge vif.clk);
-    `uvm_info(get_type_name(), "Global reset applied", UVM_LOW);
-  endtask
 endclass
