@@ -130,21 +130,4 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                
     endtask : body
 
-    virtual task for (int i = 0; i < num_items; i++) begin
-                    itm = drv_item::type_id::create("itm");
-                    start_item(itm);
-                    itm.test_mode = drv_item::GENERAL;
-                    itm.src_id = seq_id;
-                    itm.pkt_id = i;
-                    itm.randomize();
-                    data = itm.build_flit();
-                    itm.data_in = data;
-                    finish_item(itm);
-                end 
-        drv_item itm;
-        int num_items;
-        string scn_str;
-        
-    endtask : start_sequence
-
 endclass : gen_item_seq
