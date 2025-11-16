@@ -75,7 +75,7 @@ class scoreboard extends uvm_scoreboard;
         // Liberar memoria cuando la cola queda vacía, activa:
         if (exp_q[k].size()==0) exp_q.delete(k);
       end
-      else begin
+      else if (exp_q[k].size() > 0) begin
         // No se encontró entrada equivalente pendiente → salida inesperada
         n_miss++;
         `uvm_error(get_type_name(),
@@ -96,13 +96,14 @@ class scoreboard extends uvm_scoreboard;
     `uvm_info(get_type_name(),
       $sformatf("SCB SUMMARY  in=%0d out=%0d  match=%0d  miss=%0d  pending=%0d",
         n_in, n_out, n_match, n_miss, pending),
-      UVM_MEDIUM)
+      UVM_LOW)
   
     if (pending > 0) begin
       foreach (exp_q[kk]) begin
         `uvm_error(get_type_name(),
           $sformatf("PENDING %0d entradas sin salida asociada debido a perdida de datos: row=%0d col=%0d mode=%0d (ej. payload=0x%0h)",
-            exp_q[kk].size(), kk.row, kk.col, kk.mode, exp_q[kk][0].data[22:0]))
+            exp_q[kk].size(), kk.row, kk.col, kk.mode, exp_q[kk][0].data[22:0]),
+      UVM_LOW)
       end
     end
   endfunction
