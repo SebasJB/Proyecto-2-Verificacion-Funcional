@@ -112,7 +112,7 @@ module tb_top;
   
   initial begin
     clk = 0;
-    apply_reset(clk);
+    apply_reset();
     run_test("base_test");
   end
 
