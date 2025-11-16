@@ -33,12 +33,6 @@ module tb_top;
   logic reset; 
 
   always #5 clk = ~clk;
-  initial begin
-    clk = 0;
-    reset = 1;
-    repeat (3) @(posedge clk);
-    reset = 0;
-  end
 
 
   
@@ -110,6 +104,7 @@ module tb_top;
 
   
   initial begin
+    clk = 0;
     apply_reset();
     run_test("base_test");
   end
