@@ -102,13 +102,13 @@ module tb_top;
     end
   endgenerate
  
- function void apply_reset(input clk);
+ virtual task void apply_reset();
     // Aplicar reset global al DUT
     reset <= 1;
     repeat (5) @(posedge clk);
     reset <= 0;
     repeat (10) @(posedge clk);
-  endfunction
+  endtask
   
   initial begin
     clk = 0;
