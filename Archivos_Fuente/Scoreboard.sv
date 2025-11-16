@@ -59,7 +59,7 @@ class scoreboard extends uvm_scoreboard;
       `uvm_info(get_type_name(),
         $sformatf("STORE IN: row=%0d col=%0d mode=%0d pay=0x%0h (pend=%0d)",
           k.row, k.col, k.mode, k.payload, exp_q[k].size()),
-        UVM_LOW)
+        UVM_MEDIUM)
     end
     else begin // EV_OUT
       n_out++;
@@ -71,7 +71,7 @@ class scoreboard extends uvm_scoreboard;
         `uvm_info(get_type_name(),
           $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
             k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
-          UVM_LOW)
+          UVM_MEDIUM)
         // Liberar memoria cuando la cola queda vacía, activa:
         if (exp_q[k].size()==0) exp_q.delete(k);
       end
@@ -96,7 +96,7 @@ class scoreboard extends uvm_scoreboard;
     `uvm_info(get_type_name(),
       $sformatf("SCB SUMMARY  in=%0d out=%0d  match=%0d  miss=%0d  pending=%0d",
         n_in, n_out, n_match, n_miss, pending),
-      UVM_LOW)
+      UVM_MEDIUM)
   
     if (pending > 0) begin
       foreach (exp_q[kk]) begin
