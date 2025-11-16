@@ -45,7 +45,7 @@ module tb_top;
   logic pop [N_TERMS];
 
   // ---------------- 16 interfaces ------------
-  router_if #(PCK_SZ) term_if [N_TERMS](clk, reset);
+  router_if #(PCK_SZ) term_if [N_TERMS](clk);
 
   // ---------------- DUT ----------------
   // mesh_gnrtr instantiates the mesh network under test.
