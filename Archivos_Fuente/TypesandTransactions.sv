@@ -22,11 +22,6 @@
     logic [PCK_SZ-1:0] data_out;  // mapea a data_out[t]
     logic pop;                     // mapea a pop[t] (ack de consumo de salida)
     logic pndng;                   // mapea a pndng[t]
-
-    clocking clk_block @(posedge clk);
-      // Señales de entrada al DUT
-      input  reset;
-    endclocking
     endinterface : router_if
 
 

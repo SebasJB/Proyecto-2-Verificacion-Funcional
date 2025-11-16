@@ -102,7 +102,7 @@ module tb_top;
     end
   endgenerate
  
- function void apply_reset();
+ function void apply_reset(input clk);
     // Aplicar reset global al DUT
     reset <= 1;
     repeat (5) @(posedge clk);
@@ -112,7 +112,7 @@ module tb_top;
   
   initial begin
     clk = 0;
-    apply_reset();
+    apply_reset(clk);
     run_test("base_test");
   end
 
