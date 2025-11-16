@@ -71,11 +71,11 @@ class scoreboard extends uvm_scoreboard;
         `uvm_info(get_type_name(),
           $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
             k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
-          UVM_MEDIUM)
+          UVM_LOW)
         // Liberar memoria cuando la cola queda vacía, activa:
         if (exp_q[k].size()==0) exp_q.delete(k);
       end
-      else if (exp_q[k].size() > 0) begin
+      else if (exp_q.size() > 0) begin
         // No se encontró entrada equivalente pendiente → salida inesperada
         n_miss++;
         `uvm_error(get_type_name(),
