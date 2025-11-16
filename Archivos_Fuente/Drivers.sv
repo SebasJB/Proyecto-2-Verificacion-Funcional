@@ -66,7 +66,7 @@ class driver extends uvm_driver #(drv_item);
 
         join
 
-        forever begin
+        /*forever begin
             seq_item_port.get_next_item(req);
             if (req == null) begin
                 `uvm_fatal(get_type_name(), "Received null transaction")
@@ -91,6 +91,6 @@ class driver extends uvm_driver #(drv_item);
             end
             
             seq_item_port.item_done();
-        end
+        end*/
     endtask : run_phase
 endclass //driver
