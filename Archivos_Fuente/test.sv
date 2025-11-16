@@ -59,7 +59,7 @@ class base_test extends uvm_test;
       `uvm_info(get_type_name(), "Waiting for scenario completion...", UVM_HIGH);
       wait fork;
       `uvm_info(get_type_name(), $sformatf("=== END scenario: %s ===", scenarios[s].name()), UVM_HIGH)                         
-      repeat (500) @(posedge e.agt[0].drv.vif.clk); // pausa de drenaje
+      repeat (500) @(posedge vif.clk); // pausa de drenaje
     end
   endtask
 
@@ -69,10 +69,10 @@ class base_test extends uvm_test;
 
   function void apply_reset();
     // Aplicar reset global al DUT
-    e.agt[0].drv.vif.reset <= 1;
-    repeat (5) @(posedge e.agt[0].drv.vif.clk);
-    e.agt[0].drv.vif.reset <= 0;
-    repeat (10) @(posedge e.agt[0].drv.vif.clk);
+    vif.reset <= 1;
+    repeat (5) @(posedge vif.clk);
+    vif.reset <= 0;
+    repeat (10) @(posedge vif.clk);
     `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
   endfunction
 endclass
