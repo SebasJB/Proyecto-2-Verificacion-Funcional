@@ -37,7 +37,6 @@ class base_test extends uvm_test;
   
     foreach (scenarios[s]) begin
       `uvm_info(get_type_name(),$sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_HIGH)
-      apply_reset();  
       for (int i = 0; i < NUM_TERMS; i++) begin
         automatic int idx = i;
         automatic gen_item_seq::scenario_t sc = scenarios[s];
