@@ -51,7 +51,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             GENERAL: begin
                 `uvm_info(get_type_name(), "Generating GENERAL traffic", UVM_LOW)
                 num_items = $urandom_range(10, 20);
-                
+                start_sequence();
             end
             SATURATION: begin
                 `uvm_info(get_type_name(), "Generating SATURATION traffic", UVM_LOW)
@@ -81,6 +81,9 @@ class gen_item_seq extends uvm_sequence #(drv_item);
     endtask : body
 
     virtual task start_sequence();
+        drv_item itm;
+        int num_items;
+        string scn_str;
         `uvm_info(get_type_name(), $sformatf(">>> gen_item_seq arrancó: scenario=%s, seq_id=%0d", scn_str, seq_id),UVM_HIGH)
         for (int i = 0; i < num_items; i++) begin
             itm = drv_item::type_id::create("itm");
