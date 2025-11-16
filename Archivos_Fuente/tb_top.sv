@@ -29,8 +29,7 @@ module tb_top;
  
 
   // ---------------- Reloj / Reset ----------------
-  logic clk;  
-  logic reset; 
+  reg clk;  
 
   always #5 clk = ~clk;
 
@@ -101,18 +100,10 @@ module tb_top;
       end
     end
   endgenerate
- 
- task apply_reset();
-    // Aplicar reset global al DUT
-    reset <= 1;
-    repeat (5) @(posedge clk);
-    reset <= 0;
-    repeat (10) @(posedge clk);
-  endtask
   
+  // ---------------- Iniciar test UVM ----------------
   initial begin
     clk = 0;
-    apply_reset();
     run_test("base_test");
   end
 

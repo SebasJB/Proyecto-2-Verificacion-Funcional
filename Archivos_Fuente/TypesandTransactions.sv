@@ -10,8 +10,10 @@
    parameter int ADDR_W  = 8;
  
 
-  interface router_if #(PCK_SZ = 40)(input logic clk, reset);
+  interface router_if #(PCK_SZ = 40)(input logic clk);
+
     // Define signals for the router interface
+    logic reset;
     
     // DUT → TB (salida de paquetes)
     logic [PCK_SZ-1:0] data_in;    // mapea a data_out_i_in[t]
