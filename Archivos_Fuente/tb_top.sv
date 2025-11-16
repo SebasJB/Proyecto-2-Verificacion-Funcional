@@ -116,10 +116,10 @@ module tb_top;
 
   function void apply_reset();
     // Aplicar reset global al DUT
-    term_if.reset <= 1;
-    repeat (5) @(posedge term_if.clk);
-    term_if.reset <= 0;
-    repeat (10) @(posedge term_if.clk);
+    reset <= 1;
+    repeat (5) @(posedge clk);
+    reset <= 0;
+    repeat (10) @(posedge clk);
     `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
   endfunction
 endmodule
