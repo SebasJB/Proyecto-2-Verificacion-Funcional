@@ -2,7 +2,6 @@
 class base_test extends uvm_test;
   `uvm_component_utils(base_test)
 
-  virtual router_if #(PCK_SZ) vif;
   env e;
   gen_item_seq seq [NUM_TERMS]; // un secuenciador por agente
   gen_item_seq::scenario_t scenarios[$]; // cola de escenarios a ejecutar
@@ -14,9 +13,6 @@ class base_test extends uvm_test;
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     uvm_top.set_report_verbosity_level_hier(UVM_LOW);
-    if (!uvm_config_db#(virtual router_if #(PCK_SZ))::get(this, "", "vif", vif)) begin
-      `uvm_fatal("NOVIF", "Virtual interface not set for base_test")
-    end
     `uvm_info(get_type_name(), "Test build_phase started", UVM_HIGH);
     e = env::type_id::create("env", this); // 16 agents + scoreboard
     for (int i = 0; i < NUM_TERMS; i++) begin
@@ -59,7 +55,7 @@ class base_test extends uvm_test;
       `uvm_info(get_type_name(), "Waiting for scenario completion...", UVM_HIGH);
       wait fork;
       `uvm_info(get_type_name(), $sformatf("=== END scenario: %s ===", scenarios[s].name()), UVM_HIGH)                         
-      repeat (500) @(posedge vif.clk); // pausa de drenaje
+      repeat (500) @(posedge e.agt[0].drv.vif.clk); // pausa de drenaje
     end
   endtask
 
@@ -67,12 +63,5 @@ class base_test extends uvm_test;
     uvm_top.print_topology();
   endfunction
 
-  function void apply_reset();
-    // Aplicar reset global al DUT
-    vif.reset <= 1;
-    repeat (5) @(posedge vif.clk);
-    vif.reset <= 0;
-    repeat (10) @(posedge vif.clk);
-    `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
-  endfunction
+  
 endclass

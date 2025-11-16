@@ -99,22 +99,32 @@ module tb_top;
       for (genvar g = 0; g < N_TERMS; g++) begin : CFG
         initial begin
           uvm_config_db#(virtual router_if#(PCK_SZ))::set(
-            null, $sformatf("uvm_test_top.test.env.agt%0d.drv", g), "vif", term_if[g]
+            null, $sformatf("uvm_test_top.env.agt%0d.drv", g), "vif", term_if[g]
           );
           uvm_config_db#(virtual router_if#(PCK_SZ))::set(
-            null, $sformatf("uvm_test_top.test.env.agt%0d.mon", g), "vif", term_if[g]
+            null, $sformatf("uvm_test_top.env.agt%0d.mon", g), "vif", term_if[g]
           );
         end
       end
     endgenerate
 
   
-  initial run_test("base_test");
+  initial begin
+    apply_reset();
+    run_test("base_test");
+  end
 
   initial begin 
     $fsdbDumpfile("waves.fsdb"); 
     $fsdbDumpvars(0,tb_top); 
   end
 
-
+  function void apply_reset();
+    // Aplicar reset global al DUT
+    term_if.reset <= 1;
+    repeat (5) @(posedge term_if.clk);
+    term_if.reset <= 0;
+    repeat (10) @(posedge term_if.clk);
+    `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
+  endfunction
 endmodule
