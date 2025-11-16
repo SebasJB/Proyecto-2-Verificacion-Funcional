@@ -35,7 +35,7 @@ class monitor extends uvm_monitor;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
                   $sformatf("[MON] data_in=0x%0h @%0t", item.data, item.time_stamp),
-                  UVM_LOW)
+                  UVM_MEDIUM)
         mon_analysis_port.write(item);
       end
     end

@@ -39,7 +39,7 @@ class driver extends uvm_driver #(drv_item);
             
             
             `uvm_info(get_type_name(), $sformatf("Driving packet - Src: %0d, Dest: %0d, Data: %0h", 
-                      req.src_id, req.dest_addr, req.data_in), UVM_HIGH)
+                      req.src_id, req.dest_addr, req.data_in), UVM_LOW)
             
             fifo_in.push_back(req.data_in);
             
