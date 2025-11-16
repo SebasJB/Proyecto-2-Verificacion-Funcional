@@ -102,8 +102,7 @@ class scoreboard extends uvm_scoreboard;
       foreach (exp_q[kk]) begin
         `uvm_error(get_type_name(),
           $sformatf("PENDING %0d entradas sin salida asociada debido a perdida de datos: row=%0d col=%0d mode=%0d (ej. payload=0x%0h)",
-            exp_q[kk].size(), kk.row, kk.col, kk.mode, exp_q[kk][0].data[22:0]),
-      UVM_LOW)
+            exp_q[kk].size(), kk.row, kk.col, kk.mode, exp_q[kk][0].data[22:0]))
       end
     end
   endfunction
