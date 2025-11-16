@@ -89,19 +89,27 @@ module tb_top;
   // ---------------- Pasar VIFs a tus agentes reales (agt0..agt15, d0/m0) ----
   // Agent se llama "agt%0d" y dentro tiene "d0" (driver) y "m0" (monitor).
 // set por índice constante (genvar)
-    generate
-      for (genvar g = 0; g < N_TERMS; g++) begin : CFG
-        initial begin
-          uvm_config_db#(virtual router_if#(PCK_SZ))::set(
-            null, $sformatf("uvm_test_top.env.agt%0d.drv", g), "vif", term_if[g]
-          );
-          uvm_config_db#(virtual router_if#(PCK_SZ))::set(
-            null, $sformatf("uvm_test_top.env.agt%0d.mon", g), "vif", term_if[g]
-          );
-        end
+  generate
+    for (genvar g = 0; g < N_TERMS; g++) begin : CFG
+      initial begin
+        uvm_config_db#(virtual router_if#(PCK_SZ))::set(
+          null, $sformatf("uvm_test_top.env.agt%0d.drv", g), "vif", term_if[g]
+        );
+        uvm_config_db#(virtual router_if#(PCK_SZ))::set(
+          null, $sformatf("uvm_test_top.env.agt%0d.mon", g), "vif", term_if[g]
+        );
       end
-    endgenerate
-
+    end
+  endgenerate
+ 
+ function void apply_reset();
+    // Aplicar reset global al DUT
+    reset <= 1;
+    repeat (5) @(posedge clk);
+    reset <= 0;
+    repeat (10) @(posedge clk);
+    `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
+  endfunction
   
   initial begin
     clk = 0;
@@ -114,12 +122,5 @@ module tb_top;
     $fsdbDumpvars(0,tb_top); 
   end
 
-  function void apply_reset();
-    // Aplicar reset global al DUT
-    reset <= 1;
-    repeat (5) @(posedge clk);
-    reset <= 0;
-    repeat (10) @(posedge clk);
-    `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
-  endfunction
+  
 endmodule
