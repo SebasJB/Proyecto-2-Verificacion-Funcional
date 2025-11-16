@@ -108,7 +108,6 @@ module tb_top;
     repeat (5) @(posedge clk);
     reset <= 0;
     repeat (10) @(posedge clk);
-    `uvm_info(get_type_name(), "Global reset applied", UVM_HIGH);
   endfunction
   
   initial begin
