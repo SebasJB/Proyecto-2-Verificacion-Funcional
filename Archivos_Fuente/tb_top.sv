@@ -92,10 +92,10 @@ module tb_top;
     for (genvar g = 0; g < N_TERMS; g++) begin : CFG
       initial begin
         uvm_config_db#(virtual router_if#(PCK_SZ))::set(
-          null, $sformatf("uvm_test_top.env.agt%0d.drv", g), "vif", term_if[g]
+          null, $sformatf("uvm_test_top.test.env.agt%0d.drv", g), "vif", term_if[g]
         );
         uvm_config_db#(virtual router_if#(PCK_SZ))::set(
-          null, $sformatf("uvm_test_top.env.agt%0d.mon", g), "vif", term_if[g]
+          null, $sformatf("uvm_test_top.test.env.agt%0d.mon", g), "vif", term_if[g]
         );
       end
     end
