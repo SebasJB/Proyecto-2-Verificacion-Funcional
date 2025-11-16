@@ -49,7 +49,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
         //end
         case (scenario)
             GENERAL: begin
-                `uvm_info(get_type_name(), "Generating GENERAL traffic", UVM_LOW)
+                `uvm_info(get_type_name(), "Generating GENERAL traffic", UVM_MEDIUM)
                 num_items = $urandom_range(10, 20);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
@@ -64,7 +64,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 end 
             end
             SATURATION: begin
-                `uvm_info(get_type_name(), "Generating SATURATION traffic", UVM_LOW)
+                `uvm_info(get_type_name(), "Generating SATURATION traffic", UVM_MEDIUM)
                 num_items = $urandom_range(20, 30);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
@@ -79,7 +79,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 end 
             end
             COLLISION: begin
-                `uvm_info(get_type_name(), "Generating COLLISION traffic", UVM_LOW)
+                `uvm_info(get_type_name(), "Generating COLLISION traffic", UVM_MEDIUM)
                 num_items = $urandom_range(10, 20);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
@@ -94,7 +94,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 end 
             end
             INVALID: begin
-                `uvm_info(get_type_name(), "Generating INVALID traffic", UVM_LOW)
+                `uvm_info(get_type_name(), "Generating INVALID traffic", UVM_MEDIUM)
                 num_items = $urandom_range(20, 30);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
@@ -109,7 +109,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                 end 
             end
             RESET: begin
-                `uvm_info(get_type_name(), "Generating RESET traffic", UVM_LOW)
+                `uvm_info(get_type_name(), "Generating RESET traffic", UVM_MEDIUM)
                 num_items = $urandom_range(20, 30);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");

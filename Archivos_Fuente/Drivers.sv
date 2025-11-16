@@ -40,7 +40,7 @@ class driver extends uvm_driver #(drv_item);
                         `uvm_fatal(get_type_name(), "Received null transaction")
                     end
                     repeat (req.delay_cycles) @(posedge vif.clk);
-                    `uvm_info(get_type_name(),$sformatf("Driving Src:%0d Dst:%0d Data:%0h", req.src_id, req.dest_addr, req.data_in), UVM_MEDIUM)
+                    `uvm_info(get_type_name(),$sformatf("Driving Src:%0d Dst:%0d Data:%0h", req.src_id, req.dest_addr, req.data_in), UVM_LOW)
                     fifo_in.push_back(req.data_in);
                     seq_item_port.item_done();
                 end
@@ -50,14 +50,14 @@ class driver extends uvm_driver #(drv_item);
             begin : drive_interface
               forever begin
                 @(posedge vif.clk);
-    
+
                 // indicar si hay datos pendientes
                 vif.pndng_in <= (fifo_in.size() > 0);
-    
+
                 if (fifo_in.size() > 0) begin
                   // presentar la cabeza de la cola estable mientras esperamos el popin
                   vif.data_in <= fifo_in[0];
-    
+
                   // si el DUT pide (popin=1), consumimos 1 elemento
                   if (vif.popin) begin
                     void'(fifo_in.pop_front());

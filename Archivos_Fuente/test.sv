@@ -14,7 +14,7 @@ class base_test extends uvm_test;
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     uvm_top.set_report_verbosity_level_hier(UVM_LOW);
-    `uvm_info(get_type_name(), "Test build_phase started", UVM_LOW);
+    `uvm_info(get_type_name(), "Test build_phase started", UVM_HIGH);
     if (!uvm_config_db#(virtual router_if #(PCK_SZ))::get(this, "", "vif", vif)) begin
       `uvm_fatal(get_type_name(), "Virtual interface must be set for test via uvm_config_db")
     end
@@ -23,7 +23,7 @@ class base_test extends uvm_test;
         seq[i] = gen_item_seq::type_id::create($sformatf("seq%0d", i), this);
         seq[i].randomize();
     end
-    `uvm_info(get_type_name(), "Test build_phase completed", UVM_LOW);
+    `uvm_info(get_type_name(), "Test build_phase completed", UVM_HIGH);
   endfunction
 
   virtual task run_phase(uvm_phase phase);;
@@ -36,11 +36,11 @@ class base_test extends uvm_test;
     scenarios.push_back(gen_item_seq::RESET);
 
     // debug opcional
-    `uvm_info(get_type_name(), $sformatf("scenarios.size=%0d", scenarios.size()), UVM_LOW)
+    `uvm_info(get_type_name(), $sformatf("scenarios.size=%0d", scenarios.size()), UVM_HIGH)
 
     phase.raise_objection(this);
     foreach (scenarios[s]) begin
-      `uvm_info(get_type_name(),$sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_LOW)
+      `uvm_info(get_type_name(),$sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_HIGH)
       
       for (int i = 0; i < NUM_TERMS; i++) begin
         automatic int idx = i;
@@ -55,9 +55,9 @@ class base_test extends uvm_test;
         join_none
       end
   
-      `uvm_info(get_type_name(), "Waiting for scenario completion...", UVM_LOW);
+      `uvm_info(get_type_name(), "Waiting for scenario completion...", UVM_HIGH);
       wait fork;
-      `uvm_info(get_type_name(), $sformatf("=== END scenario: %s ===", scenarios[s].name()), UVM_LOW)                         
+      `uvm_info(get_type_name(), $sformatf("=== END scenario: %s ===", scenarios[s].name()), UVM_HIGH)                         
       repeat (500) @(posedge vif.clk); // pausa de drenaje
     end
     phase.drop_objection(this);
