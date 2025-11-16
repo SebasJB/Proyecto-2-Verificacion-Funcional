@@ -44,7 +44,7 @@ module tb_top;
   logic pop [N_TERMS];
 
   // ---------------- 16 interfaces ------------
-  router_if #(PCK_SZ) term_if [N_TERMS](clk);
+  router_if #(PCK_SZ) term_if [N_TERMS](clk, reset);
 
   // ---------------- DUT ----------------
   // mesh_gnrtr instantiates the mesh network under test.
@@ -74,7 +74,6 @@ module tb_top;
   genvar i;
   generate
     for (i = 0; i < N_TERMS; i++) begin : BIND
-      assign term_if[i].reset    = reset;
       assign term_if[i].data_out = data_out[i];
       assign term_if[i].pndng    = pndng[i];
       assign term_if[i].popin    = popin[i];

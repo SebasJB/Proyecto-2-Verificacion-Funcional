@@ -3,7 +3,6 @@ class base_test extends uvm_test;
   `uvm_component_utils(base_test)
 
   env e;
-  virtual router_if #(PCK_SZ) vif;
   gen_item_seq seq [NUM_TERMS]; // un secuenciador por agente
   gen_item_seq::scenario_t scenarios[$]; // cola de escenarios a ejecutar
 
