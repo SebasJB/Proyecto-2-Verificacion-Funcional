@@ -46,25 +46,30 @@ class driver extends uvm_driver #(drv_item);
                 end
             end
 
+            // 2) Hilo de servicio de interfaz (handshake sincronizado al reloj)
             begin : drive_interface
-                forever begin
-                    @(posedge vif.clk);
-                    if (fifo_in.size() == 0) begin
-                        vif.pndng_in <= 1'b0; // No pending data
-                    end
-                    else begin
-                        vif.pndng_in <= 1'b1; // Indicate pending data
-                    end
-
-                    if (vif.popin == 1'b1) begin
-                        vif.data_in <= fifo_in.pop_front();
-                    end
-                    else begin
-                        vif.data_in <= '0;
+              forever begin
+                @(posedge vif.clk);
+    
+                // indicar si hay datos pendientes
+                vif.pndng_in <= (fifo_in.size() > 0);
+    
+                if (fifo_in.size() > 0) begin
+                  // presentar la cabeza de la cola estable mientras esperamos el popin
+                  vif.data_in <= fifo_in[0];
+    
+                  // si el DUT pide (popin=1), consumimos 1 elemento
+                  if (vif.popin) begin
+                    void'(fifo_in.pop_front());
+                    // si quedó vacía, bajará pndng_in en el próximo ciclo por la asignación de arriba
                     end
                 end
+                else begin
+                  // sin datos: mantenemos data_in en algo definido
+                  vif.data_in <= '0;
+                end
+                end
             end
-
         join
 
         /*forever begin
