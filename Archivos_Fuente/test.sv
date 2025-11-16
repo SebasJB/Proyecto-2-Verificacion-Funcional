@@ -38,7 +38,7 @@ class base_test extends uvm_test;
     // debug opcional
     `uvm_info(get_type_name(), $sformatf("scenarios.size=%0d", scenarios.size()), UVM_LOW)
 
-  
+    phase.raise_objection(this);
     foreach (scenarios[s]) begin
       `uvm_info(get_type_name(),$sformatf("=== RUN scenario: %s ===", scenarios[s].name()), UVM_LOW)
       
@@ -47,11 +47,10 @@ class base_test extends uvm_test;
         automatic gen_item_seq::scenario_t sc = scenarios[s];
         fork
           begin
-            phase.raise_objection(this);
             seq[idx].scenario = sc;
             seq[idx].seq_id = idx;
             seq[idx].start(e.agt[idx].sequencer);
-            phase.drop_objection(this);
+            
           end
         join_none
       end
@@ -61,6 +60,7 @@ class base_test extends uvm_test;
       `uvm_info(get_type_name(), $sformatf("=== END scenario: %s ===", scenarios[s].name()), UVM_LOW)                         
       repeat (500) @(posedge vif.clk); // pausa de drenaje
     end
+    phase.drop_objection(this);
   endtask
 
   /*virtual function void end_of_elaboration_phase(uvm_phase phase);
