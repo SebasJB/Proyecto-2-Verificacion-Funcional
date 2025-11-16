@@ -44,7 +44,6 @@ class base_test extends uvm_test;
         fork
           begin
             phase.raise_objection(this);
-            apply_reset();
             seq[idx].scenario = sc;
             seq[idx].seq_id = idx;
             seq[idx].start(e.agt[idx].sequencer);
