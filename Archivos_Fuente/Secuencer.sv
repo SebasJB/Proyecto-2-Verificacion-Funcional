@@ -51,27 +51,77 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             GENERAL: begin
                 `uvm_info(get_type_name(), "Generating GENERAL traffic", UVM_LOW)
                 num_items = $urandom_range(10, 20);
-                start_sequence();
+                for (int i = 0; i < num_items; i++) begin
+                    itm = drv_item::type_id::create("itm");
+                    start_item(itm);
+                    itm.test_mode = drv_item::GENERAL;
+                    itm.src_id = seq_id;
+                    itm.pkt_id = i;
+                    itm.randomize();
+                    data = itm.build_flit();
+                    itm.data_in = data;
+                    finish_item(itm);
+                end 
             end
             SATURATION: begin
                 `uvm_info(get_type_name(), "Generating SATURATION traffic", UVM_LOW)
                 num_items = $urandom_range(20, 30);
-                start_sequence();
+                for (int i = 0; i < num_items; i++) begin
+                    itm = drv_item::type_id::create("itm");
+                    start_item(itm);
+                    itm.test_mode = drv_item::SATURATION;
+                    itm.src_id = seq_id;
+                    itm.pkt_id = i;
+                    itm.randomize();
+                    data = itm.build_flit();
+                    itm.data_in = data;
+                    finish_item(itm);
+                end 
             end
             COLLISION: begin
                 `uvm_info(get_type_name(), "Generating COLLISION traffic", UVM_LOW)
                 num_items = $urandom_range(10, 20);
-                start_sequence();
+                for (int i = 0; i < num_items; i++) begin
+                    itm = drv_item::type_id::create("itm");
+                    start_item(itm);
+                    itm.test_mode = drv_item::COLLISION;
+                    itm.src_id = seq_id;
+                    itm.pkt_id = i;
+                    itm.randomize();
+                    data = itm.build_flit();
+                    itm.data_in = data;
+                    finish_item(itm);
+                end 
             end
             INVALID: begin
                 `uvm_info(get_type_name(), "Generating INVALID traffic", UVM_LOW)
                 num_items = $urandom_range(20, 30);
-                start_sequence();
+                for (int i = 0; i < num_items; i++) begin
+                    itm = drv_item::type_id::create("itm");
+                    start_item(itm);
+                    itm.test_mode = drv_item::INVALID;
+                    itm.src_id = seq_id;
+                    itm.pkt_id = i;
+                    itm.randomize();
+                    data = itm.build_flit();
+                    itm.data_in = data;
+                    finish_item(itm);
+                end 
             end
             RESET: begin
                 `uvm_info(get_type_name(), "Generating RESET traffic", UVM_LOW)
                 num_items = $urandom_range(20, 30);
-                start_sequence();
+                for (int i = 0; i < num_items; i++) begin
+                    itm = drv_item::type_id::create("itm");
+                    start_item(itm);
+                    itm.test_mode = drv_item::RESET;
+                    itm.src_id = seq_id;
+                    itm.pkt_id = i;
+                    itm.randomize();
+                    data = itm.build_flit();
+                    itm.data_in = data;
+                    finish_item(itm);
+                end 
             end
             default: begin
                 `uvm_error("SEQ", "Unknown scenario selected")
@@ -80,23 +130,21 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                
     endtask : body
 
-    virtual task start_sequence();
+    virtual task for (int i = 0; i < num_items; i++) begin
+                    itm = drv_item::type_id::create("itm");
+                    start_item(itm);
+                    itm.test_mode = drv_item::GENERAL;
+                    itm.src_id = seq_id;
+                    itm.pkt_id = i;
+                    itm.randomize();
+                    data = itm.build_flit();
+                    itm.data_in = data;
+                    finish_item(itm);
+                end 
         drv_item itm;
         int num_items;
         string scn_str;
-        `uvm_info(get_type_name(), $sformatf(">>> gen_item_seq arrancó: scenario=%s, seq_id=%0d", scn_str, seq_id),UVM_HIGH)
-        for (int i = 0; i < num_items; i++) begin
-            itm = drv_item::type_id::create("itm");
-            start_item(itm);
-            itm.test_mode = drv_item::GENERAL;
-            itm.src_id = seq_id;
-            itm.pkt_id = i;
-            itm.randomize();
-            data = itm.build_flit();
-            itm.data_in = data;
-            finish_item(itm);
-        end 
-        `uvm_info(get_type_name(), "<<< gen_item_seq finalizó", UVM_LOW)
+        
     endtask : start_sequence
 
 endclass : gen_item_seq
