@@ -93,6 +93,9 @@
 
     // Constraint for destination address
     constraint c_dest_addr {
+        // Evitar que destino sea igual a origen
+        dest_addr != src_id;
+        
         if (test_mode == GENERAL) {
             dest_addr dist {
                 [0:15]    := 90,  // Válidas - 90%
