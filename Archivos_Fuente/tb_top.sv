@@ -32,9 +32,8 @@ module tb_top;
   reg clk;  
 
   always #5 clk = ~clk;
+  logic reset;
 
-
-  
   // ---------------- Buses DUT <-> TB ----------------
   logic [PCK_SZ-1:0] data_out [N_TERMS];
   logic pndng [N_TERMS];
