@@ -100,11 +100,12 @@ module tb_top;
     reset = 1;
     repeat (5) @(posedge clk);
     reset = 0;
-    repeat (5) @(posedge clk);
+    repeat (10) @(posedge clk);
   end
   // ---------------- Iniciar test UVM ----------------
   initial begin
     clk = 0;
+    uvm_config_db#(virtual router_if #(PCK_SZ))::set(null, "uvm_test_top.test", "vif", term_if[0]);
     run_test("base_test");
   end
 

@@ -3,6 +3,7 @@ class base_test extends uvm_test;
   `uvm_component_utils(base_test)
 
   env e;
+  virtual router_if #(PCK_SZ) vif;
   gen_item_seq seq [NUM_TERMS]; // un secuenciador por agente
   gen_item_seq::scenario_t scenarios[$]; // cola de escenarios a ejecutar
 
@@ -14,6 +15,9 @@ class base_test extends uvm_test;
     super.build_phase(phase);
     uvm_top.set_report_verbosity_level_hier(UVM_LOW);
     `uvm_info(get_type_name(), "Test build_phase started", UVM_LOW);
+    if (!uvm_config_db#(virtual router_if #(PCK_SZ))::get(null, "", "vif", vif)) begin
+      `uvm_fatal(get_type_name(), "Virtual interface must be set for test via uvm_config_db")
+    end
     e = env::type_id::create("env", this); // 16 agents + scoreboard
     for (int i = 0; i < NUM_TERMS; i++) begin
         seq[i] = gen_item_seq::type_id::create($sformatf("seq%0d", i), this);
