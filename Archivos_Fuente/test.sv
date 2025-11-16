@@ -68,12 +68,12 @@ class base_test extends uvm_test;
     uvm_top.print_topology();
   endfunction
 
-  function void apply_reset();
+  virtual task apply_reset();
     // Aplicar reset global al DUT
     vif.reset <= 1;
     repeat (5) @(posedge vif.clk);
     vif.reset <= 0;
     repeat (10) @(posedge vif.clk);
     `uvm_info(get_type_name(), "Global reset applied", UVM_LOW);
-  endfunction
+  endtask
 endclass
