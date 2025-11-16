@@ -100,7 +100,7 @@ module tb_top;
   // ---------------- Iniciar test UVM ----------------
   initial begin
    // VIF para el TEST
-    uvm_config_db#(virtual router_if #(PCK_SZ))::set(null, "uvm_test_top.test", "vif", term_if);
+    uvm_config_db#(virtual router_if #(PCK_SZ))::set(null, "uvm_test_top.test", "vif", term_if[0]);
     clk = 0;
     run_test("base_test");
   end
