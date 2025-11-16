@@ -28,8 +28,44 @@ class driver extends uvm_driver #(drv_item);
     task run_phase(uvm_phase phase);
         super.run_phase(phase);
         // Declare req as a handle to the sequence item type
-        
-        
+        vif.pndng_in <= 1'b0;
+        vif.data_in  <= '0;
+        fifo_in.delete();
+
+        fork
+            begin : get_items
+                forever begin
+                    seq_item_port.get_next_item(req);
+                    if (req == null) begin
+                        `uvm_fatal(get_type_name(), "Received null transaction")
+                    end
+                    `uvm_info(get_type_name(),$sformatf("Driving Src:%0d Dst:%0d Data:%0h", req.src_id, req.dest_addr, req.data_in), UVM_MEDIUM)
+                    fifo_in.push_back(req.data_in);
+                    seq_item_port.item_done();
+                end
+            end
+
+            begin : drive_interface
+                forever begin
+                    @(posedge vif.clk);
+                    if (fifo_in.size() == 0) begin
+                        vif.pndng_in <= 1'b0; // No pending data
+                    end
+                    else begin
+                        vif.pndng_in <= 1'b1; // Indicate pending data
+                    end
+
+                    if (vif.popin == 1'b1) begin
+                        vif.data_in <= fifo_in.pop_front();
+                    end
+                    else begin
+                        vif.data_in <= '0;
+                    end
+                end
+            end
+
+        join
+
         forever begin
             seq_item_port.get_next_item(req);
             if (req == null) begin
@@ -43,11 +79,11 @@ class driver extends uvm_driver #(drv_item);
             
             fifo_in.push_back(req.data_in);
             
-            if (fifo_in.size() > 0) begin
-                vif.pndng_in <= 1'b1; // Indicate pending data
+            if (fifo_in.size() == 0) begin
+                vif.pndng_in <= 1'b0; // Indicate pending data
             end
             else begin
-                vif.pndng_in <= 1'b0;
+                vif.pndng_in <= 1'b1;
             end
             
             if (vif.popin == 1'b1) begin
