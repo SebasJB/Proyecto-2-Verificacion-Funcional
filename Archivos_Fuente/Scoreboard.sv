@@ -112,7 +112,9 @@ endfunction
 
   virtual function void report_phase(uvm_phase phase);
     super.report_phase(phase);
-    int pending_in=0, pending_out=0;
+    int pending_in, pending_out;
+    pending_in=0;
+    pending_out=0;
     foreach (exp_q[kk])  pending_in  += exp_q[kk].size();
     foreach (out_q[kk])  pending_out += out_q[kk].size();
     `uvm_info(get_type_name(),
