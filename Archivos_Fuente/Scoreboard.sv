@@ -19,7 +19,8 @@ class scoreboard extends uvm_scoreboard;
 
   // Mapa: clave -> cola FIFO ([$]) de entradas pendientes (mon_item)
   // Arreglo asociativo indexado por key_t
-  mon_item exp_q[key_t][$];
+  mon_item exp_q[key_t][$];   // IN pendientes
+  mon_item out_q[key_t][$];   // OUT huérfanos (nuevo)
 
   // Métricas de ejecución
   int unsigned n_in, n_out, n_match, n_miss;
@@ -65,78 +66,67 @@ endfunction
     key_t k = make_key_from_data(it.data);
 
     if (it.ev_kind == mon_item::EV_IN) begin
-      // ENTRADA: apilar en la cola de su clave (FIFO → más antiguo al frente)
-      exp_q[k].push_back(it);
       n_in++;
-      `uvm_info(get_type_name(),
-        $sformatf("STORE IN: row=%0d col=%0d mode=%0d pay=0x%0h (pend=%0d)",
-          k.row, k.col, k.mode, k.payload, exp_q[k].size()),
-        UVM_MEDIUM)
+      // ¿ya había OUT adelantado?
+      if (out_q.exists(k) && out_q[k].size()>0) begin
+        mon_item early_out = out_q[k].pop_front();
+        n_match++;
+        lat = early_out.time_stamp - it.time_stamp; // puede ser 0 o 1 ciclo
+        `uvm_info(get_type_name(),
+          $sformatf("PASS OUT (late IN): row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem_out=%0d)",
+            k.row, k.col, k.mode, k.payload, lat, out_q[k].size()),
+          UVM_LOW)
+        if (out_q[k].size()==0) out_q.delete(k);
+      end
+      else begin
+        exp_q[k].push_back(it);
+        `uvm_info(get_type_name(),
+          $sformatf("STORE IN: row=%0d col=%0d mode=%0d pay=0x%0h (pend_in=%0d)",
+            k.row, k.col, k.mode, k.payload, exp_q[k].size()),
+          UVM_MEDIUM)
+      end
     end
     else begin // EV_OUT
       n_out++;
-      // SALIDA: buscar cola por clave y extraer el más antiguo si existe
-      if (exp_q.exists(k) && exp_q[k].size() > 0) begin
-        mon_item oldest = exp_q[k].pop_front(); // match FIFO por clave
+      // ¿hay IN pendiente?
+      if (exp_q.exists(k) && exp_q[k].size()>0) begin
+        mon_item oldest = exp_q[k].pop_front();
         n_match++;
-        lat = it.time_stamp - oldest.time_stamp;           // latencia simple (ciclos/tiempo sim)
-      // Verificación 1: row/col mapeados a terminal válido
-      if (!is_valid_term(k.row, k.col)) begin
+        lat = it.time_stamp - oldest.time_stamp;
         `uvm_info(get_type_name(),
-          $sformatf("PASS OUT, destino del dato no está mapeado en terminales del ROUTER: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
+          $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem_in=%0d)",
             k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
           UVM_LOW)
+        if (exp_q[k].size()==0) exp_q.delete(k);
       end
       else begin
-        // Verificación 2: el destino (campo DST del flit) corresponde al terminal de salida (mon_id)
-        bit [4:0] dst_id = it.data[DST_MSB:DST_LSB]; // [16:11]
-        if (dst_id != it.mon_id) begin
-          `uvm_info(get_type_name(),
-            $sformatf("PASS OUT, destino del dato no corresponde a terminal de salida: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
-              k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
-            UVM_LOW)
-        end
-        else begin
-          `uvm_info(get_type_name(),
-            $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
-              k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
-            UVM_LOW)
-        end
-      end
-      
-      // Limpieza de la cola si quedó vacía
-      if (exp_q[k].size()==0) exp_q.delete(k);
-      end
-      else if (exp_q.size() > 0) begin
-        // No se encontró entrada equivalente pendiente → salida inesperada
-        n_miss++;
-        `uvm_error(get_type_name(),
-          $sformatf("UNEXPECTED OUT: no hay entrada pendiente para row=%0d col=%0d mode=%0d pay=0x%0h",
-            k.row, k.col, k.mode, k.payload))
+        // Guarda OUT adelantado y NO dispares error
+        out_q[k].push_back(it);
+        `uvm_info(get_type_name(),
+          $sformatf("STORE OUT EARLY: row=%0d col=%0d mode=%0d pay=0x%0h (pend_out=%0d)",
+            k.row, k.col, k.mode, k.payload, out_q[k].size()),
+          UVM_MEDIUM)
       end
     end
   endfunction
 
-  // Resumen al finalizar la simulación y listado de entradas pendientes
   virtual function void report_phase(uvm_phase phase);
     super.report_phase(phase);
-    pending = 0;
-    //key_t kk; // <-- declarar índice del foreach (clave del asociativo)
-  
-    foreach (exp_q[kk]) pending += exp_q[kk].size();
-  
+    int pending_in=0, pending_out=0;
+    foreach (exp_q[kk])  pending_in  += exp_q[kk].size();
+    foreach (out_q[kk])  pending_out += out_q[kk].size();
     `uvm_info(get_type_name(),
-      $sformatf("SCB SUMMARY  in=%0d out=%0d  match=%0d  miss=%0d  pending=%0d",
-        n_in, n_out, n_match, n_miss, pending),
+      $sformatf("SCB SUMMARY in=%0d out=%0d match=%0d miss=%0d pending_in=%0d pending_out=%0d",
+        n_in, n_out, n_match, n_miss, pending_in, pending_out),
       UVM_LOW)
-  
-    if (pending > 0) begin
-      foreach (exp_q[kk]) begin
-        `uvm_error(get_type_name(),
-          $sformatf("PENDING %0d entradas sin salida asociada debido a perdida de datos: row=%0d col=%0d mode=%0d (ej. payload=0x%0h)",
-            exp_q[kk].size(), kk.row, kk.col, kk.mode, exp_q[kk][0].data[22:0]))
-      end
-    end
+    if (pending_in>0) foreach (exp_q[kk])
+      `uvm_error(get_type_name(),
+        $sformatf("PENDING IN %0d sin OUT: row=%0d col=%0d mode=%0d (ej. pay=0x%0h)",
+          exp_q[kk].size(), kk.row, kk.col, kk.mode, exp_q[kk][0].data[22:0]))
+    if (pending_out>0) foreach (out_q[kk])
+      `uvm_error(get_type_name(),
+        $sformatf("PENDING OUT %0d sin IN: row=%0d col=%0d mode=%0d (ej. pay=0x%0h)",
+          out_q[kk].size(), kk.row, kk.col, kk.mode, out_q[kk][0].data[22:0]))
   endfunction
 
 endclass
