@@ -30,11 +30,22 @@ class scoreboard extends uvm_scoreboard;
     super.new(name, parent);
   endfunction
 
+  // CSV
+  integer csv_fd; // handle del archivo
+
+
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     // Conectar canal de análisis para recibir items de los monitores
     m_analysis_imp = new("m_analysis_imp", this);
     `uvm_info(get_type_name(), "scoreboard build_phase completed", UVM_HIGH);
+    // === CSV ===
+    csv_fd = $fopen("router_report.csv", "w");
+    if (csv_fd == 0)
+      `uvm_fatal("SCB/CSV", "No se pudo abrir router_report.csv");
+    $fdisplay(csv_fd,
+      "status,tx_time,tx_term,tx_data,rx_time,rx_term,rx_data,latency,row,col,mode,payload,src_id,dst_id");
+
   endfunction
 
   // Extrae la clave desde el paquete de 40 bits
@@ -75,54 +86,61 @@ endfunction
     end
     else begin // EV_OUT
       n_out++;
-      // SALIDA: buscar cola por clave y extraer el más antiguo si existe
       if (exp_q.exists(k) && exp_q[k].size() > 0) begin
-        mon_item oldest = exp_q[k].pop_front(); // match FIFO por clave
+        mon_item oldest = exp_q[k].pop_front();
         n_match++;
-        lat = it.time_stamp - oldest.time_stamp;           // latencia simple (ciclos/tiempo sim)
-      // Verificación 1: row/col mapeados a terminal válido
-      if (!is_valid_term(k.row, k.col)) begin
-        `uvm_info(get_type_name(),
-          $sformatf("PASS OUT, destino del dato no está mapeado en terminales del ROUTER: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
-            k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
-          UVM_LOW)
-      end
-      else begin
-        // Verificación 2: el destino (campo DST del flit) corresponde al terminal de salida (mon_id)
-        bit [4:0] dst_id = it.data[DST_MSB:DST_LSB]; // [16:11]
-        if (dst_id != it.mon_id) begin
+        lat = it.time_stamp - oldest.time_stamp;
+    
+        // Logs informativos que ya tenías
+        if (!is_valid_term(k.row, k.col)) begin
           `uvm_info(get_type_name(),
-            $sformatf("PASS OUT, destino del dato no corresponde a terminal de salida: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
-              k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
-            UVM_LOW)
+            $sformatf("PASS OUT, destino del dato no está mapeado en terminales del ROUTER: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
+              k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()), UVM_LOW)
         end
         else begin
-          `uvm_info(get_type_name(),
-            $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
-              k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
-            UVM_LOW)
+          bit [4:0] dst_id = it.data[DST_MSB:DST_LSB];
+          if (dst_id != it.mon_id) begin
+            `uvm_info(get_type_name(),
+              $sformatf("PASS OUT, destino del dato no corresponde a terminal de salida: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
+                k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()), UVM_LOW)
+          end
+          else begin
+            `uvm_info(get_type_name(),
+              $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
+                k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()), UVM_LOW)
+          end
         end
+    
+        // === CSV: fila OK (match) ===
+        $fdisplay(csv_fd, "OK,%0t,%0d,0x%0h,%0t,%0d,0x%0h,%0t,%0d,%0d,%0d,0x%0h,%0d,%0d",
+                  oldest.time_stamp, oldest.mon_id, oldest.data,
+                  it.time_stamp,     it.mon_id,     it.data,
+                  lat, k.row, k.col, k.mode, k.payload,
+                  it.data[PCK_SZ-18:PCK_SZ-23],  // src_id (del OUT)
+                  it.data[DST_MSB:DST_LSB]);     // dst_id (del OUT)
+    
+        if (exp_q[k].size()==0) exp_q.delete(k);
       end
-      
-      // Limpieza de la cola si quedó vacía
-      if (exp_q[k].size()==0) exp_q.delete(k);
-      end
-      else if (exp_q.size() > 0) begin
-        // No se encontró entrada equivalente pendiente → salida inesperada
+      else begin
+        // UNEXPECTED OUT
         n_miss++;
         `uvm_error(get_type_name(),
           $sformatf("UNEXPECTED OUT: no hay entrada pendiente para row=%0d col=%0d mode=%0d pay=0x%0h",
             k.row, k.col, k.mode, k.payload))
+    
+        // === CSV: fila UNEXPECTED_OUT (sin tx_*) ===
+        $fdisplay(csv_fd, "UNEXPECTED_OUT,-,-,-,%0t,%0d,0x%0h,-,%0d,%0d,%0d,0x%0h,%0d,%0d",
+                  it.time_stamp, it.mon_id, it.data,
+                  k.row, k.col, k.mode, k.payload,
+                  it.data[PCK_SZ-18:PCK_SZ-23],
+                  it.data[DST_MSB:DST_LSB]);
       end
     end
   endfunction
 
-  // Resumen al finalizar la simulación y listado de entradas pendientes
   virtual function void report_phase(uvm_phase phase);
     super.report_phase(phase);
     pending = 0;
-    //key_t kk; // <-- declarar índice del foreach (clave del asociativo)
-  
     foreach (exp_q[kk]) pending += exp_q[kk].size();
   
     `uvm_info(get_type_name(),
@@ -130,13 +148,29 @@ endfunction
         n_in, n_out, n_match, n_miss, pending),
       UVM_LOW)
   
+    // === CSV: entradas pendientes (NO_OUTPUT) ===
     if (pending > 0) begin
       foreach (exp_q[kk]) begin
-        `uvm_error(get_type_name(),
-          $sformatf("PENDING %0d entradas sin salida asociada debido a perdida de datos: row=%0d col=%0d mode=%0d (ej. payload=0x%0h)",
-            exp_q[kk].size(), kk.row, kk.col, kk.mode, exp_q[kk][0].data[22:0]))
+        foreach (exp_q[kk][ii]) begin
+          mon_item tin = exp_q[kk][ii];
+          `uvm_error(get_type_name(),
+            $sformatf("PENDING entrada sin salida: row=%0d col=%0d mode=%0d (ej. payload=0x%0h)",
+              kk.row, kk.col, kk.mode, tin.data[22:0]))
+  
+          $fdisplay(csv_fd, "NO_OUTPUT,%0t,%0d,0x%0h,-,-,-,-,%0d,%0d,%0d,0x%0h,%0d,%0d",
+                    tin.time_stamp, tin.mon_id, tin.data,
+                    kk.row, kk.col, kk.mode, kk.payload,
+                    tin.data[PCK_SZ-18:PCK_SZ-23],   // src_id (del IN)
+                    tin.data[DST_MSB:DST_LSB]);      // dst_id (del IN)
+        end
       end
     end
+  
+    if (csv_fd) begin
+      $fclose(csv_fd);
+      `uvm_info(get_type_name(),"CSV generado: router_report.csv", UVM_LOW)
+    end
   endfunction
+
 
 endclass
