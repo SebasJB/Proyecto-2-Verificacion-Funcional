@@ -34,7 +34,8 @@ class monitor extends uvm_monitor;
         item.data = vif.data_in;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
-          $sformatf("[IN ] Src:%0d Dst:%0d Data:0x%0h @%0t",
+          $sformatf("[IN ] agt#:%0d Src:%0d Dst:%0d Data:0x%0h @%0t",
+            item.mon_id,
             item.data[PCK_SZ-18 : PCK_SZ-23], // SRC_MSB:SRC_LSB
             item.data[PCK_SZ-24 : PCK_SZ-29], // DST_MSB:DST_LSB
             item.data, item.time_stamp),
