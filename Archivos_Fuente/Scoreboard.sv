@@ -24,7 +24,7 @@ class scoreboard extends uvm_scoreboard;
 
   // Métricas de ejecución
   int unsigned n_in, n_out, n_match, n_miss;
-  int unsigned pending;
+  int unsigned pending_in, pending_out;
 
 
   function new(string name="scoreboard", uvm_component parent=null);
@@ -112,7 +112,6 @@ endfunction
 
   virtual function void report_phase(uvm_phase phase);
     super.report_phase(phase);
-    int pending_in, pending_out;
     pending_in=0;
     pending_out=0;
     foreach (exp_q[kk])  pending_in  += exp_q[kk].size();
