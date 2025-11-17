@@ -5,7 +5,6 @@ class monitor extends uvm_monitor;
   virtual router_if#(PCK_SZ) vif;
   router_agent_cfg cfg;
   mon_item item;
-  bit sample_next; 
 
   function new(string name="monitor", uvm_component parent=null);
     super.new(name, parent);
@@ -47,42 +46,36 @@ class monitor extends uvm_monitor;
   endtask
 
   // SALIDAS: mientras pndng==1, asertamos pop cada ciclo y publicamos data_out
-  // SALIDAS: handshake pop con muestreo 1 ciclo después
   task consume_outputs();
     wait(!vif.reset);
-    vif.pop <= 1'b0;
-  
-    sample_next = 0;  // cuando =1, en este ciclo debo capturar y publicar el OUT
-  
+    vif.pop <= 1'b0; // asegurar estado inicial
     forever begin
       @(posedge vif.clk);
-  
-      // 1) Si el ciclo pasado afirmé pop, HOY capturo y publico el dato nuevo
-      if (sample_next) begin
-        sample_next = 0;
+      if (vif.pndng) begin
+        // Handshake de salida (pop activo 1 ciclo)
+        vif.pop <= 1'b1;
+
+        // Construir y LOG del OUT (Src/Dst)
         item = mon_item::type_id::create("out_item");
-        item.ev_kind    = mon_item::EV_OUT;
-        item.mon_id     = cfg.term_id;
-        item.data       = vif.data_out;     // dato ya avanzó por el pop del ciclo anterior
-        item.time_stamp = $time;
+        item.ev_kind     = mon_item::EV_OUT;
+        item.mon_id      = cfg.term_id;
+        item.data        = vif.data_out;
+        item.time_stamp  = $time;
         `uvm_info(get_type_name(),
           $sformatf("[OUT] Src:%0d Dst:%0d Data:0x%0h @%0t",
-            item.data[PCK_SZ-18:PCK_SZ-23],
-            item.data[PCK_SZ-24:PCK_SZ-29],
+            item.data[PCK_SZ-18 : PCK_SZ-23], // SRC
+            item.data[PCK_SZ-24 : PCK_SZ-29], // DST
             item.data, item.time_stamp),
           UVM_LOW)
-        #1step; // mantener orden IN→OUT en el SCB
+        #1step;  // REQ: garantiza que el OUT siempre llegue al SCB después del IN
         mon_analysis_port.write(item);
-        // Nota: aquí NO tocamos pop; ya se bajó al inicio de este ciclo
+
+        // Bajar pop en el próximo ciclo (mantener protocolo)
+        @(posedge vif.clk);
+        vif.pop <= 1'b0;
       end
-  
-      // 2) Por defecto, pop en 0 (pulso de 1 ciclo)
-      vif.pop <= 1'b0;
-  
-      // 3) Si hay dato pendiente, genero pulso de pop ESTE ciclo
-      if (vif.pndng) begin
-        vif.pop <= 1'b1;   // pulso de 1 ciclo
-        sample_next = 1;   // y programo capturar el dato en el PRÓXIMO ciclo
+      else begin
+        vif.pop <= 1'b0;
       end
     end
   endtask
