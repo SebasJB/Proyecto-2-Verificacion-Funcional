@@ -34,8 +34,11 @@ class monitor extends uvm_monitor;
         item.data = vif.data_in;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
-                  $sformatf("[MON] data_in=0x%0h @%0t", item.data, item.time_stamp),
-                  UVM_LOW)
+          $sformatf("[IN ] Src:%0d Dst:%0d Data:0x%0h @%0t",
+            item.data[PCK_SZ-18 : PCK_SZ-23], // SRC_MSB:SRC_LSB
+            item.data[PCK_SZ-24 : PCK_SZ-29], // DST_MSB:DST_LSB
+            item.data, item.time_stamp),
+          UVM_LOW)
         mon_analysis_port.write(item);
       end
     end
@@ -58,8 +61,11 @@ class monitor extends uvm_monitor;
         item.data = vif.data_out;
         item.time_stamp = $time;
         `uvm_info(get_type_name(),
-                  $sformatf("[MON] data_out=0x%0h @%0t", item.data, item.time_stamp),
-                  UVM_LOW)
+          $sformatf("[OUT] Src:%0d Dst:%0d Data:0x%0h @%0t",
+            item.data[PCK_SZ-18 : PCK_SZ-23], // SRC
+            item.data[PCK_SZ-24 : PCK_SZ-29], // DST
+            item.data, item.time_stamp),
+        UVM_LOW)
         mon_analysis_port.write(item);
 
         // Bajar pop en el próximo ciclo
