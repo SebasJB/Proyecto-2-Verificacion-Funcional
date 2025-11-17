@@ -5,6 +5,7 @@ class monitor extends uvm_monitor;
   virtual router_if#(PCK_SZ) vif;
   router_agent_cfg cfg;
   mon_item item;
+  bit sample_next; 
 
   function new(string name="monitor", uvm_component parent=null);
     super.new(name, parent);
@@ -51,7 +52,7 @@ class monitor extends uvm_monitor;
     wait(!vif.reset);
     vif.pop <= 1'b0;
   
-    bit sample_next = 0;   // cuando =1, en este ciclo debo capturar y publicar el OUT
+    sample_next = 0;  // cuando =1, en este ciclo debo capturar y publicar el OUT
   
     forever begin
       @(posedge vif.clk);
