@@ -47,6 +47,18 @@ class scoreboard extends uvm_scoreboard;
     return k;
   endfunction
 
+  // --- helpers para validación de destino ---
+localparam int DST_MSB = 16; // campo destino en el flit [16:11]
+localparam int DST_LSB = 11;
+
+function bit is_valid_term(input bit [3:0] r, input bit [3:0] c);
+  return ( (r==0 && (c>=1 && c<=4))  ||  // TOP: 01..04
+           (c==0 && (r>=1 && r<=4))  ||  // LEFT: 10,20,30,40
+           (r==5 && (c>=1 && c<=4))  ||  // BOTTOM: 51..54
+           (c==5 && (r>=1 && r<=4)) );   // RIGHT: 15,25,35,45
+endfunction
+
+
   // recibe cada mon_item publicado por los monitores
   virtual function void write(mon_item it);
     time lat;
@@ -68,12 +80,32 @@ class scoreboard extends uvm_scoreboard;
         mon_item oldest = exp_q[k].pop_front(); // match FIFO por clave
         n_match++;
         lat = it.time_stamp - oldest.time_stamp;           // latencia simple (ciclos/tiempo sim)
+      // Verificación 1: row/col mapeados a terminal válido
+      if (!is_valid_term(k.row, k.col)) begin
         `uvm_info(get_type_name(),
-          $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
+          $sformatf("PASS OUT, destino del dato no está mapeado en terminales del ROUTER: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
             k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
           UVM_LOW)
-        // Liberar memoria cuando la cola queda vacía, activa:
-        if (exp_q[k].size()==0) exp_q.delete(k);
+      end
+      else begin
+        // Verificación 2: el destino (campo DST del flit) corresponde al terminal de salida (mon_id)
+        bit [4:0] dst_id = it.data[DST_MSB:DST_LSB]; // [16:11]
+        if (dst_id != it.mon_id) begin
+          `uvm_info(get_type_name(),
+            $sformatf("PASS OUT, destino del dato no corresponde a terminal de salida: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
+              k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
+            UVM_LOW)
+        end
+        else begin
+          `uvm_info(get_type_name(),
+            $sformatf("PASS OUT: row=%0d col=%0d mode=%0d pay=0x%0h (lat=%0t, rem=%0d)",
+              k.row, k.col, k.mode, k.payload, lat, exp_q[k].size()),
+            UVM_LOW)
+        end
+      end
+      
+      // Limpieza de la cola si quedó vacía
+      if (exp_q[k].size()==0) exp_q.delete(k);
       end
       else if (exp_q.size() > 0) begin
         // No se encontró entrada equivalente pendiente → salida inesperada
