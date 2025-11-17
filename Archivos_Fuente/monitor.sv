@@ -29,10 +29,10 @@ class monitor extends uvm_monitor;
       @(posedge vif.clk);
       if (vif.popin) begin
         item = mon_item::type_id::create("in_item");
-        item.ev_kind = mon_item::EV_IN;
-        item.mon_id = cfg.term_id;
-        item.data = vif.data_in;
-        item.time_stamp = $time;
+        item.ev_kind     = mon_item::EV_IN;
+        item.mon_id      = cfg.term_id;
+        item.data        = vif.data_in;
+        item.time_stamp  = $time;
         `uvm_info(get_type_name(),
           $sformatf("[IN ] agt#:%0d Src:%0d Dst:%0d Data:0x%0h @%0t",
             item.mon_id,
@@ -52,24 +52,25 @@ class monitor extends uvm_monitor;
     forever begin
       @(posedge vif.clk);
       if (vif.pndng) begin
-        // Pop en este ciclo 
+        // Handshake de salida (pop activo 1 ciclo)
         vif.pop <= 1'b1;
 
-        // Publicar el dato
+        // Construir y LOG del OUT (Src/Dst)
         item = mon_item::type_id::create("out_item");
-        item.ev_kind = mon_item::EV_OUT;
-        item.mon_id = cfg.term_id;
-        item.data = vif.data_out;
-        item.time_stamp = $time;
+        item.ev_kind     = mon_item::EV_OUT;
+        item.mon_id      = cfg.term_id;
+        item.data        = vif.data_out;
+        item.time_stamp  = $time;
         `uvm_info(get_type_name(),
           $sformatf("[OUT] Src:%0d Dst:%0d Data:0x%0h @%0t",
             item.data[PCK_SZ-18 : PCK_SZ-23], // SRC
             item.data[PCK_SZ-24 : PCK_SZ-29], // DST
             item.data, item.time_stamp),
-        UVM_LOW)
+          UVM_LOW)
+        #1step;  // REQ: garantiza que el OUT siempre llegue al SCB después del IN
         mon_analysis_port.write(item);
 
-        // Bajar pop en el próximo ciclo
+        // Bajar pop en el próximo ciclo (mantener protocolo)
         @(posedge vif.clk);
         vif.pop <= 1'b0;
       end
