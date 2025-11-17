@@ -5,7 +5,6 @@ class monitor extends uvm_monitor;
   virtual router_if#(PCK_SZ) vif;
   router_agent_cfg cfg;
   mon_item item;
-  bit drop_pop_next;
 
   function new(string name="monitor", uvm_component parent=null);
     super.new(name, parent);
@@ -50,14 +49,8 @@ class monitor extends uvm_monitor;
   task consume_outputs();
     wait(!vif.reset);
     vif.pop <= 1'b0; // asegurar estado inicial
-    drop_pop_next = 0; // flag para bajar pop en el próximo ciclo
     forever begin
       @(posedge vif.clk);
-          // bajar pop si quedó pendiente del ciclo anterior (no bloquea)
-      if (drop_pop_next) begin
-        vif.pop <= 1'b0;
-        drop_pop_next = 0;
-      end
       if (vif.pndng) begin
         // Handshake de salida (pop activo 1 ciclo)
         vif.pop <= 1'b1;
@@ -77,8 +70,9 @@ class monitor extends uvm_monitor;
         #1step;  // REQ: garantiza que el OUT siempre llegue al SCB después del IN
         mon_analysis_port.write(item);
 
-        // agenda bajar pop para el PRÓXIMO ciclo (no hacemos un segundo @posedge aquí)
-        drop_pop_next = 1;
+        // Bajar pop en el próximo ciclo (mantener protocolo)
+        @(posedge vif.clk);
+        vif.pop <= 1'b0;
       end
       else begin
         vif.pop <= 1'b0;
