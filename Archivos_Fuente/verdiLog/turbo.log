@@ -1,0 +1,31 @@
+Command Line: /mnt/vol_NFS_rh003/tools/verdi/R-2020.12-SP2/platform/LINUXAMD64/bin/Novas -i -simflow -simBin ./salida -simDelim +UVM_TIMEOUT=32000
+uname(Linux redhat003 4.18.0-553.74.1.el8_10.x86_64 #1 SMP Sun Sep 7 09:23:35 EDT 2025 x86_64)
+type= DS_SIGNAL element= 5 field= 2
+VERILOG tb_top
+VERILOG term_if[0]
+VERILOG data_in[39:0]
+-----
+second field= signal
+VERILOG tb_top
+VERILOG term_if[0]
+VERILOG popin
+-----
+second field= signal
+VERILOG tb_top
+VERILOG term_if[0]
+VERILOG data_out[39:0]
+-----
+second field= signal
+VERILOG tb_top
+VERILOG term_if[0]
+VERILOG pop
+-----
+second field= signal
+VERILOG tb_top
+VERILOG term_if[0]
+VERILOG pndng
+-----
+second field= signal
+type= DS_STRING
+data_in[39:0] popin data_out[39:0] pop pndng
+au time 2496.935069 352.000997 64.138074 delta 389574656 389574656 total 878223360 878223360
