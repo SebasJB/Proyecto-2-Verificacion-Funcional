@@ -12,6 +12,7 @@ class monitor extends uvm_monitor;
 
   function new(string name="monitor", uvm_component parent=null);
     super.new(name, parent);
+    cg_hdr = new();
   endfunction
 
   virtual function void build_phase(uvm_phase phase);
@@ -105,7 +106,7 @@ class monitor extends uvm_monitor;
 
   virtual task run_phase(uvm_phase phase);
     super.run_phase(phase);
-    cg_hdr = new();
+    
     fork
       watch_inputs();
       consume_outputs();
