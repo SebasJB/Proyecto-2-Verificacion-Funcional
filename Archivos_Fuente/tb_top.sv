@@ -23,10 +23,10 @@ import uvm_pkg::*;
 
 module tb_top;
   // ---------------- Parámetros DUT/mesh ----------------
-  localparam int ROWS    = 4;
-  localparam int COLUMS  = 4;
-  localparam int PCK_SZ = 40;
-  localparam int N_TERMS = (2*ROWS + 2*COLUMS); // 16
+  parameter int ROWS    = 4;
+  parameter int COLUMS  = 4;
+  parameter int PCK_SZ = 40;
+  parameter int N_TERMS = (2*ROWS + 2*COLUMS); // 16
 
  
 
@@ -71,11 +71,14 @@ module tb_top;
     .reset         (reset)
   );
   bind mesh_gnrtr
-  router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(pckg_sz))
-  u_router_sva (
+  router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(pckg_sz)) u_router_sva (
     .clk(clk), .reset(reset),
-    .data_out(data_out), .pndng(pndng), .pop(pop),
-    .data_out_i_in(data_in), .pndng_i_in(pndng_in), .popin(popin)
+    .data_out      (data_out),
+    .pndng         (pndng),
+    .pop           (pop),
+    .data_out_i_in (data_out_i_in), // <-- nombre del puerto del DUT
+    .pndng_i_in    (pndng_i_in),    // <-- nombre del puerto del DUT
+    .popin         (popin)
   );
 
   
