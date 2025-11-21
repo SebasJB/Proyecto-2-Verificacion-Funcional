@@ -71,13 +71,13 @@ module tb_top;
     .reset         (reset)
   );
   bind mesh_gnrtr
-  router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(pckg_sz)) u_router_sva (
+  router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(PCK_SZ), .N_TERMS(N_TERMS)) u_router_sva (
     .clk(clk), .reset(reset),
     .data_out      (data_out),
     .pndng         (pndng),
     .pop           (pop),
-    .data_out_i_in (data_out_i_in), // <-- nombre del puerto del DUT
-    .pndng_i_in    (pndng_i_in),    // <-- nombre del puerto del DUT
+    .data_out_i_in (data_out_i_in),
+    .pndng_i_in    (pndng_i_in),
     .popin         (popin)
   );
 

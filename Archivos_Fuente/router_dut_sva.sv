@@ -1,13 +1,13 @@
 module router_dut_sva #(
-  int ROWS=4, COLUMS=4, PCK_SZ=40
+  int ROWS=4, COLUMS=4, PCK_SZ=40, N_TERMS=(2*ROWS + 2*COLUMS)
 )(
   input  logic                          clk, reset,
-  input  logic [PCK_SZ-1:0]             data_out     ,
-  input  logic                          pndng        ,
-  input  logic                          pop          ,
-  input  logic [PCK_SZ-1:0]             data_out_i_in,
-  input  logic                          pndng_i_in   ,
-  input  logic                          popin        
+  input  logic [PCK_SZ-1:0]             data_out     [N_TERMS],
+  input  logic                          pndng        [N_TERMS],
+  input  logic                          pop          [N_TERMS],
+  input  logic [PCK_SZ-1:0]             data_out_i_in[N_TERMS],
+  input  logic                          pndng_i_in   [N_TERMS],
+  input  logic                          popin        [N_TERMS]
 );
   localparam int N_TERMS = 2*ROWS + 2*COLUMS;
 
@@ -21,7 +21,7 @@ module router_dut_sva #(
       // Progreso: si hay pndng[i] debe llegar pop[i] en ventana
       assert property (@(posedge clk) disable iff (reset)
                        pndng[i] |-> ##[1:128] pop[i]);
-
+  
       // Correctitud de destino: SIN broadcast (debe salir por su terminal)
       assert property (@(posedge clk) disable iff (reset)
                        pndng[i] |-> (dst_of(data_out[i]) == i))
