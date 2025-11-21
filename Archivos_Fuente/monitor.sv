@@ -1,6 +1,8 @@
 import hdr_map_pkg::*;
 
 class monitor extends uvm_monitor;
+  parameter int ROWS    = 4;
+  parameter int COLUMS  = 4;
   `uvm_component_utils(monitor)
 
   uvm_analysis_port #(mon_item) mon_analysis_port;
