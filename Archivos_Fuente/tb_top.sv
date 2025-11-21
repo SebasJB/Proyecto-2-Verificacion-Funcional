@@ -17,6 +17,7 @@ import uvm_pkg::*;
 `include "Scoreboard.sv"
 `include "environment.sv"
 `include "test.sv"
+`include "SVA_coverage.sv"
 
 
 module tb_top;
@@ -67,6 +68,19 @@ module tb_top;
     .pndng_i_in    (pndng_in),
     .clk           (clk),
     .reset         (reset)
+  );
+  bind fifo
+  fifo_sva_cov #(.DEPTH(DEPTH))  // DEPTH del DUT
+  u_fifo_cov (
+    .clk   (clk),
+    .reset (reset),
+    .push  (push),     // mapea a tu señal real
+    .pop   (pop),      // mapea a tu señal real
+    .full  (full),
+    .empty (empty),
+    .level (),
+    .wr_ptr(),   // si existen
+    .rd_ptr()
   );
 
   
