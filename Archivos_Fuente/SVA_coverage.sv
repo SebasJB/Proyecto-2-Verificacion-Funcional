@@ -97,8 +97,7 @@ module fifo_sva_cov #(
     x_flags_level : cross cp_full, cp_empty, cp_level iff (^level !== 1'bx);
 
   endgroup
-
-  initial cg_fifo = new();
+  // Instancia implícita creada automáticamente; no se necesita 'new()'.
 
   // Métricas de burst (longitud de rachas push/pop)
   int burst_push, burst_pop;
@@ -107,11 +106,14 @@ module fifo_sva_cov #(
     cp_push_burst : coverpoint burst_push { bins len[] = {[1:DEPTH+2]}; }
     cp_pop_burst  : coverpoint burst_pop  { bins len[] = {[1:DEPTH+2]}; }
   endgroup
-  initial cg_bursts = new();
+  // Instancia implícita creada automáticamente; no se necesita 'new()'.
 
   always @(posedge clk) if (!rst) begin
     burst_push <= push ? burst_push+1 : 0;
     burst_pop  <= pop  ? burst_pop +1 : 0;
+
+    // Muestreo manual del covergroup principal
+    cg_fifo.sample();
 
     // sample al final de la racha
     if (!push && $past(push)) cg_bursts.sample();
