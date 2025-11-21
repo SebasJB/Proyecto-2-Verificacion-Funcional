@@ -1,5 +1,5 @@
 module router_dut_sva #(
-  int ROWS=4, COLUMS=4, PCK_SZ=40, 
+  int ROWS=4, COLUMS=4, PCK_SZ=40 
 )(
   input  logic                          clk, reset,
   input  logic [PCK_SZ-1:0]             data_out     [ROWS*2 + COLUMS*2],
