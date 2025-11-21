@@ -71,7 +71,7 @@ module fifo_sva_cov #(
 
   // ----------------- COBERTURA -----------------
   
-  covergroup cg_fifo;
+  covergroup cg_fifo_t;
 
     // Ocupación
     cp_level : coverpoint level iff (^level !== 1'bx) {
@@ -97,16 +97,25 @@ module fifo_sva_cov #(
     x_flags_level : cross cp_full, cp_empty, cp_level iff (^level !== 1'bx);
 
   endgroup
-  // Instancia implícita creada automáticamente; no se necesita 'new()'.
+
+  // Instancia explícita del covergroup principal
+  cg_fifo_t cg_fifo;
 
   // Métricas de burst (longitud de rachas push/pop)
   int burst_push, burst_pop;
-  // Este covergroup se muestrea manualmente en el always abajo.
-  covergroup cg_bursts;
+  covergroup cg_bursts_t;
     cp_push_burst : coverpoint burst_push { bins len[] = {[1:DEPTH+2]}; }
     cp_pop_burst  : coverpoint burst_pop  { bins len[] = {[1:DEPTH+2]}; }
   endgroup
-  // Instancia implícita creada automáticamente; no se necesita 'new()'.
+
+  // Instancia explícita del covergroup de burst  
+  cg_bursts_t cg_bursts;
+
+  // Inicializar covergroups
+  initial begin
+    cg_fifo = new();
+    cg_bursts = new();
+  end
 
   always @(posedge clk) if (!rst) begin
     burst_push <= push ? burst_push+1 : 0;
