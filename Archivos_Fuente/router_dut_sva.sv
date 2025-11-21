@@ -9,7 +9,6 @@ module router_dut_sva #(
   input  logic                          pndng_i_in   [N_TERMS],
   input  logic                          popin        [N_TERMS]
 );
-  localparam int N_TERMS = 2*ROWS + 2*COLUMS;
 
   function automatic logic [5:0] dst_of (logic [PCK_SZ-1:0] p);
     return p[DST_MSB:DST_LSB];
