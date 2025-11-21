@@ -17,7 +17,7 @@ import uvm_pkg::*;
 `include "Scoreboard.sv"
 `include "environment.sv"
 `include "test.sv"
-`include "SVA_coverage.sv"
+`include "router_dut_sva.sv"
 
 
 module tb_top;
@@ -69,18 +69,12 @@ module tb_top;
     .clk           (clk),
     .reset         (reset)
   );
-  bind fifo
-  fifo_sva_cov #(.DEPTH(DEPTH))  // DEPTH del DUT
-  u_fifo_cov (
-    .clk   (clk),
-    .reset (reset),
-    .push  (push),     // mapea a tu señal real
-    .pop   (pop),      // mapea a tu señal real
-    .full  (full),
-    .empty (empty),
-    .level (),
-    .wr_ptr(),   // si existen
-    .rd_ptr()
+  bind mesh_gnrtr
+  router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(pckg_sz))
+  u_router_sva (
+    .clk(clk), .reset(reset),
+    .data_out(data_out), .pndng(pndng), .pop(pop),
+    .data_out_i_in(data_in), .pndng_i_in(pndng_in), .popin(popin)
   );
 
   
