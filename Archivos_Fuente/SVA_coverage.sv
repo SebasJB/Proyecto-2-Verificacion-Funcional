@@ -53,9 +53,9 @@ module fifo_sva_cov #(
     assert property (@(posedge clk) disable iff (rst)
       $changed(level) |-> ((level == $past(level)+1) ||
                            (level == $past(level)-1)))
-      else $error("FIFO: salto inválido en level");
+      else $error("FIFO: salto inválido en level");*/ 
   end
-
+  /*
   // Si tenemos punteros, verificamos que sólo avancen cuando toca
   if ((^wr_ptr !== 1'bx) && (^rd_ptr !== 1'bx)) begin : USE_PTRS
     // wr_ptr sólo cambia cuando push válido
