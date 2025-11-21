@@ -1,13 +1,13 @@
 module router_dut_sva #(
-  int ROWS=4, COLUMS=4, PCK_SZ=40, N_TERMS=(2*ROWS + 2*COLUMS)
+  int ROWS=4, COLUMS=4, PCK_SZ=40, 
 )(
   input  logic                          clk, reset,
-  input  logic [PCK_SZ-1:0]             data_out     [N_TERMS],
-  input  logic                          pndng        [N_TERMS],
-  input  logic                          pop          [N_TERMS],
-  input  logic [PCK_SZ-1:0]             data_out_i_in[N_TERMS],
-  input  logic                          pndng_i_in   [N_TERMS],
-  input  logic                          popin        [N_TERMS]
+  input  logic [PCK_SZ-1:0]             data_out     [ROWS*2 + COLUMS*2],
+  input  logic                          pndng        [ROWS*2 + COLUMS*2],
+  input  logic                          pop          [ROWS*2 + COLUMS*2],
+  input  logic [PCK_SZ-1:0]             data_out_i_in[ROWS*2 + COLUMS*2],
+  input  logic                          pndng_i_in   [ROWS*2 + COLUMS*2],
+  input  logic                          popin        [ROWS*2 + COLUMS*2]
 );
 
   function automatic logic [5:0] dst_of (logic [PCK_SZ-1:0] p);

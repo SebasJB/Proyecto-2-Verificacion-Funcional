@@ -71,7 +71,7 @@ module tb_top;
     .reset         (reset)
   );
   bind mesh_gnrtr
-  router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(PCK_SZ), .N_TERMS(N_TERMS)) u_router_sva (
+  router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(PCK_SZ)) u_router_sva (
     .clk(clk), .reset(reset),
     .data_out      (data_out),
     .pndng         (pndng),
