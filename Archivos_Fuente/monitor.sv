@@ -82,16 +82,24 @@ class monitor extends uvm_monitor;
     end
   endtask
 
-  // ===== Cobertura en el monitor: offsets nuevos, sin broadcast =====
-  covergroup cg_hdr @(posedge vif.clk) iff (!vif.reset && vif.pndng);
-    // 0..15 únicamente (no broadcast)
-    cp_dst  : coverpoint vif.data_out[DST_MSB:DST_LSB] { bins id[] = {[0:15]}; }
-    cp_mode : coverpoint vif.data_out[MODE_BIT]        { bins col={0}; bins row={1}; }
-    cp_row  : coverpoint vif.data_out[TRGT_R_MSB:TRGT_R_LSB] { bins r[] = {[0:ROWS-1]}; }
-    cp_col  : coverpoint vif.data_out[TRGT_C_MSB:TRGT_C_LSB] { bins c[] = {[0:COLUMS-1]}; }
+  // Evento de muestreo simple
+  covergroup cg_hdr @(posedge vif.clk);
+    cp_dst  : coverpoint vif.data_out[DST_MSB:DST_LSB]
+              iff (!vif.reset && vif.pndng) { bins id[] = {[0:15]}; }
+  
+    cp_mode : coverpoint vif.data_out[MODE_BIT]
+              iff (!vif.reset && vif.pndng) { bins col={0}; bins row={1}; }
+  
+    cp_row  : coverpoint vif.data_out[TRGT_R_MSB:TRGT_R_LSB]
+              iff (!vif.reset && vif.pndng) { bins r[] = {[0:ROWS-1]}; }
+  
+    cp_col  : coverpoint vif.data_out[TRGT_C_MSB:TRGT_C_LSB]
+              iff (!vif.reset && vif.pndng) { bins c[] = {[0:COLUMS-1]}; }
+  
     x_dst_mode : cross cp_dst, cp_mode;
     x_rc_mode  : cross cp_row, cp_col, cp_mode;
   endgroup
+
 
   virtual task run_phase(uvm_phase phase);
     super.run_phase(phase);
