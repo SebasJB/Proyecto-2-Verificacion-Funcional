@@ -66,6 +66,16 @@ class monitor extends uvm_monitor;
         item.mon_id      = cfg.term_id;
         item.data        = vif.data_out;
         item.time_stamp  = $time;
+
+        // ------- muestreo de cobertura (ya hay vif válido) -------
+        cg_hdr.sample(
+          vif.data_out[DST_MSB     : DST_LSB],
+          vif.data_out[MODE_BIT],
+          vif.data_out[TRGT_R_MSB  : TRGT_R_LSB],
+          vif.data_out[TRGT_C_MSB  : TRGT_C_LSB]
+        );
+        // ----------------------------------------------------------
+        
         `uvm_info(get_type_name(),
           $sformatf("[OUT] Src:%0d Dst:%0d Data:0x%0h @%0t",
             item.data[PCK_SZ-18 : PCK_SZ-23], // SRC
@@ -85,28 +95,23 @@ class monitor extends uvm_monitor;
     end
   endtask
 
-  // Evento de muestreo simple
-  covergroup cg_hdr @(posedge vif.clk);
-    cp_dst  : coverpoint vif.data_out[DST_MSB:DST_LSB]
-              iff (!vif.reset && vif.pndng) { bins id[] = {[0:15]}; }
-  
-    cp_mode : coverpoint vif.data_out[MODE_BIT]
-              iff (!vif.reset && vif.pndng) { bins col={0}; bins row={1}; }
-  
-    cp_row  : coverpoint vif.data_out[TRGT_R_MSB:TRGT_R_LSB]
-              iff (!vif.reset && vif.pndng) { bins r[] = {[0:ROWS-1]}; }
-  
-    cp_col  : coverpoint vif.data_out[TRGT_C_MSB:TRGT_C_LSB]
-              iff (!vif.reset && vif.pndng) { bins c[] = {[0:COLUMS-1]}; }
-  
+  covergroup cg_hdr with function sample(
+    bit [5:0] dst,
+    bit       mode,
+    bit [3:0] row,
+    bit [3:0] col
+  );
+    cp_dst  : coverpoint dst  { bins id[] = {[0:15]}; }
+    cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
+    cp_row  : coverpoint row  { bins r[]   = {[0:ROWS-1]}; }
+    cp_col  : coverpoint col  { bins c[]   = {[0:COLUMS-1]}; }
     x_dst_mode : cross cp_dst, cp_mode;
     x_rc_mode  : cross cp_row, cp_col, cp_mode;
   endgroup
 
 
   virtual task run_phase(uvm_phase phase);
-    super.run_phase(phase);
-    
+    super.run_phase(phase); 
     fork
       watch_inputs();
       consume_outputs();
