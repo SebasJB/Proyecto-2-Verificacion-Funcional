@@ -70,8 +70,8 @@ module fifo_sva_cov #(
   end */
 
   // ----------------- COBERTURA -----------------
-  // Nota: if (!rst) para no contar durante reset
-  covergroup cg_fifo @(posedge clk) iff (!rst);
+  
+  covergroup cg_fifo;
 
     // Ocupación
     cp_level : coverpoint level iff (^level !== 1'bx) {
@@ -102,7 +102,8 @@ module fifo_sva_cov #(
 
   // Métricas de burst (longitud de rachas push/pop)
   int burst_push, burst_pop;
-  covergroup cg_bursts @(posedge clk) iff (!rst);
+  // Este covergroup se muestrea manualmente en el always abajo.
+  covergroup cg_bursts;
     cp_push_burst : coverpoint burst_push { bins len[] = {[1:DEPTH+2]}; }
     cp_pop_burst  : coverpoint burst_pop  { bins len[] = {[1:DEPTH+2]}; }
   endgroup
