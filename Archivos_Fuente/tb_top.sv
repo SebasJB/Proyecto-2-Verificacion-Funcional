@@ -23,10 +23,10 @@ import uvm_pkg::*;
 
 module tb_top;
   // ---------------- Parámetros DUT/mesh ----------------
-  parameter int ROWS    = 4;
-  parameter int COLUMS  = 4;
-  parameter int PCK_SZ = 40;
-  parameter int N_TERMS = (2*ROWS + 2*COLUMS); // 16
+  localparam int ROWS    = 4;
+  localparam int COLUMS  = 4;
+  localparam int PCK_SZ = 40;
+  localparam int N_TERMS = (2*ROWS + 2*COLUMS); // 16
 
  
 
