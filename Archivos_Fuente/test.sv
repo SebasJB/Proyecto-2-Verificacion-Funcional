@@ -29,11 +29,12 @@ class base_test extends uvm_test;
   virtual task run_phase(uvm_phase phase);;
   
     //scenarios[$] = {GENERAL, SATURATION, COLLISION, INVALID, RESET};
+    scenarios.push_back(gen_item_seq::SWEEP_ORDERED);
     scenarios.push_back(gen_item_seq::GENERAL);
     scenarios.push_back(gen_item_seq::SATURATION);
     scenarios.push_back(gen_item_seq::COLLISION);
     scenarios.push_back(gen_item_seq::INVALID);
-    scenarios.push_back(gen_item_seq::SWEEP_ORDERED);
+    
 
     // debug opcional
     `uvm_info(get_type_name(), $sformatf("scenarios.size=%0d", scenarios.size()), UVM_HIGH)
