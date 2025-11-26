@@ -48,7 +48,6 @@ class monitor extends uvm_monitor;
     forever begin
       @(posedge vif.clk);
       cg_entrada.sample(
-        vif.data_in[DST_MSB:DST_LSB],
         vif.data_in[SRC_MSB:SRC_LSB],
         vif.data_in[MODE_BIT]
       );
@@ -78,7 +77,6 @@ class monitor extends uvm_monitor;
       @(posedge vif.clk);
       cg_salida.sample(
         vif.data_out[DST_MSB:DST_LSB],
-        vif.data_out[SRC_MSB:SRC_LSB],
         vif.data_out[MODE_BIT]
       );
       if (vif.pndng) begin
