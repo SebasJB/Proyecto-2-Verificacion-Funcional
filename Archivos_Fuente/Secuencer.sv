@@ -9,7 +9,7 @@ class router_agent_cfg extends uvm_object;
 endclass
 
 class gen_item_seq extends uvm_sequence #(drv_item);
-    typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
+    typedef enum {GENERAL, SATURATION, COLLISION, INVALID} scenario_t;
     `uvm_object_utils(gen_item_seq)
 
     // Test scenario selector
@@ -39,7 +39,6 @@ class gen_item_seq extends uvm_sequence #(drv_item);
            SATURATION: scn_str = "SATURATION";
            COLLISION : scn_str = "COLLISION";
            INVALID   : scn_str = "INVALID";
-           RESET     : scn_str = "RESET";
            default   : scn_str = "UNKNOWN";
         endcase
 
@@ -50,7 +49,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
         case (scenario)
             GENERAL: begin
                 `uvm_info(get_type_name(), "Generating GENERAL traffic", UVM_MEDIUM)
-                num_items = $urandom_range(10, 20);
+                num_items = $urandom_range(60, 80);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
@@ -65,7 +64,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             end
             SATURATION: begin
                 `uvm_info(get_type_name(), "Generating SATURATION traffic", UVM_MEDIUM)
-                num_items = $urandom_range(20, 30);
+                num_items = $urandom_range(80, 100);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
@@ -80,7 +79,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             end
             COLLISION: begin
                 `uvm_info(get_type_name(), "Generating COLLISION traffic", UVM_MEDIUM)
-                num_items = $urandom_range(10, 20);
+                num_items = $urandom_range(50, 60);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
@@ -95,26 +94,11 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             end
             INVALID: begin
                 `uvm_info(get_type_name(), "Generating INVALID traffic", UVM_MEDIUM)
-                num_items = $urandom_range(20, 30);
+                num_items = $urandom_range(50, 60);
                 for (int i = 0; i < num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::INVALID;
-                    itm.src_id = seq_id;
-                    itm.pkt_id = i;
-                    itm.randomize();
-                    data = itm.build_flit();
-                    itm.data_in = data;
-                    finish_item(itm);
-                end 
-            end
-            RESET: begin
-                `uvm_info(get_type_name(), "Generating RESET traffic", UVM_MEDIUM)
-                num_items = $urandom_range(20, 30);
-                for (int i = 0; i < num_items; i++) begin
-                    itm = drv_item::type_id::create("itm");
-                    start_item(itm);
-                    itm.test_mode = drv_item::RESET;
                     itm.src_id = seq_id;
                     itm.pkt_id = i;
                     itm.randomize();
