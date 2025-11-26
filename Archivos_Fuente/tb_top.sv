@@ -7,7 +7,7 @@ import uvm_pkg::*;
 //`include "fifo.sv"
 //`include "Library.sv"
 `include "Router_library.sv"
-`include "router_dut_sva.sv"
+
 
 //interfaz
 // pragma coverage off
@@ -22,6 +22,7 @@ import uvm_pkg::*;
 `include "test.sv"
 
 // pragma coverage on
+`include "router_dut_sva.sv"
 
 
 module tb_top;
