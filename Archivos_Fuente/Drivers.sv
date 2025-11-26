@@ -95,7 +95,8 @@ class driver extends uvm_driver #(drv_item);
         
     endtask : run_phase
 
-    virtual function void end_of_elaboration_phase(uvm_phase phase);
+    virtual function void report_phase(uvm_phase phase);
+        super.report_phase(phase);
         $display("Coverage report for base_test: %0f %%", cg_hdr.get_inst_coverage());
     endfunction
 endclass //driver
