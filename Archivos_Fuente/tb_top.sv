@@ -71,38 +71,6 @@ module tb_top;
     .clk           (clk),
     .reset         (reset)
   );
-
-  // 1) Covergroup parametrizado por una interface
-  covergroup cg_payload (ref router_if #(PCK_SZ) rif) @(posedge rif.clk);
-    option.per_instance = 1;
-
-    cp_src : coverpoint rif.data_out[hdr_map_pkg::SRC_MSB:hdr_map_pkg::SRC_LSB]
-             iff (!rif.reset && rif.pndng) {
-      bins src[] = {[0:31]};
-    }
-
-    cp_dst : coverpoint rif.data_out[hdr_map_pkg::DST_MSB:hdr_map_pkg::DST_LSB]
-             iff (!rif.reset && rif.pndng) {
-      bins dst[] = {[0:31]};
-    }
-
-    cp_id  : coverpoint rif.data_out[hdr_map_pkg::ID_MSB:hdr_map_pkg::ID_LSB]
-             iff (!rif.reset && rif.pndng) {
-      bins id[] = {[0:(1<<9)-1]};
-    }
-  endgroup
-
-  // 2) Arreglo de covergroups, uno por terminal
-  cg_payload cg_payload_term [N_TERMS];
-
-  initial begin
-    // crear cada covergroup y enlazarlo a la interfaz correspondiente
-    for (int k = 0; k < N_TERMS; k++) begin
-      cg_payload_term[k] = new(term_if[k]);
-    end
-  end
-
-
   
   // ---------------- Cableado 1:1 DUT <-> Interfaces ----------------
   genvar i;

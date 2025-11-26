@@ -8,8 +8,26 @@ class monitor extends uvm_monitor;
   router_agent_cfg cfg;
   mon_item item;
 
+  covergroup cg_entrada with function sample(
+        bit [5:0] src,
+        bit       mode
+      );
+        cp_src  : coverpoint src  { bins src_id[] = {[0:14]}; }
+        cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
+  endgroup
+
+  covergroup cg_salida with function sample(
+        bit [5:0] dst,
+        bit       mode
+      );
+        cp_dst  : coverpoint dst  { bins dst_id[] = {[0:14]}; }
+        cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
+  endgroup
+
   function new(string name="monitor", uvm_component parent=null);
     super.new(name, parent);
+    cg_entrada = new();
+    cg_salida = new();
   endfunction
 
   virtual function void build_phase(uvm_phase phase);
@@ -29,7 +47,11 @@ class monitor extends uvm_monitor;
     wait(!vif.reset);
     forever begin
       @(posedge vif.clk);
-      
+      cg_entrada.sample(
+        vif.data_in[DST_MSB:DST_LSB],
+        vif.data_in[SRC_MSB:SRC_LSB],
+        vif.data_in[MODE_BIT]
+      );
       if (vif.popin) begin
         item = mon_item::type_id::create("in_item");
         item.ev_kind     = mon_item::EV_IN;
@@ -54,7 +76,11 @@ class monitor extends uvm_monitor;
     vif.pop <= 1'b0; // asegurar estado inicial
     forever begin
       @(posedge vif.clk);
-      
+      cg_salida.sample(
+        vif.data_out[DST_MSB:DST_LSB],
+        vif.data_out[SRC_MSB:SRC_LSB],
+        vif.data_out[MODE_BIT]
+      );
       if (vif.pndng) begin
         // Handshake de salida (pop activo 1 ciclo)
         vif.pop <= 1'b1;
@@ -91,4 +117,9 @@ class monitor extends uvm_monitor;
       consume_outputs();
     join_none
   endtask
+
+  virtual function void report_phase(uvm_phase phase);
+        super.report_phase(phase);
+        $display("Coverage report for base_test: %0f %%", cg_hdr.get_inst_coverage());
+  endfunction
 endclass
