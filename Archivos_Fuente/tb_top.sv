@@ -10,7 +10,6 @@ import uvm_pkg::*;
 
 
 //interfaz
-// pragma coverage off
 `include "hdr_map_pkg.sv"
 `include "TypesandTransactions.sv"
 `include "Secuencer.sv"
@@ -20,13 +19,10 @@ import uvm_pkg::*;
 `include "Scoreboard.sv"
 `include "environment.sv"
 `include "test.sv"
-
-// pragma coverage on
 `include "router_dut_sva.sv"
 
 
 module tb_top;
-  // pragma coverage off
   // ---------------- Parámetros DUT/mesh ----------------
   localparam int ROWS    = 4;
   localparam int COLUMS  = 4;
@@ -86,7 +82,6 @@ module tb_top;
     .pndng_i_in    (pndng_i_in),
     .popin         (popin)
   );
-  // pragma coverage off
 
   
   // ---------------- Cableado 1:1 DUT <-> Interfaces ----------------
@@ -132,6 +127,5 @@ module tb_top;
     $fsdbDumpfile("waves.fsdb"); 
     $fsdbDumpvars(0,tb_top); 
   end
-  // pragma coverage on
 endmodule
 

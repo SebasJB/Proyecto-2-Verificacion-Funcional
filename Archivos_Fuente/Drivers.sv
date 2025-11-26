@@ -60,6 +60,13 @@ class driver extends uvm_driver #(drv_item);
 
                   // si el DUT pide (popin=1), consumimos 1 elemento
                   if (vif.popin) begin
+                    // ------- muestreo de cobertura (ya hay vif válido) -------
+                    cg_hdr.sample(
+                      vif.data_in[DST_MSB:DST_LSB],
+                      vif.data_in[SRC_MSB:SRC_LSB],
+                      vif.data_in[MODE_BIT]
+                    );
+                    // ----------------------------------------------------------
                     void'(fifo_in.pop_front());
                     // si quedó vacía, bajará pndng_in en el próximo ciclo por la asignación de arriba
                     end
@@ -72,31 +79,14 @@ class driver extends uvm_driver #(drv_item);
             end
         join
 
-        /*forever begin
-            seq_item_port.get_next_item(req);
-            if (req == null) begin
-                `uvm_fatal(get_type_name(), "Received null transaction")
-            end
-            repeat (req.delay_cycles) @(posedge vif.clk);
-            
-            
-            `uvm_info(get_type_name(), $sformatf("Driving packet - Src: %0d, Dest: %0d, Data: %0h", 
-                      req.src_id, req.dest_addr, req.data_in), UVM_MEDIUM)
-            
-            fifo_in.push_back(req.data_in);
-            
-            if (fifo_in.size() == 0) begin
-                vif.pndng_in <= 1'b0; // Indicate pending data
-            end
-            else begin
-                vif.pndng_in <= 1'b1;
-            end
-            
-            if (vif.popin == 1'b1) begin
-                vif.data_in <= fifo_in.pop_front();
-            end
-            
-            seq_item_port.item_done();
-        end*/
+        covergroup cg_hdr with function sample(
+            bit [5:0] dst,
+            bit [5:0] src,
+            bit       mode,
+          );
+            cp_dst  : coverpoint dst  { bins dst_id[] = {[0:15]}; }
+            cp_src  : coverpoint src  { bins src_id[] = {[0:15]}; }
+            cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
+          endgroup
     endtask : run_phase
 endclass //driver

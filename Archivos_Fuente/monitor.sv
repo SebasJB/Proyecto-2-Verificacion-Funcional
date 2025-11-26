@@ -32,14 +32,7 @@ class monitor extends uvm_monitor;
     wait(!vif.reset);
     forever begin
       @(posedge vif.clk);
-      // ------- muestreo de cobertura (ya hay vif válido) -------
-      cg_hdr.sample(
-        vif.data_out[DST_MSB     : DST_LSB],
-        vif.data_out[MODE_BIT],
-        vif.data_out[TRGT_R_MSB  : TRGT_R_LSB],
-        vif.data_out[TRGT_C_MSB  : TRGT_C_LSB]
-      );
-      // ----------------------------------------------------------
+      
       if (vif.popin) begin
         item = mon_item::type_id::create("in_item");
         item.ev_kind     = mon_item::EV_IN;
@@ -96,21 +89,6 @@ class monitor extends uvm_monitor;
       end
     end
   endtask
-
-  covergroup cg_hdr with function sample(
-    bit [5:0] dst,
-    bit       mode,
-    bit [3:0] row,
-    bit [3:0] col
-  );
-    cp_dst  : coverpoint dst  { bins id[] = {[0:15]}; }
-    cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
-    cp_row  : coverpoint row  { bins r[]   = {[0:ROWS-1]}; }
-    cp_col  : coverpoint col  { bins c[]   = {[0:COLUMS-1]}; }
-    //x_dst_mode : cross cp_dst, cp_mode;
-    //x_rc_mode  : cross cp_row, cp_col, cp_mode;
-  endgroup
-
 
   virtual task run_phase(uvm_phase phase);
     super.run_phase(phase); 
