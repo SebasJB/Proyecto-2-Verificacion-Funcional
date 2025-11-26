@@ -81,6 +81,7 @@ class driver extends uvm_driver #(drv_item);
                   vif.data_in <= vif.data_in;
                 end
                 end
+              end
             end
         join
 
