@@ -29,9 +29,9 @@
     assert property (@(posedge clk) disable iff (reset)
                      (pndng_in && !$past(pndng_in)) |-> ##[1:MAX_IN_LAT] popin)
       else $error("IN timeout: sin popin");
-        // IN: datos estables mientras no hay popin
     assert property (@(posedge clk) disable iff (reset)
-                     pndng_in && !popin |-> $stable(data_in));
+                     (pndng_in && !popin && !$rose(pndng_in) && !$past(popin))|-> $stable(data_in));
+      else $error("IN: data_in cambió indebidamente mientras pndng_in=1 y no había popin");
         // OUT: req->ack en ≤MAX_OUT_LAT
     assert property (@(posedge clk) disable iff (reset)
                      (pndng && !$past(pndng)) |-> ##[1:MAX_OUT_LAT] pop)
