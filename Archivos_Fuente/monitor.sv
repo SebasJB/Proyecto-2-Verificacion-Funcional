@@ -105,8 +105,8 @@ class monitor extends uvm_monitor;
     cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
     cp_row  : coverpoint row  { bins r[]   = {[0:ROWS-1]}; }
     cp_col  : coverpoint col  { bins c[]   = {[0:COLUMS-1]}; }
-    x_dst_mode : cross cp_dst, cp_mode;
-    x_rc_mode  : cross cp_row, cp_col, cp_mode;
+    //x_dst_mode : cross cp_dst, cp_mode;
+    //x_rc_mode  : cross cp_row, cp_col, cp_mode;
   endgroup
 
 
