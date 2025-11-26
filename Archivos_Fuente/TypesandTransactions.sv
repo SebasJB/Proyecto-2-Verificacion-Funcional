@@ -29,10 +29,16 @@
     assert property (@(posedge clk) disable iff (reset)
                      (pndng_in && !$past(pndng_in)) |-> ##[1:MAX_IN_LAT] popin)
       else $error("IN timeout: sin popin");
+        // IN: datos estables mientras no hay popin
+    assert property (@(posedge clk) disable iff (reset)
+                     pndng_in && !popin |-> $stable(data_in));
         // OUT: req->ack en ≤MAX_OUT_LAT
     assert property (@(posedge clk) disable iff (reset)
                      (pndng && !$past(pndng)) |-> ##[1:MAX_OUT_LAT] pop)
       else $error("OUT timeout: sin pop");
+        // OUT: datos estables mientras no hay pop
+    assert property (@(posedge clk) disable iff (reset)
+                     pndng && !pop |-> $stable(data_out));
         // coherencia simple
     assert property (@(posedge clk) disable iff (reset) pop  |-> pndng);
     assert property (@(posedge clk) disable iff (reset) popin|-> pndng_in);
