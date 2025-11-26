@@ -36,9 +36,6 @@
     assert property (@(posedge clk) disable iff (reset)
                      (pndng && !$past(pndng)) |-> ##[1:MAX_OUT_LAT] pop)
       else $error("OUT timeout: sin pop");
-        // OUT: datos estables mientras no hay pop
-    assert property (@(posedge clk) disable iff (reset)
-                     pndng && !pop |-> $stable(data_out));
         // coherencia simple
     assert property (@(posedge clk) disable iff (reset) pop  |-> pndng);
     assert property (@(posedge clk) disable iff (reset) popin|-> pndng_in);

@@ -14,6 +14,7 @@ class monitor extends uvm_monitor;
       );
         cp_src  : coverpoint src  { bins src_id[] = {[0:14]}; }
         cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
+        cp_src_mode : cross cp_src, cp_mode;
   endgroup
 
   covergroup cg_salida with function sample(
@@ -22,6 +23,7 @@ class monitor extends uvm_monitor;
       );
         cp_dst  : coverpoint dst  { bins dst_id[] = {[0:14]}; }
         cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
+        cp_dst_mode : cross cp_dst, cp_mode;
   endgroup
 
   function new(string name="monitor", uvm_component parent=null);
