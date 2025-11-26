@@ -8,6 +8,7 @@ import uvm_pkg::*;
 //`include "Library.sv"
 `include "Router_library.sv"
 
+pragma coverage off
 //interfaz
 `include "hdr_map_pkg.sv"
 `include "TypesandTransactions.sv"
@@ -128,3 +129,4 @@ module tb_top;
 
   
 endmodule
+pragma coverage on
