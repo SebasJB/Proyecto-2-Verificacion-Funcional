@@ -1,3 +1,4 @@
+import hdr_map_pkg::*;
 class driver extends uvm_driver #(drv_item);
     `uvm_component_utils(driver)
 
@@ -20,6 +21,7 @@ class driver extends uvm_driver #(drv_item);
     // Constructor
     function new(string name = "driver", uvm_component parent = null);
         super.new(name, parent);
+        cg_hdr = new();
     endfunction : new
 
     // Build phase to get the virtual interface

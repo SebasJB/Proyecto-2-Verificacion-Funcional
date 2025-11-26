@@ -1,5 +1,3 @@
-import hdr_map_pkg::*;
-
 class monitor extends uvm_monitor;
   parameter int ROWS    = 4;
   parameter int COLUMS  = 4;
@@ -12,7 +10,6 @@ class monitor extends uvm_monitor;
 
   function new(string name="monitor", uvm_component parent=null);
     super.new(name, parent);
-    cg_hdr = new();
   endfunction
 
   virtual function void build_phase(uvm_phase phase);
