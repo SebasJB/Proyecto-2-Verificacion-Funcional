@@ -76,8 +76,8 @@ module tb_top;
     .data_out      (data_out),
     .pndng         (pndng),
     .pop           (pop),
-    .data_out_i_in (data_in),
-    .pndng_i_in    (pndng_in),
+    .data_out_i_in (data_out_i_in),
+    .pndng_i_in    (pndng_i_in),
     .popin         (popin)
   );
 
