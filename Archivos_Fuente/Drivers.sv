@@ -8,7 +8,7 @@ class driver extends uvm_driver #(drv_item);
     router_agent_cfg cfg;
     drv_item req;
 
-    covergroup cg_hdr with function sample(
+    /*covergroup cg_hdr with function sample(
         bit [5:0] dst,
         bit [5:0] src,
         bit       mode
@@ -17,12 +17,12 @@ class driver extends uvm_driver #(drv_item);
         cp_dst  : coverpoint dst  { bins dst_id[] = {[0:14]}; }
         cp_src  : coverpoint src  { bins src_id[] = {[0:14]}; }
         cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
-    endgroup
+    endgroup*/
 
     // Constructor
     function new(string name = "driver", uvm_component parent = null);
         super.new(name, parent);
-        cg_hdr = new();
+        //cg_hdr = new();
     endfunction : new
 
     // Build phase to get the virtual interface
@@ -63,11 +63,11 @@ class driver extends uvm_driver #(drv_item);
             begin : drive_interface
               forever begin
                 @(posedge vif.clk);
-                cg_hdr.sample(
+                /*cg_hdr.sample(
                       vif.data_in[DST_MSB:DST_LSB],
                       vif.data_in[SRC_MSB:SRC_LSB],
                       vif.data_in[MODE_BIT]
-                    );
+                    );*/
                 // indicar si hay datos pendientes
                 vif.pndng_in <= (fifo_in.size() > 0);
 
@@ -95,8 +95,8 @@ class driver extends uvm_driver #(drv_item);
         
     endtask : run_phase
 
-    virtual function void report_phase(uvm_phase phase);
+    /*virtual function void report_phase(uvm_phase phase);
         super.report_phase(phase);
         $display("Coverage report for base_test: %0f %%", cg_hdr.get_inst_coverage());
-    endfunction
+    endfunction*/
 endclass //driver

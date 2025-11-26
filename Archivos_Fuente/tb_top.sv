@@ -71,8 +71,17 @@ module tb_top;
     .clk           (clk),
     .reset         (reset)
   );
-  // pragma coverage on
 
+  covergroup cg_payload @(posedge clk);
+  // samplea en salidas válidas
+    option.per_instance = 1;
+    cp_src : coverpoint term_if.data_out[SRC_MSB:SRC_LSB] iff (!reset && term_if.pndng) { bins src[] = {[0:31]}; }
+    cp_dst : coverpoint term_if.data_out[DST_MSB:DST_LSB] iff (!reset && term_if.pndng) { bins dst[] = {[0:31]}; }
+    cp_id  : coverpoint term_if.data_out[ID_MSB:ID_LSB]   iff (!reset && term_if.pndng) { bins id[]  = {[0:(1<<9)-1]}; }
+    //cp_lsb : coverpoint term_if.data_out[1:0]             iff (!reset && term_if.pndng);
+    //x_sd   : cross cp_src, cp_dst;         // quién habló con quién
+    //x_hdr  : cross cp_dst, cp_id, cp_lsb;  // ejercicio de payload completo
+  endgroup
 
   
   // ---------------- Cableado 1:1 DUT <-> Interfaces ----------------
