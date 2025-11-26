@@ -45,8 +45,8 @@ class env extends uvm_env;
   
     foreach (agt[i]) begin
       if (agt[i].mon != null) begin
-        cov_in_sum  += agt[i].mon.cg_entrada.get_inst_coverage();
-        cov_out_sum += agt[i].mon.cg_salida.get_inst_coverage();
+        cov_in_sum  += agt[i].mon.cg_entrada.get_coverage();
+        cov_out_sum += agt[i].mon.cg_salida.get_coverage();
         n++;
       end
     end
