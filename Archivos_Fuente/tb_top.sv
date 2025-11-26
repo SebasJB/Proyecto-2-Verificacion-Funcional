@@ -20,9 +20,10 @@ import uvm_pkg::*;
 `include "environment.sv"
 `include "test.sv"
 `include "router_dut_sva.sv"
-
+// pragma coverage on
 
 module tb_top;
+  // pragma coverage off
   // ---------------- Parámetros DUT/mesh ----------------
   localparam int ROWS    = 4;
   localparam int COLUMS  = 4;
@@ -71,6 +72,7 @@ module tb_top;
     .clk           (clk),
     .reset         (reset)
   );
+  // pragma coverage on
   bind mesh_gnrtr
   router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(PCK_SZ)) u_router_sva (
     .clk(clk), .reset(reset),
@@ -81,6 +83,7 @@ module tb_top;
     .pndng_i_in    (pndng_i_in),
     .popin         (popin)
   );
+  // pragma coverage off
 
   
   // ---------------- Cableado 1:1 DUT <-> Interfaces ----------------
