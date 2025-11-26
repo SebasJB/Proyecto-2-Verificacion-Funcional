@@ -65,9 +65,6 @@ class monitor extends uvm_monitor;
         item.mon_id      = cfg.term_id;
         item.data        = vif.data_out;
         item.time_stamp  = $time;
-
-        
-        
         `uvm_info(get_type_name(),
           $sformatf("[OUT] Src:%0d Dst:%0d Data:0x%0h @%0t",
             item.data[PCK_SZ-18 : PCK_SZ-23], // SRC

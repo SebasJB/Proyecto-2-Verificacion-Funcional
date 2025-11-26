@@ -85,7 +85,7 @@ class driver extends uvm_driver #(drv_item);
                 end
                 else begin
                   // sin datos: mantenemos data_in en algo definido
-                  vif.data_in <= '0;
+                  vif.data_in <= vif.data_in;
                 end
                 end
             end
