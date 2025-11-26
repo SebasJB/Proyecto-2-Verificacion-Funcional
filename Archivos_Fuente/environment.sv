@@ -4,6 +4,7 @@ class env extends uvm_env;
   router_agent agt[NUM_TERMS];   // 16 agentes: uno por cada terminal del DUT
   scoreboard scb;       // Scoreboard único para todo el tráfico
   router_agent_cfg cfg;
+  int n;
 
   function new(string name="env", uvm_component parent=null);
     super.new(name, parent);
@@ -32,7 +33,7 @@ class env extends uvm_env;
   endfunction
   virtual function void report_phase(uvm_phase phase);
   super.report_phase(phase);
-  int n;
+  
   cov_in_sum  = 0.0;
   cov_out_sum = 0.0;
   n = 0;
