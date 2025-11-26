@@ -10,7 +10,7 @@ class driver extends uvm_driver #(drv_item);
     covergroup cg_hdr with function sample(
         bit [5:0] dst,
         bit [5:0] src,
-        bit       mode,
+        bit       mode
       );
         cp_dst  : coverpoint dst  { bins dst_id[] = {[0:15]}; }
         cp_src  : coverpoint src  { bins src_id[] = {[0:15]}; }
