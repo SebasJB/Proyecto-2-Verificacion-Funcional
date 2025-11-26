@@ -7,6 +7,7 @@ import uvm_pkg::*;
 //`include "fifo.sv"
 //`include "Library.sv"
 `include "Router_library.sv"
+`include "router_dut_sva.sv"
 
 //interfaz
 // pragma coverage off
@@ -19,10 +20,12 @@ import uvm_pkg::*;
 `include "Scoreboard.sv"
 `include "environment.sv"
 `include "test.sv"
-`include "router_dut_sva.sv"
+
+// pragma coverage on
 
 
 module tb_top;
+  // pragma coverage off
   // ---------------- Parámetros DUT/mesh ----------------
   localparam int ROWS    = 4;
   localparam int COLUMS  = 4;
