@@ -9,7 +9,7 @@ class router_agent_cfg extends uvm_object;
 endclass
 
 class gen_item_seq extends uvm_sequence #(drv_item);
-    typedef enum {GENERAL, SATURATION, COLLISION, INVALID} scenario_t;
+    typedef enum {GENERAL, SATURATION, COLLISION, INVALID, SWEEP_ORDERED} scenario_t;
     `uvm_object_utils(gen_item_seq)
 
     // Test scenario selector
@@ -39,6 +39,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
            SATURATION: scn_str = "SATURATION";
            COLLISION : scn_str = "COLLISION";
            INVALID   : scn_str = "INVALID";
+           SWEEP_ORDERED : scn_str = "SWEEP_ORDERED";
            default   : scn_str = "UNKNOWN";
         endcase
 
@@ -107,6 +108,28 @@ class gen_item_seq extends uvm_sequence #(drv_item);
                     finish_item(itm);
                 end 
             end
+            SWEEP_ORDERED: begin
+                `uvm_info(get_type_name(), "Generating SWEEP_ORDERED traffic", UVM_MEDIUM)
+                for (int i = 0; i < NUM_TERMS; i++) begin
+                    if (i != seq_id) begin
+                        // Evitar enviar a uno mismo
+                        itm = drv_item::type_id::create("itm");
+                        start_item(itm);
+                        itm.test_mode = drv_item::SWEEP_ORDERED;
+                        itm.randomize();
+                        itm.src_id = seq_id;
+                        itm.dest_addr = i;
+                        itm.pkt_id = i;
+                        data = itm.build_flit();
+                        itm.data_in = data;
+                        finish_item(itm);
+                    end
+                    else begin
+                        `uvm_info(get_type_name(), $sformatf("Skipping sending to self for src_id=%0d", seq_id), UVM_LOW)
+                        continue;
+                    end
+                end 
+            end 
             default: begin
                 `uvm_error("SEQ", "Unknown scenario selected")
             end

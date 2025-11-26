@@ -48,7 +48,7 @@
 
   class drv_item extends uvm_sequence_item;
     typedef enum bit { COL_FIRST = 1'b0, ROW_FIRST = 1'b1 } route_mode_e;
-    typedef enum {GENERAL, SATURATION, COLLISION, INVALID, RESET} scenario_t;
+    typedef enum {GENERAL, SATURATION, COLLISION, INVALID, SWEEP_ORDERED} scenario_t;
 
     // --- Campos alatorizables del ítem ---
     rand int unsigned dest_addr;  // terminal donde se ESPERA recibir
@@ -92,6 +92,10 @@
                 [5:10]  := 15,   // Medio - 15%
                 [10:20] := 15    // Largo - 15%
             };
+        }
+        else if (test_mode == SWEEP_ORDERED) {
+            // Retardos uniformes para barrido ordenado
+            delay_cycles == 2;
         }
         else { // COLLISION e INVALID_DIRECTIONS
             delay_cycles inside {[0:5]};
@@ -165,6 +169,9 @@
         }
         else if (test_mode == INVALID) {
             error_rate inside {[30:40]}; // tasa de error entre 30% y 40%
+        }
+        else if (test_mode == SWEEP_ORDERED) {
+            error_rate == 0; // sin error en barrido ordenado
         }
         else { // SATURATION y COLLISION
         error_rate inside {[0:20]}; // tasa de error entre 0% y 20%

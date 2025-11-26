@@ -33,6 +33,7 @@ class base_test extends uvm_test;
     scenarios.push_back(gen_item_seq::SATURATION);
     scenarios.push_back(gen_item_seq::COLLISION);
     scenarios.push_back(gen_item_seq::INVALID);
+    scenarios.push_back(gen_item_seq::SWEEP_ORDERED);
 
     // debug opcional
     `uvm_info(get_type_name(), $sformatf("scenarios.size=%0d", scenarios.size()), UVM_HIGH)
@@ -61,7 +62,5 @@ class base_test extends uvm_test;
     phase.drop_objection(this);
   endtask
 
-  /*virtual function void end_of_elaboration_phase(uvm_phase phase);
-    uvm_top.print_topology();
-  endfunction*/
+  
 endclass

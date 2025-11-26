@@ -62,7 +62,11 @@ class driver extends uvm_driver #(drv_item);
             begin : drive_interface
               forever begin
                 @(posedge vif.clk);
-
+                cg_hdr.sample(
+                      vif.data_in[DST_MSB:DST_LSB],
+                      vif.data_in[SRC_MSB:SRC_LSB],
+                      vif.data_in[MODE_BIT]
+                    );
                 // indicar si hay datos pendientes
                 vif.pndng_in <= (fifo_in.size() > 0);
 
@@ -73,11 +77,7 @@ class driver extends uvm_driver #(drv_item);
                   // si el DUT pide (popin=1), consumimos 1 elemento
                   if (vif.popin) begin
                     // ------- muestreo de cobertura (ya hay vif válido) -------
-                    cg_hdr.sample(
-                      vif.data_in[DST_MSB:DST_LSB],
-                      vif.data_in[SRC_MSB:SRC_LSB],
-                      vif.data_in[MODE_BIT]
-                    );
+                    
                     // ----------------------------------------------------------
                     void'(fifo_in.pop_front());
                     // si quedó vacía, bajará pndng_in en el próximo ciclo por la asignación de arriba
@@ -93,4 +93,8 @@ class driver extends uvm_driver #(drv_item);
 
         
     endtask : run_phase
+
+    virtual function void end_of_elaboration_phase(uvm_phase phase);
+        $display("Coverage report for base_test: %0f %%", cg_hdr.get_inst_coverage());
+    endfunction
 endclass //driver
