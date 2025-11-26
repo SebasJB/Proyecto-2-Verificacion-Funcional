@@ -9,6 +9,7 @@ import uvm_pkg::*;
 `include "Router_library.sv"
 
 //interfaz
+// pragma coverage off
 `include "hdr_map_pkg.sv"
 `include "TypesandTransactions.sv"
 `include "Secuencer.sv"
@@ -70,6 +71,7 @@ module tb_top;
     .clk           (clk),
     .reset         (reset)
   );
+  // pragma coverage on
   bind mesh_gnrtr
   router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(PCK_SZ)) u_router_sva (
     .clk(clk), .reset(reset),
@@ -80,6 +82,7 @@ module tb_top;
     .pndng_i_in    (pndng_i_in),
     .popin         (popin)
   );
+  // pragma coverage off
 
   
   // ---------------- Cableado 1:1 DUT <-> Interfaces ----------------
@@ -97,7 +100,7 @@ module tb_top;
 
   // ---------------- Pasar VIFs a tus agentes reales (agt0..agt15, d0/m0) ----
   // Agent se llama "agt%0d" y dentro tiene "d0" (driver) y "m0" (monitor).
-// set por índice constante (genvar)
+  // set por índice constante (genvar)
   generate
     for (genvar g = 0; g < N_TERMS; g++) begin : CFG
       initial begin
@@ -125,6 +128,6 @@ module tb_top;
     $fsdbDumpfile("waves.fsdb"); 
     $fsdbDumpvars(0,tb_top); 
   end
-
-  
+  // pragma coverage on
 endmodule
+
