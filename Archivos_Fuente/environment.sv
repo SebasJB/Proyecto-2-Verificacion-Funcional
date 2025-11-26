@@ -5,6 +5,11 @@ class env extends uvm_env;
   scoreboard scb;       // Scoreboard único para todo el tráfico
   router_agent_cfg cfg;
   int n;
+  real cov_in_sum;
+  real cov_out_sum;
+  real cov_in_avg;
+  real cov_out_avg;
+  real cov_total;
 
   function new(string name="env", uvm_component parent=null);
     super.new(name, parent);
@@ -34,8 +39,8 @@ class env extends uvm_env;
   virtual function void report_phase(uvm_phase phase);
   super.report_phase(phase);
   
-  cov_in_sum  = 0.0;
-  cov_out_sum = 0.0;
+  real cov_in_sum  = 0.0;
+  real cov_out_sum = 0.0;
   n = 0;
 
   foreach (agt[i]) begin
