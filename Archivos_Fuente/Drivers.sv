@@ -13,6 +13,7 @@ class driver extends uvm_driver #(drv_item);
         bit [5:0] src,
         bit       mode
       );
+        options.per_instance = 1;
         cp_dst  : coverpoint dst  { bins dst_id[] = {[0:14]}; }
         cp_src  : coverpoint src  { bins src_id[] = {[0:14]}; }
         cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
