@@ -39,8 +39,8 @@ class env extends uvm_env;
   virtual function void report_phase(uvm_phase phase);
   super.report_phase(phase);
   
-  real cov_in_sum  = 0.0;
-  real cov_out_sum = 0.0;
+  cov_in_sum  = 0.0;
+  cov_out_sum = 0.0;
   n = 0;
 
   foreach (agt[i]) begin
