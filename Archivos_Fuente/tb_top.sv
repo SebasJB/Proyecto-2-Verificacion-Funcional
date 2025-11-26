@@ -72,16 +72,36 @@ module tb_top;
     .reset         (reset)
   );
 
-  covergroup cg_payload @(posedge clk);
-  // samplea en salidas válidas
+  // 1) Covergroup parametrizado por una interface
+  covergroup cg_payload (ref router_if #(PCK_SZ) rif) @(posedge rif.clk);
     option.per_instance = 1;
-    cp_src : coverpoint term_if.data_out[SRC_MSB:SRC_LSB] iff (!reset && term_if.pndng) { bins src[] = {[0:31]}; }
-    cp_dst : coverpoint term_if.data_out[DST_MSB:DST_LSB] iff (!reset && term_if.pndng) { bins dst[] = {[0:31]}; }
-    cp_id  : coverpoint term_if.data_out[ID_MSB:ID_LSB]   iff (!reset && term_if.pndng) { bins id[]  = {[0:(1<<9)-1]}; }
-    //cp_lsb : coverpoint term_if.data_out[1:0]             iff (!reset && term_if.pndng);
-    //x_sd   : cross cp_src, cp_dst;         // quién habló con quién
-    //x_hdr  : cross cp_dst, cp_id, cp_lsb;  // ejercicio de payload completo
+
+    cp_src : coverpoint rif.data_out[hdr_map_pkg::SRC_MSB:hdr_map_pkg::SRC_LSB]
+             iff (!rif.reset && rif.pndng) {
+      bins src[] = {[0:31]};
+    }
+
+    cp_dst : coverpoint rif.data_out[hdr_map_pkg::DST_MSB:hdr_map_pkg::DST_LSB]
+             iff (!rif.reset && rif.pndng) {
+      bins dst[] = {[0:31]};
+    }
+
+    cp_id  : coverpoint rif.data_out[hdr_map_pkg::ID_MSB:hdr_map_pkg::ID_LSB]
+             iff (!rif.reset && rif.pndng) {
+      bins id[] = {[0:(1<<9)-1]};
+    }
   endgroup
+
+  // 2) Arreglo de covergroups, uno por terminal
+  cg_payload cg_payload_term [N_TERMS];
+
+  initial begin
+    // crear cada covergroup y enlazarlo a la interfaz correspondiente
+    for (int k = 0; k < N_TERMS; k++) begin
+      cg_payload_term[k] = new(term_if[k]);
+    end
+  end
+
 
   
   // ---------------- Cableado 1:1 DUT <-> Interfaces ----------------
