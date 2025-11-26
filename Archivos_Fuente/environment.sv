@@ -31,16 +31,29 @@ class env extends uvm_env;
     end
   endfunction
   virtual function void report_phase(uvm_phase phase);
-    super.report_phase(phase);
+  super.report_phase(phase);
 
-    cov_in_global  = monitor::cg_entrada::get_coverage();
-    cov_out_global = monitor::cg_salida::get_coverage();
-    cov_total      = (cov_in_global + cov_out_global) / 2.0;
+  real cov_in_sum  = 0.0;
+  real cov_out_sum = 0.0;
+  int  n = 0;
 
-    `uvm_info("COV_ENV",
-      $sformatf("Cobertura global ENTRADA = %0.2f %%  SALIDA = %0.2f %%  TOTAL = %0.2f %%",
-                cov_in_global, cov_out_global, cov_total),
-      UVM_NONE)
-  endfunction
+  foreach (agt[i]) begin
+    if (agt[i].mon != null) begin
+      cov_in_sum  += agt[i].mon.cg_entrada.get_coverage();
+      cov_out_sum += agt[i].mon.cg_salida.get_coverage();
+      n++;
+    end
+  end
+
+  cov_in_avg  = (n>0) ? cov_in_sum  / n : 0.0;
+  cov_out_avg = (n>0) ? cov_out_sum / n : 0.0;
+  cov_total   = (cov_in_avg + cov_out_avg) / 2.0;
+
+  `uvm_info("COV_ENV",
+    $sformatf("Cobertura GLOBAL ENTRADAS = %0.2f %%  SALIDAS = %0.2f %%  TOTAL = %0.2f %%",
+              cov_in_avg, cov_out_avg, cov_total),
+    UVM_NONE)
+endfunction
+
 
 endclass
