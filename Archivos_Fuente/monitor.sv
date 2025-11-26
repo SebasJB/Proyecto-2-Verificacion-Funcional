@@ -115,9 +115,4 @@ class monitor extends uvm_monitor;
       consume_outputs();
     join_none
   endtask
-
-  virtual function void report_phase(uvm_phase phase);
-        super.report_phase(phase);
-        $display("Coverage report for base_test: %0f %%", cg_hdr.get_inst_coverage());
-  endfunction
 endclass
