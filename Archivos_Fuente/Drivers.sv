@@ -7,6 +7,16 @@ class driver extends uvm_driver #(drv_item);
     router_agent_cfg cfg;
     drv_item req;
 
+    covergroup cg_hdr with function sample(
+        bit [5:0] dst,
+        bit [5:0] src,
+        bit       mode,
+      );
+        cp_dst  : coverpoint dst  { bins dst_id[] = {[0:15]}; }
+        cp_src  : coverpoint src  { bins src_id[] = {[0:15]}; }
+        cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
+    endgroup
+
     // Constructor
     function new(string name = "driver", uvm_component parent = null);
         super.new(name, parent);
@@ -79,14 +89,6 @@ class driver extends uvm_driver #(drv_item);
             end
         join
 
-        covergroup cg_hdr with function sample(
-            bit [5:0] dst,
-            bit [5:0] src,
-            bit       mode,
-          );
-            cp_dst  : coverpoint dst  { bins dst_id[] = {[0:15]}; }
-            cp_src  : coverpoint src  { bins src_id[] = {[0:15]}; }
-            cp_mode : coverpoint mode { bins col={0}; bins row={1}; }
-          endgroup
+        
     endtask : run_phase
 endclass //driver
