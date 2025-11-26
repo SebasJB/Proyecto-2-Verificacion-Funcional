@@ -32,10 +32,10 @@ class env extends uvm_env;
   endfunction
   virtual function void report_phase(uvm_phase phase);
   super.report_phase(phase);
-
+  int n;
   cov_in_sum  = 0.0;
   cov_out_sum = 0.0;
-  int  n = 0;
+  n = 0;
 
   foreach (agt[i]) begin
     if (agt[i].mon != null) begin
