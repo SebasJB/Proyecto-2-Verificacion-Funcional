@@ -32,6 +32,14 @@ class monitor extends uvm_monitor;
     wait(!vif.reset);
     forever begin
       @(posedge vif.clk);
+      // ------- muestreo de cobertura (ya hay vif válido) -------
+      cg_hdr.sample(
+        vif.data_out[DST_MSB     : DST_LSB],
+        vif.data_out[MODE_BIT],
+        vif.data_out[TRGT_R_MSB  : TRGT_R_LSB],
+        vif.data_out[TRGT_C_MSB  : TRGT_C_LSB]
+      );
+      // ----------------------------------------------------------
       if (vif.popin) begin
         item = mon_item::type_id::create("in_item");
         item.ev_kind     = mon_item::EV_IN;
@@ -56,14 +64,7 @@ class monitor extends uvm_monitor;
     vif.pop <= 1'b0; // asegurar estado inicial
     forever begin
       @(posedge vif.clk);
-      // ------- muestreo de cobertura (ya hay vif válido) -------
-      cg_hdr.sample(
-        vif.data_out[DST_MSB     : DST_LSB],
-        vif.data_out[MODE_BIT],
-        vif.data_out[TRGT_R_MSB  : TRGT_R_LSB],
-        vif.data_out[TRGT_C_MSB  : TRGT_C_LSB]
-      );
-      // ----------------------------------------------------------
+      
       if (vif.pndng) begin
         // Handshake de salida (pop activo 1 ciclo)
         vif.pop <= 1'b1;
