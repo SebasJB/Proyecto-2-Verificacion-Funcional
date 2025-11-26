@@ -56,6 +56,14 @@ class monitor extends uvm_monitor;
     vif.pop <= 1'b0; // asegurar estado inicial
     forever begin
       @(posedge vif.clk);
+      // ------- muestreo de cobertura (ya hay vif válido) -------
+      cg_hdr.sample(
+        vif.data_out[DST_MSB     : DST_LSB],
+        vif.data_out[MODE_BIT],
+        vif.data_out[TRGT_R_MSB  : TRGT_R_LSB],
+        vif.data_out[TRGT_C_MSB  : TRGT_C_LSB]
+      );
+      // ----------------------------------------------------------
       if (vif.pndng) begin
         // Handshake de salida (pop activo 1 ciclo)
         vif.pop <= 1'b1;
@@ -67,14 +75,7 @@ class monitor extends uvm_monitor;
         item.data        = vif.data_out;
         item.time_stamp  = $time;
 
-        // ------- muestreo de cobertura (ya hay vif válido) -------
-        cg_hdr.sample(
-          vif.data_out[DST_MSB     : DST_LSB],
-          vif.data_out[MODE_BIT],
-          vif.data_out[TRGT_R_MSB  : TRGT_R_LSB],
-          vif.data_out[TRGT_C_MSB  : TRGT_C_LSB]
-        );
-        // ----------------------------------------------------------
+        
         
         `uvm_info(get_type_name(),
           $sformatf("[OUT] Src:%0d Dst:%0d Data:0x%0h @%0t",
