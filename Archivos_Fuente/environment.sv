@@ -37,29 +37,29 @@ class env extends uvm_env;
     end
   endfunction
   virtual function void report_phase(uvm_phase phase);
-  super.report_phase(phase);
+    super.report_phase(phase);
+    
+    cov_in_sum  = 0.0;
+    cov_out_sum = 0.0;
+    n = 0;
   
-  cov_in_sum  = 0.0;
-  cov_out_sum = 0.0;
-  n = 0;
-
-  foreach (agt[i]) begin
-    if (agt[i].mon != null) begin
-      cov_in_sum  += agt[i].mon.cg_entrada.get_coverage();
-      cov_out_sum += agt[i].mon.cg_salida.get_coverage();
-      n++;
+    foreach (agt[i]) begin
+      if (agt[i].mon != null) begin
+        cov_in_sum  += agt[i].mon.cg_entrada.get_inst_coverage();
+        cov_out_sum += agt[i].mon.cg_salida.get_inst_coverage();
+        n++;
+      end
     end
-  end
-
-  cov_in_avg  = (n>0) ? cov_in_sum  / n : 0.0;
-  cov_out_avg = (n>0) ? cov_out_sum / n : 0.0;
-  cov_total   = (cov_in_avg + cov_out_avg) / 2.0;
-
-  `uvm_info("COV_ENV",
-    $sformatf("Cobertura GLOBAL ENTRADAS = %0.2f %%  SALIDAS = %0.2f %%  TOTAL = %0.2f %%",
-              cov_in_avg, cov_out_avg, cov_total),
-    UVM_NONE)
-endfunction
+  
+    cov_in_avg  = (n>0) ? cov_in_sum  / n : 0.0;
+    cov_out_avg = (n>0) ? cov_out_sum / n : 0.0;
+    cov_total   = (cov_in_avg + cov_out_avg) / 2.0;
+  
+    `uvm_info("COV_ENV",
+      $sformatf("Cobertura GLOBAL ENTRADAS = %0.2f %%  SALIDAS = %0.2f %%  TOTAL = %0.2f %%",
+                cov_in_avg, cov_out_avg, cov_total),
+      UVM_NONE)
+  endfunction
 
 
 endclass

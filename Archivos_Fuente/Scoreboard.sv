@@ -168,7 +168,7 @@ endfunction
   
     if (csv_fd) begin
       $fclose(csv_fd);
-      `uvm_info(get_type_name(),"CSV generado: router_report.csv", UVM_LOW)
+      `uvm_info(get_type_name(),"CSV generado: router_report.csv", UVM_MEDIUM)
     end
   endfunction
 
