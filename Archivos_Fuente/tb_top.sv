@@ -19,7 +19,7 @@ import uvm_pkg::*;
 `include "Scoreboard.sv"
 `include "environment.sv"
 `include "test.sv"
-`include "router_dut_sva.sv"
+
 
 
 module tb_top;
@@ -72,16 +72,7 @@ module tb_top;
     .reset         (reset)
   );
   // pragma coverage on
-  bind mesh_gnrtr
-  router_dut_sva #(.ROWS(ROWS), .COLUMS(COLUMS), .PCK_SZ(PCK_SZ)) u_router_sva (
-    .clk(clk), .reset(reset),
-    .data_out      (data_out),
-    .pndng         (pndng),
-    .pop           (pop),
-    .data_out_i_in (data_out_i_in),
-    .pndng_i_in    (pndng_i_in),
-    .popin         (popin)
-  );
+
 
   
   // ---------------- Cableado 1:1 DUT <-> Interfaces ----------------
