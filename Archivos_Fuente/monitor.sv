@@ -49,12 +49,11 @@ class monitor extends uvm_monitor;
     wait(!vif.reset);
     forever begin
       @(posedge vif.clk);
-      
+      cg_entrada.sample(
+        vif.data_in[SRC_MSB:SRC_LSB],
+        vif.data_in[MODE_BIT]
+      );
       if (vif.popin) begin
-        cg_entrada.sample(
-          vif.data_in[SRC_MSB:SRC_LSB],
-          vif.data_in[MODE_BIT]
-        );
         item = mon_item::type_id::create("in_item");
         item.ev_kind     = mon_item::EV_IN;
         item.mon_id      = cfg.term_id;
@@ -78,14 +77,14 @@ class monitor extends uvm_monitor;
     vif.pop <= 1'b0; // asegurar estado inicial
     forever begin
       @(posedge vif.clk);
-      
+      cg_salida.sample(
+        vif.data_out[DST_MSB:DST_LSB],
+        vif.data_out[MODE_BIT]
+      );
       if (vif.pndng) begin
         // Handshake de salida (pop activo 1 ciclo)
         vif.pop <= 1'b1;
-        cg_salida.sample(
-          vif.data_out[DST_MSB:DST_LSB],
-          vif.data_out[MODE_BIT]
-        );
+
         // Construir y LOG del OUT (Src/Dst)
         item = mon_item::type_id::create("out_item");
         item.ev_kind     = mon_item::EV_OUT;
@@ -118,10 +117,4 @@ class monitor extends uvm_monitor;
       consume_outputs();
     join_none
   endtask
-
-  virtual function void report_phase(uvm_phase phase);
-    super.report_phase(phase);
-    $display("Cobertura MON IN: %0.2f%%", cg_entrada.get_inst_coverage());
-    $display("Cobertura MON OUT: %0.2f%%", cg_salida.get_inst_coverage());
-  endfunction
 endclass
