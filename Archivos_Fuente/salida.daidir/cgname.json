@@ -239,6 +239,12 @@
         "module",
         40
     ],
+    "hdr_map_pkg": [
+        "hdr_map_pkg",
+        "q9q1K",
+        "module",
+        45
+    ],
     "router_if": [
         "router_if",
         "qa3uS",

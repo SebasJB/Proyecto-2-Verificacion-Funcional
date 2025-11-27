@@ -1,57 +1,24 @@
-simSetSimulator "-vcssv" -exec "./salida" -args "+UVM_TIMEOUT=32000" -uvmDebug on \
+simSetSimulator "-vcssv" -exec "./salida" -args "+UVM_TIMEOUT=38000" -uvmDebug on \
            -simDelim
 debImport "-i" "-simflow" "-dbdir" "./salida.daidir"
 srcTBInvokeSim
-srcHBSelect "tb_top" -win $_nTrace1
-srcSetScope "tb_top" -delim "." -win $_nTrace1
-srcHBSelect "tb_top" -win $_nTrace1
-srcSetScope "tb_top" -delim "." -win $_nTrace1
-srcHBSelect "tb_top.term_if\[6\]" -win $_nTrace1
-srcSetScope "tb_top.term_if\[6\]" -delim "." -win $_nTrace1
-srcHBSelect "tb_top.term_if\[6\]" -win $_nTrace1
-srcSignalViewSelect "tb_top.term_if\[6\].data_out\[39:0\]"
-srcSignalViewSelect "tb_top.term_if\[6\].data_out\[39:0\]" \
-           "tb_top.term_if\[6\].popin"
+verdiDockWidgetSetCurTab -dock widgetDock_<Inst._Tree>
+srcHBSelect "tb_top.term_if\[14\]" -win $_nTrace1
+srcSetScope "tb_top.term_if\[14\]" -delim "." -win $_nTrace1
+srcHBSelect "tb_top.term_if\[14\]" -win $_nTrace1
+verdiDockWidgetSetCurTab -dock widgetDock_<Signal_List>
+srcSignalViewSelect "tb_top.term_if\[14\].clk"
+srcSignalViewSelect "tb_top.term_if\[14\].clk" "tb_top.term_if\[14\].popin"
+srcSignalViewSelect "tb_top.term_if\[14\].clk" "tb_top.term_if\[14\].popin" \
+           "tb_top.term_if\[14\].pndng_in"
+srcSignalViewSelect "tb_top.term_if\[14\].clk" "tb_top.term_if\[14\].popin" \
+           "tb_top.term_if\[14\].pndng_in" \
+           "tb_top.term_if\[14\].data_in\[39:0\]"
 wvCreateWindow
 srcSignalViewAddSelectedToWave -win $_nTrace1 -clipboard
 wvDrop -win $_nWave3
 srcTBRunSim
 wvZoomIn -win $_nWave3
 wvZoomIn -win $_nWave3
-srcHBSelect "tb_top.term_if\[6\]" -win $_nTrace1
-srcSetScope "tb_top.term_if\[6\]" -delim "." -win $_nTrace1
-srcHBSelect "tb_top.term_if\[6\]" -win $_nTrace1
-srcSignalViewSelect "tb_top.term_if\[6\].data_in\[39:0\]"
-srcSignalViewSelect "tb_top.term_if\[6\].data_in\[39:0\]" \
-           "tb_top.term_if\[6\].popin"
-wvCreateWindow
-wvSetPosition -win $_nWave4 {("G1" 0)}
-wvOpenFile -win $_nWave4 \
-           {/mnt/vol_NFS_rh003/Est_Veri_II_2025/RuizSegura_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/inter.fsdb}
-srcSignalViewAddSelectedToWave -win $_nTrace1 -clipboard
-wvDrop -win $_nWave4
-srcHBSelect "tb_top.term_if\[0\]" -win $_nTrace1
-srcHBSelect "tb_top.term_if\[0\]" -win $_nTrace1
-srcSetScope "tb_top.term_if\[0\]" -delim "." -win $_nTrace1
-srcHBSelect "tb_top.term_if\[0\]" -win $_nTrace1
-srcSignalViewSelect "tb_top.term_if\[0\].data_out\[39:0\]"
-srcSignalViewSelect "tb_top.term_if\[0\].data_out\[39:0\]" \
-           "tb_top.term_if\[0\].pndng"
-srcSignalViewAddSelectedToWave -win $_nTrace1 -clipboard
-wvDrop -win $_nWave4
-wvZoomIn -win $_nWave4
-wvZoomIn -win $_nWave4
-wvScrollDown -win $_nWave4 1
-wvZoomIn -win $_nWave4
-wvZoomIn -win $_nWave4
-wvZoomIn -win $_nWave4
-wvZoomOut -win $_nWave4
-wvZoomIn -win $_nWave4
-wvSetCursor -win $_nWave4 12221.986271 -snap {("G1" 2)}
-wvScrollDown -win $_nWave4 0
-wvScrollDown -win $_nWave4 0
-wvSetCursor -win $_nWave4 25309.502501
-wvSetCursor -win $_nWave4 25311.900669
-wvSetCursor -win $_nWave4 25313.849181
-wvSetCursor -win $_nWave4 25315.048265
+wvZoomOut -win $_nWave3
 debExit

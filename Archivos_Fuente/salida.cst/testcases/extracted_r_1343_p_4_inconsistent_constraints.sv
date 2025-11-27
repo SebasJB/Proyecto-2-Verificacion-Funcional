@@ -1,0 +1,24 @@
+class c_1343_4;
+    bit[31:0] seq_id = 32'h9;
+    bit[7:0] pkt_id = 8'h0;
+    integer t = 0;
+    integer mm = 1;
+
+    constraint WITH_CONSTRAINT_this    // (constraint_mode = ON) (Secuencer.sv:60)
+    {
+       (pkt_id == (((16 * seq_id) + (t * 2)) + mm));
+    }
+endclass
+
+program p_1343_4;
+    c_1343_4 obj;
+    string randState;
+
+    initial
+        begin
+            obj = new;
+            randState = "0xz1110z11xx0zx00z1001zz0000z10xzxxxzzxzzxzxxzzxxzxzzzzzxzzzxxzx";
+            obj.set_randstate(randState);
+            obj.randomize();
+        end
+endprogram

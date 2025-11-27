@@ -1,6 +1,6 @@
 psSimBaseName                      	salida
 psLogFileName                      	log_test
-pDaiDir                            	/mnt/vol_NFS_rh003/Est_Veri_II_2025/RuizSegura_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/salida.daidir
+pDaiDir                            	/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/salida.daidir
 destPath                           	csrc/
 fSharedMaster                      	0
 fHsimPCSharedLibSpecified          	0

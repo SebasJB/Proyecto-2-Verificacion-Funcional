@@ -171,6 +171,7 @@ Secuencer.sv
 TypesandTransactions.sv
 environment.sv
 fifo.sv
+hdr_map_pkg.sv
 monitor.sv
 tb_top.sv
 test.sv

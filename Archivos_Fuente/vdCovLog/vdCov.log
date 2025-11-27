@@ -1,0 +1,55 @@
+[CMR-VCINF] Version Check Error:Instance not found
+  Database mismatch: Instance name "tb_top.dut.u_router_sva" in test file 
+  salida.vdb/run_s1 is not found in base design.  Coverage data of this 
+  instance will not be merged.
+  Please ensure that all coverage tests are generated from same design. If 
+  problem still persists please contact vcs_support@synopsys.com.
+[CMR-VCINF] Version Check Error:Instance not found
+  Database mismatch: Instance name "tb_top.dut.u_router_sva" in test file 
+  salida.vdb/run_s1 is not found in base design.  Coverage data of this 
+  instance will not be merged.
+  Please ensure that all coverage tests are generated from same design. If 
+  problem still persists please contact vcs_support@synopsys.com.
+[CMR-VCINF] Version Check Error:Instance not found
+  Database mismatch: Instance name "tb_top.dut.u_router_sva" in test file 
+  salida.vdb/run_s2 is not found in base design.  Coverage data of this 
+  instance will not be merged.
+  Please ensure that all coverage tests are generated from same design. If 
+  problem still persists please contact vcs_support@synopsys.com.
+[CMR-VCINF] Version Check Error:Instance not found
+  Database mismatch: Instance name "tb_top.dut.u_router_sva" in test file 
+  salida.vdb/run_s2 is not found in base design.  Coverage data of this 
+  instance will not be merged.
+  Please ensure that all coverage tests are generated from same design. If 
+  problem still persists please contact vcs_support@synopsys.com.
+[CMR-VCINF] Version Check Error:Instance not found
+  Database mismatch: Instance name "tb_top.dut.u_router_sva" in test file 
+  salida.vdb/run_s3 is not found in base design.  Coverage data of this 
+  instance will not be merged.
+  Please ensure that all coverage tests are generated from same design. If 
+  problem still persists please contact vcs_support@synopsys.com.
+[CMR-VCINF] Version Check Error:Instance not found
+  Database mismatch: Instance name "tb_top.dut.u_router_sva" in test file 
+  salida.vdb/run_s3 is not found in base design.  Coverage data of this 
+  instance will not be merged.
+  Please ensure that all coverage tests are generated from same design. If 
+  problem still persists please contact vcs_support@synopsys.com.
+[CMR-VCINF] Version Check Error:Instance not found
+  Database mismatch: Instance name "tb_top.dut.u_router_sva" in test file 
+  salida.vdb/run_s4 is not found in base design.  Coverage data of this 
+  instance will not be merged.
+  Please ensure that all coverage tests are generated from same design. If 
+  problem still persists please contact vcs_support@synopsys.com.
+[CMR-VCINF] Version Check Error:Instance not found
+  Database mismatch: Instance name "tb_top.dut.u_router_sva" in test file 
+  salida.vdb/run_s4 is not found in base design.  Coverage data of this 
+  instance will not be merged.
+  Please ensure that all coverage tests are generated from same design. If 
+  problem still persists please contact vcs_support@synopsys.com.
+The design 'salida.vdb' was loaded successfully.
+The following tests are merged/loaded from "salida.vdb",
+    salida/run_s1
+    salida/run_s2
+    salida/run_s3
+    salida/run_s4
+    salida/test

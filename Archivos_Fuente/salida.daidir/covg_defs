@@ -1,0 +1,178 @@
+global coverage_group 0 $unit::monitor::cg_entrada __coverage_monitor.cg_entrada unused_monitor_cg_entrada_loop_label $unit 0 1 0 1 $unit::/mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/macros/snps_macros.svp::/mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/macros/uvm_callback_defines.svh...@765116233 0  ( 0 
+)
+ 1 1
+ 122 /mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/monitor.sv
+ 11 0 0 0 1 0 0 0 0  1
+0
+0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0 0
+ 0
+ 0 0
+ 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+0
+0
+0
+64
+0
+ 0
+
+2
+0
+1
+0
+ 6 cp_src 15 0 0 0 0 0 116 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_entrada_fn 116 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_entrada_fn 0 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 0 -1 2 6 0 0 1 0 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 1 1 1 1 0 1 1 6 src_id 15 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 1 1 1 118 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_entrada_fn_0 0 118 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_entrada_fn_1 0 0 0 0 0
+ 0
+
+ 7 cp_mode 16 0 0 0 0 0 118 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_entrada_fn_2 118 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_entrada_fn_2 0 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 0 -1 2 1 0 0 1 0 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 2 1 1 0 0 1 1 3 col 16 0 0 1 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 1 1 1 118 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_entrada_fn_3 0 0 0 0 0 0 0
+ 0
+ 1 1 0 0 1 1 3 row 16 0 0 1 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 1 1 1 118 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_entrada_fn_4 0 0 0 0 0 0 0
+ 0
+
+ 11 cp_src_mode 0 17 0 0 -1 0 0 0 0 2 0 1 -1 0 0 0
+ 0
+ 0
+ 0
+ 0 0
+ 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+end_coverage_group
+global coverage_group 0 $unit::monitor::cg_salida __coverage_monitor.cg_salida unused_monitor_cg_salida_loop_label $unit 0 1 0 1 $unit::/mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/macros/snps_macros.svp::/mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/macros/uvm_callback_defines.svh...@765116233 0  ( 0 
+)
+ 0 20 0 0 0 1 0 0 0 0  1
+0
+0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0 0
+ 0
+ 0 0
+ 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+0
+0
+0
+64
+0
+ 0
+
+2
+0
+1
+0
+ 6 cp_dst 24 0 0 0 0 0 115 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_salida_fn 115 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_salida_fn 0 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 0 -1 2 6 0 0 1 0 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 1 1 1 1 0 1 1 6 dst_id 24 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 1 1 1 117 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_salida_fn_0 0 117 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_salida_fn_1 0 0 0 0 0
+ 0
+
+ 7 cp_mode 25 0 0 0 0 0 117 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_salida_fn_2 117 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_salida_fn_2 0 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 0 -1 2 1 0 0 1 0 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 2 1 1 0 0 1 1 3 col 25 0 0 1 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 1 1 1 117 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_salida_fn_3 0 0 0 0 0 0 0
+ 0
+ 1 1 0 0 1 1 3 row 25 0 0 1 0 0 0 0 0 0 0 0 0 0 -1 0 0 -1 0 0 1 1 1 117 _vcs_unit__765116233_monitor_11_0::_vcs_unit__765116233_monitor_11_0__vcs_unit__765116233_monitor_11_0_cg_salida_fn_4 0 0 0 0 0 0 0
+ 0
+
+ 11 cp_dst_mode 0 26 0 0 -1 0 0 0 0 2 0 1 -1 0 0 0
+ 0
+ 0
+ 0
+ 0 0
+ 0 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+ 0
+end_coverage_group

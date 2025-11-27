@@ -1,6 +1,6 @@
 // Synopsys, Inc.
-// User: RuizSegura_Veri_II_25
-// Date: Mon Nov 17 17:13:22 2025
+// User: BarrantesPerez_Veri_II_25
+// Date: Wed Nov 26 17:53:19 2025
 
 // ==================================================================================================
 // This config file prototype is produced from the last run using the complete list of extracted fsms.
