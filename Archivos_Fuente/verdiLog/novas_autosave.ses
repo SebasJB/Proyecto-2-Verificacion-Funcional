@@ -26,16 +26,15 @@ fdb_campaign =
 fdb_tool = 
 [hb]
 postSimFile = /mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/inter.fsdb
-syncTime = 36045
-viewport = 180 26 1920 1016 0 0 229 951
-activeNode = "uvm_custom_install_recording.unnamed$$_0._vcs_catcher.super.process_all_report_catchers.catcher.m_modified_report_message"
-activeScope = "uvm_custom_install_recording.unnamed$$_0._vcs_catcher.process_all_report_catchers.catcher.m_modified_report_message.do_copy.report_message.__m_uvm_field_automation.unnamed$$_0.local_data__.create.tmp._report_server.get_server.cs.inst.get_report_server.unn\
-amed$$_0.f.execute_report_message.unnamed$$_9.l_root.run_test"
-activeFile = "/mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/base/uvm_root.svh#inc__uvm_pkg__60#"
+syncTime = 45
+viewport = 234 361 1440 752 0 0 361 1270
+activeNode = "tb_top.term_if[0]"
+activeScope = "tb_top.term_if[0]"
+activeFile = "TypesandTransactions.sv#inc___vcs_unit__1__171#"
 interactiveMode = False
 viewType = Source
 simulatorMode = False
-sourceBeginLine = 515
+sourceBeginLine = 12
 baMode = False
 srcLineNum = True
 AutoWrap = True
@@ -52,27 +51,26 @@ DnDtraceCrossHierOnly = True
 leadingZero = False
 signalPane = True
 SourceVerticalScrollLines = 5
-Scope1 = "uvm_custom_install_recording.unnamed$$_0._vcs_catcher.process_all_report_catchers.catcher.m_modified_report_message.do_copy.report_message.__m_uvm_field_automation.unnamed$$_0.local_data__.create.tmp._report_server.get_server.cs.inst.get_report_server.unn\
+Scope1 = "tb_top.term_if[0]"
+Scope2 = "uvm_custom_install_recording.unnamed$$_0._vcs_catcher.process_all_report_catchers.catcher.m_modified_report_message.do_copy.report_message.__m_uvm_field_automation.unnamed$$_0.local_data__.create.tmp._report_server.get_server.cs.inst.get_report_server.unn\
 amed$$_0.f.execute_report_message.unnamed$$_9.l_root.run_test"
-Scope2 = "tb_top.term_if[3]"
 Scope3 = "fifo_ltch"
-rangeSelection = 527 527 1 4 1 1
+multipleSelection = 1 12 21 0 0
 sdfCheckUndef = FALSE
 simFlow = FALSE
 [hb.design]
 importCmd = "-simflow" "-dbdir" "./salida.daidir" 
 invokeDir = /mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente
 [hb.sourceTab.1]
-scope = uvm_custom_install_recording.unnamed$$_0._vcs_catcher.process_all_report_catchers.catcher.m_modified_report_message.do_copy.report_message.__m_uvm_field_automation.unnamed$$_0.local_data__.create.tmp._report_server.get_server.cs.inst.get_report_server.unna\
-med$$_0.f.execute_report_message.unnamed$$_9.l_root.run_test
-File = /mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/base/uvm_root.svh#inc__uvm_pkg__60#
-Line = 516
+scope = tb_top.term_if[0]
+File = /mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/TypesandTransactions.sv#inc___vcs_unit__1__171#
+Line = 13
 [nMemoryManager]
 WaveformFile = /mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/inter.fsdb
 UserActionNum = 0
 nMemWindowNum = 0
 [wave.0]
-viewPort = 0 25 1272 389 158 65
+viewPort = 0 25 953 257 158 65
 primaryWindow = TRUE
 SessionFile = /mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/verdiLog/novas_autosave.ses.wave.0
 displayGrid = FALSE

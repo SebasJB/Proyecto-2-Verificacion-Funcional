@@ -1,24 +1,129 @@
-simSetSimulator "-vcssv" -exec "./salida" -args "+UVM_TIMEOUT=38000" -uvmDebug on \
+simSetSimulator "-vcssv" -exec "./salida" -args "+UVM_TIMEOUT=30000" -uvmDebug on \
            -simDelim
 debImport "-i" "-simflow" "-dbdir" "./salida.daidir"
 srcTBInvokeSim
-verdiDockWidgetSetCurTab -dock widgetDock_<Inst._Tree>
-srcHBSelect "tb_top.term_if\[14\]" -win $_nTrace1
-srcSetScope "tb_top.term_if\[14\]" -delim "." -win $_nTrace1
-srcHBSelect "tb_top.term_if\[14\]" -win $_nTrace1
-verdiDockWidgetSetCurTab -dock widgetDock_<Signal_List>
-srcSignalViewSelect "tb_top.term_if\[14\].clk"
-srcSignalViewSelect "tb_top.term_if\[14\].clk" "tb_top.term_if\[14\].popin"
-srcSignalViewSelect "tb_top.term_if\[14\].clk" "tb_top.term_if\[14\].popin" \
-           "tb_top.term_if\[14\].pndng_in"
-srcSignalViewSelect "tb_top.term_if\[14\].clk" "tb_top.term_if\[14\].popin" \
-           "tb_top.term_if\[14\].pndng_in" \
-           "tb_top.term_if\[14\].data_in\[39:0\]"
+srcHBSelect "tb_top.term_if\[0\]" -win $_nTrace1
+srcHBSelect "tb_top.term_if\[0\]" -win $_nTrace1
+srcHBSelect "tb_top.term_if\[0\]" -win $_nTrace1
+srcSetScope "tb_top.term_if\[0\]" -delim "." -win $_nTrace1
+srcHBSelect "tb_top.term_if\[0\]" -win $_nTrace1
+srcSignalViewSelect "tb_top.term_if\[0\].clk"
+srcSignalViewSelect "tb_top.term_if\[0\].clk" \
+           "tb_top.term_if\[0\].data_in\[39:0\]"
+srcSignalViewSelect "tb_top.term_if\[0\].clk" \
+           "tb_top.term_if\[0\].data_in\[39:0\]" \
+           "tb_top.term_if\[0\].pndng_in"
+srcSignalViewSelect "tb_top.term_if\[0\].clk" \
+           "tb_top.term_if\[0\].data_in\[39:0\]" \
+           "tb_top.term_if\[0\].pndng_in" "tb_top.term_if\[0\].popin"
+srcSignalViewSelect "tb_top.term_if\[0\].clk" \
+           "tb_top.term_if\[0\].data_in\[39:0\]" \
+           "tb_top.term_if\[0\].pndng_in" "tb_top.term_if\[0\].popin" \
+           "tb_top.term_if\[0\].data_out\[39:0\]"
+srcSignalViewSelect "tb_top.term_if\[0\].clk" \
+           "tb_top.term_if\[0\].data_in\[39:0\]" \
+           "tb_top.term_if\[0\].pndng_in" "tb_top.term_if\[0\].popin" \
+           "tb_top.term_if\[0\].data_out\[39:0\]" "tb_top.term_if\[0\].pop"
+srcSignalViewSelect "tb_top.term_if\[0\].clk" \
+           "tb_top.term_if\[0\].data_in\[39:0\]" \
+           "tb_top.term_if\[0\].pndng_in" "tb_top.term_if\[0\].popin" \
+           "tb_top.term_if\[0\].data_out\[39:0\]" "tb_top.term_if\[0\].pop" \
+           "tb_top.term_if\[0\].MAX_IN_LAT"
+srcSignalViewSelect "tb_top.term_if\[0\].clk" \
+           "tb_top.term_if\[0\].data_in\[39:0\]" \
+           "tb_top.term_if\[0\].pndng_in" "tb_top.term_if\[0\].popin" \
+           "tb_top.term_if\[0\].data_out\[39:0\]" "tb_top.term_if\[0\].pop" \
+           "tb_top.term_if\[0\].MAX_IN_LAT" "tb_top.term_if\[0\].pndng"
+srcSignalViewSelect "tb_top.term_if\[0\].clk" \
+           "tb_top.term_if\[0\].data_in\[39:0\]" \
+           "tb_top.term_if\[0\].pndng_in" "tb_top.term_if\[0\].popin" \
+           "tb_top.term_if\[0\].data_out\[39:0\]" "tb_top.term_if\[0\].pop" \
+           "tb_top.term_if\[0\].pndng"
 wvCreateWindow
 srcSignalViewAddSelectedToWave -win $_nTrace1 -clipboard
 wvDrop -win $_nWave3
 srcTBRunSim
-wvZoomIn -win $_nWave3
-wvZoomIn -win $_nWave3
+wvSetCursor -win $_nWave3 280.009775 -snap {("G1" 3)}
+wvSetCursor -win $_nWave3 315.200391 -snap {("G1" 2)}
+wvSetCursor -win $_nWave3 310.312805 -snap {("G1" 3)}
+wvZoom -win $_nWave3 271.212121 292.717498
+wvZoom -win $_nWave3 274.890949 275.164233
+wvSetCursor -win $_nWave3 275.087430 -snap {("G1" 5)}
+wvSetCursor -win $_nWave3 0.412512 -snap {("G1" 3)}
 wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+wvZoomOut -win $_nWave3
+srcHBSelect "tb_top.term_if\[1\]" -win $_nTrace1
+srcHBSelect "tb_top.term_if\[2\]" -win $_nTrace1
+srcHBSelect "tb_top.term_if\[1\]" -win $_nTrace1
+srcHBSelect "tb_top.term_if\[1\]" -win $_nTrace1
+srcSetScope "tb_top.term_if\[1\]" -delim "." -win $_nTrace1
+srcHBSelect "tb_top.term_if\[1\]" -win $_nTrace1
+srcSignalViewSelect "tb_top.term_if\[1\].clk"
+srcSignalViewSelect "tb_top.term_if\[1\].data_in\[39:0\]"
+srcSignalViewSelect "tb_top.term_if\[1\].data_in\[39:0\]" \
+           "tb_top.term_if\[1\].pndng_in"
+srcSignalViewSelect "tb_top.term_if\[1\].data_in\[39:0\]"
+srcSignalViewSelect "tb_top.term_if\[1\].data_in\[39:0\]" \
+           "tb_top.term_if\[1\].popin"
+srcSignalViewSelect "tb_top.term_if\[1\].data_in\[39:0\]" \
+           "tb_top.term_if\[1\].popin" "tb_top.term_if\[1\].pndng_in"
+srcSignalViewSelect "tb_top.term_if\[1\].data_in\[39:0\]" \
+           "tb_top.term_if\[1\].popin" "tb_top.term_if\[1\].pndng_in" \
+           "tb_top.term_if\[1\].data_out\[39:0\]"
+srcSignalViewSelect "tb_top.term_if\[1\].data_in\[39:0\]" \
+           "tb_top.term_if\[1\].popin" "tb_top.term_if\[1\].pndng_in" \
+           "tb_top.term_if\[1\].data_out\[39:0\]" "tb_top.term_if\[1\].pndng"
+srcSignalViewSelect "tb_top.term_if\[1\].data_in\[39:0\]" \
+           "tb_top.term_if\[1\].popin" "tb_top.term_if\[1\].pndng_in" \
+           "tb_top.term_if\[1\].data_out\[39:0\]" "tb_top.term_if\[1\].pndng" \
+           "tb_top.term_if\[1\].pop"
+srcSignalViewAddSelectedToWave -win $_nTrace1 -clipboard
+wvDrop -win $_nWave3
+wvSetPosition -win $_nWave3 {("G1" 8)}
+wvSetPosition -win $_nWave3 {("G1" 12)}
+wvSetPosition -win $_nWave3 {("G1" 13)}
+wvSetPosition -win $_nWave3 {("G2" 0)}
+wvMoveSelected -win $_nWave3
+wvSetPosition -win $_nWave3 {("G2" 6)}
+wvSetPosition -win $_nWave3 {("G2" 6)}
+srcHBSelect "tb_top.term_if\[2\]" -win $_nTrace1
+srcSetScope "tb_top.term_if\[2\]" -delim "." -win $_nTrace1
+srcHBSelect "tb_top.term_if\[2\]" -win $_nTrace1
+srcSignalViewSelect "tb_top.term_if\[2\].data_in\[39:0\]"
+srcSignalViewSelect "tb_top.term_if\[2\].data_in\[39:0\]" \
+           "tb_top.term_if\[2\].pndng_in" "tb_top.term_if\[2\].popin" \
+           "tb_top.term_if\[2\].data_out\[39:0\]" "tb_top.term_if\[2\].pop" \
+           "tb_top.term_if\[2\].pndng"
+srcSignalViewAddSelectedToWave -win $_nTrace1 -clipboard
+wvDrop -win $_nWave3
+wvSetPosition -win $_nWave3 {("G2" 7)}
+wvSetPosition -win $_nWave3 {("G2" 10)}
+wvSetPosition -win $_nWave3 {("G2" 11)}
+wvSetPosition -win $_nWave3 {("G2" 12)}
+wvSetPosition -win $_nWave3 {("G3" 0)}
+wvMoveSelected -win $_nWave3
+wvSetPosition -win $_nWave3 {("G3" 6)}
+wvSetPosition -win $_nWave3 {("G3" 6)}
+wvScrollUp -win $_nWave3 1
+wvScrollUp -win $_nWave3 1
+wvScrollUp -win $_nWave3 1
+wvScrollUp -win $_nWave3 1
+wvScrollUp -win $_nWave3 1
+wvScrollUp -win $_nWave3 1
+wvScrollDown -win $_nWave3 1
+wvScrollDown -win $_nWave3 1
+wvScrollDown -win $_nWave3 1
+wvScrollDown -win $_nWave3 1
+wvScrollDown -win $_nWave3 1
+wvScrollDown -win $_nWave3 1
+wvScrollDown -win $_nWave3 1
+wvScrollDown -win $_nWave3 0
+wvScrollDown -win $_nWave3 0
 debExit

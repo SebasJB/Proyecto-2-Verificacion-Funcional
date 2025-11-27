@@ -9,8 +9,8 @@ overhead: (9572) bytes for (40) blocks [Average: (239) bytes/block]
 
 write  => 0(times) 0K(bytes) [0K bytes to file]
 read   => 6(times) 264K(bytes) [51K bytes compressed data from file]
-access => 177126(times) 1471M(bytes)
-          [hit ratio: 99.9966%]
+access => 320663(times) 2592M(bytes)
+          [hit ratio: 99.9981%]
 
 time: write(0) read(0.005)  unit: second
 
@@ -26,29 +26,29 @@ closeHead: (1)
 closeTail: (7)
 openCnt: (5)
 fid(7): fd(1073741827) fileName(/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/salida.daidir/kdb.elab++/work.lib++/uvm_root.svh#inc__uvm_pkg__60#.tdc)
-	size(45277) lastModTime(1764199067) curModTime(1764199067)
+	size(45277) lastModTime(1764220035) curModTime(1764220035)
 	mode(rb)	hot(0) cool(5) pos(0)
 fid(6): fd(0) fileName(/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/salida.daidir/kdb.elab++/work.lib++/tb_top.sv.tdc)
-	size(5432) lastModTime(1764199071) curModTime(1764199071)
+	size(5432) lastModTime(1764220038) curModTime(1764220038)
 	mode(rb)	hot(0) cool(0) pos(0)
 fid(5): fd(1073741826) fileName(/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/salida.daidir/kdb.elab++/work.lib++/TypesandTransactions.sv#inc___vcs_unit__1__171#.tdc)
-	size(23470) lastModTime(1764199071) curModTime(1764199071)
+	size(23366) lastModTime(1764220038) curModTime(1764220038)
 	mode(rb)	hot(7) cool(4) pos(0)
 fid(4): fd(1073741825) fileName(/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/salida.daidir/kdb.elab++/work.lib++/uvm_pkg.sv.tdc)
-	size(2322) lastModTime(1764199070) curModTime(1764199070)
+	size(2322) lastModTime(1764220037) curModTime(1764220037)
 	mode(rb)	hot(5) cool(2) pos(0)
 fid(3): fd(0) fileName(/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/salida.daidir/kdb.elab++/work.lib++/uvm_custom_install_verdi_recorder.sv.tdc)
-	size(15416) lastModTime(1764199071) curModTime(1764199071)
+	size(15414) lastModTime(1764220038) curModTime(1764220038)
 	mode(rb)	hot(0) cool(0) pos(0)
-fid(2): fd(36) fileName(/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/verdiLog/_swap_0001#8323328#451445)
-	size(0) lastModTime(0) curModTime(1764200487)
+fid(2): fd(36) fileName(/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/verdiLog/_swap_0001#8323328#490532)
+	size(0) lastModTime(0) curModTime(1764221281)
 	mode(w+b)	hot(4) cool(1) pos(0)
 fid(1): fd(1073741824) fileName(/mnt/vol_NFS_rh003/Est_Veri_II_2025/BarrantesPerez_Veri_II_25/Proyecto-2-Verificacion-Funcional/Archivos_Fuente/salida.daidir/kdb.elab++/work.lib++/fifo.sv#inc___vcs_unit__1__168#.tdc)
-	size(26547) lastModTime(1764199071) curModTime(1764199071)
+	size(26547) lastModTime(1764220038) curModTime(1764220038)
 	mode(rb)	hot(2) cool(0) pos(0)
 fid(0): fd(0) fileName(NULL)
 	mode(NULL)	hot(0) cool(0) pos(0)
 ==================================================
-mySelf(16a80fe0) pre(160fd880) next(0)
+mySelf(16607b30) pre(16adb750) next(0)
 version(200506)
 date(May 19 2021 05:00:27)

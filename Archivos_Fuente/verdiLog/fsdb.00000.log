@@ -9,8 +9,8 @@
 [READSCOPE]ReadScopeTree calling time is 3
 [READSCOPE]ReadScope_PartialLoad calling time is 0
 [READSCOPE]Scope read by partial load count is 0
-[READSCOPE]Scope read count is 41
-[READSCOPE]Decompressed blk is 16
+[READSCOPE]Scope read count is 68
+[READSCOPE]Decompressed blk is 25
 [FSDBGate Info] start
 [FSDBGate Info] Total fhdb_compute_count = 0
 [FSDBGate Info] end

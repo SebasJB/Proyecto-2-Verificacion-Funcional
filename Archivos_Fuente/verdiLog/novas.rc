@@ -1060,7 +1060,7 @@ KeepBreakPoints = FALSE
 vcs_svPath = ./salida
 uvmAware = TRUE
 smartlog = TRUE
-vcs_svOption = +UVM_TIMEOUT=38000  -sml=verdi
+vcs_svOption = +UVM_TIMEOUT=30000  -sml=verdi
 [SimulationPlus2]
 eventDumpUnfinish = FALSE
 dumpPowerRoot = FALSE
@@ -1179,7 +1179,7 @@ pdmlMacro = ID_BLACK
 font = COURIER12
 annotFont = Helvetica_M_R_10
 [Text.1]
-viewport = 0 0 1920 1016 45
+viewport = 265 26 1920 1016 45
 [TextPrinter]
 Orientation = Landscape
 Indicator = FALSE
@@ -1277,9 +1277,9 @@ visualIndex = 1
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 [VIA.interactiveDebug.preference.vgifColumnSettingRC.setting0.column1]
-name = Reporter
+name = Time
 width = 60
-visualIndex = 2
+visualIndex = 0
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 [VIA.interactiveDebug.preference.vgifColumnSettingRC.setting0.column2]
@@ -1301,9 +1301,9 @@ visualIndex = 5
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 [VIA.interactiveDebug.preference.vgifColumnSettingRC.setting0.column5]
-name = Time
+name = Reporter
 width = 60
-visualIndex = 0
+visualIndex = 2
 isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 [VIA.oneSearch.preference]
@@ -1314,10 +1314,10 @@ isOneSearchVisible = TRUE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0]
 parRuleSets = ""
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column0]
-name = Message
-width = 2000
-visualIndex = 4
-isHidden = FALSE
+name = Severity
+width = 60
+visualIndex = 1
+isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
 name = Time
@@ -1338,10 +1338,10 @@ visualIndex = 3
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
-name = Severity
-width = 60
-visualIndex = 1
-isHidden = TRUE
+name = Message
+width = 2000
+visualIndex = 4
+isHidden = FALSE
 isUserChangeColumnVisible = FALSE
 [VIA.parRule]
 parRulePathInterForm = ""
