@@ -50,7 +50,7 @@ class monitor extends uvm_monitor;
     forever begin
       @(posedge vif.clk);
       
-      if (vif.popin) begin
+      if (vif.popin && vif.pndng_in) begin
         cg_entrada.sample(
           vif.data_in[SRC_MSB:SRC_LSB],
           vif.data_in[MODE_BIT]
