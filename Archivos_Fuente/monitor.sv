@@ -117,4 +117,10 @@ class monitor extends uvm_monitor;
       consume_outputs();
     join_none
   endtask
+
+  virtual function void report_phase(uvm_phase phase);
+    super.report_phase(phase);
+    `uvm_info("Cobertura MON IN", cg_entrada.get_inst_coverage(), UVM_LOW)
+    `uvm_info("Cobertura MON OUT", cg_salida.get_inst_coverage(), UVM_LOW)
+  endfunction
 endclass
