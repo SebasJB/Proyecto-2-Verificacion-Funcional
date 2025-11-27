@@ -68,13 +68,13 @@ class driver extends uvm_driver #(drv_item);
                     // ----------------------------------------------------------
                     void'(fifo_in.pop_front());
                     // si quedó vacía, bajará pndng_in en el próximo ciclo por la asignación de arriba
-                    if (fifo_in.size() == 0) begin
+                    /*if (fifo_in.size() == 0) begin
                       vif.data_in <= vif.data_in; // mantener en algo definido
                     end
                     else begin
                       // mantener data_in en la cabeza de la cola
                       vif.data_in <= fifo_in[0];
-                    end
+                    end*/
                 end
                 else begin
                   // sin datos: mantenemos data_in en algo definido
