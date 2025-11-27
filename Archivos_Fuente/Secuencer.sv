@@ -9,7 +9,7 @@ class router_agent_cfg extends uvm_object;
 endclass
 
 class gen_item_seq extends uvm_sequence #(drv_item);
-    typedef enum {GENERAL, SATURATION, COLLISION, INVALID, SWEEP_ORDERED} scenario_t;
+    typedef enum {GENERAL, SATURATION, COLLISION, INVALID} scenario_t;
     `uvm_object_utils(gen_item_seq)
 
     // Test scenario selector
@@ -39,7 +39,6 @@ class gen_item_seq extends uvm_sequence #(drv_item);
            SATURATION: scn_str = "SATURATION";
            COLLISION : scn_str = "COLLISION";
            INVALID   : scn_str = "INVALID";
-           SWEEP_ORDERED : scn_str = "SWEEP_ORDERED";
            default   : scn_str = "UNKNOWN";
         endcase
 
