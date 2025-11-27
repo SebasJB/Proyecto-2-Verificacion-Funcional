@@ -120,7 +120,7 @@ class monitor extends uvm_monitor;
 
   virtual function void report_phase(uvm_phase phase);
     super.report_phase(phase);
-    $display("Cobertura MON IN: %0.2f%%", cg_entrada.get_inst_coverage())
-    $display("Cobertura MON OUT: %0.2f%%", cg_salida.get_inst_coverage())
+    $display("Cobertura MON IN: %0.2f%%", cg_entrada.get_inst_coverage());
+    $display("Cobertura MON OUT: %0.2f%%", cg_salida.get_inst_coverage());
   endfunction
 endclass
