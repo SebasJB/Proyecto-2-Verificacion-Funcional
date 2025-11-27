@@ -138,7 +138,7 @@
         else if (test_mode == COLLISION) {
             // Colisión de destino: todos apuntan al mismo terminal
             // El valor específico debe ser configurado por la secuencia
-            dest_addr == 5; // Terminal 5 por defecto, modificable vía constraint_mode
+            dest_addr inside {[5:6]}; // elegir entre 5 o 6
         }
         else if (test_mode == INVALID) {
             // Solo direcciones inválidas
