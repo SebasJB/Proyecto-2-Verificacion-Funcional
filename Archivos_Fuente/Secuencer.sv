@@ -50,7 +50,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             GENERAL: begin
                 `uvm_info(get_type_name(), "Generating GENERAL traffic", UVM_MEDIUM)
                 num_items = $urandom_range(60, 80);
-                for (int i = 0; i < num_items; i++) begin
+                for (int i = 1; i <= num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::GENERAL;
@@ -65,7 +65,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             SATURATION: begin
                 `uvm_info(get_type_name(), "Generating SATURATION traffic", UVM_MEDIUM)
                 num_items = $urandom_range(80, 100);
-                for (int i = 0; i < num_items; i++) begin
+                for (int i = 1; i <= num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::SATURATION;
@@ -80,7 +80,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             COLLISION: begin
                 `uvm_info(get_type_name(), "Generating COLLISION traffic", UVM_MEDIUM)
                 num_items = $urandom_range(50, 60);
-                for (int i = 0; i < num_items; i++) begin
+                for (int i = 1; i <= num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::COLLISION;
@@ -95,7 +95,7 @@ class gen_item_seq extends uvm_sequence #(drv_item);
             INVALID: begin
                 `uvm_info(get_type_name(), "Generating INVALID traffic", UVM_MEDIUM)
                 num_items = $urandom_range(50, 60);
-                for (int i = 0; i < num_items; i++) begin
+                for (int i = 1; i <= num_items; i++) begin
                     itm = drv_item::type_id::create("itm");
                     start_item(itm);
                     itm.test_mode = drv_item::INVALID;
